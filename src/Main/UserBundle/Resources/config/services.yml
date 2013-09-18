@@ -1,0 +1,14 @@
+services:
+    main_user.emservice:
+        class: Main\UserBundle\Services\UserService
+        arguments:
+          entityManager: "@doctrine.orm.entity_manager"
+
+    main_user.bitcoinservice:
+        class: Main\UserBundle\Services\BitcoinService
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
+            secret: "%bitcoin_service.secret%"
+            apiRoot: "%bitcoin_service.api_root%"
+            address: "%bitcoin_service.deposit_address%"
+            callback: "%bitcoin_service.callback_url%"

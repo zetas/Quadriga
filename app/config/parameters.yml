@@ -11,4 +11,8 @@ parameters:
     mailer_user: null
     mailer_password: null
     locale: en
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret: b1c2a664d4b6f2785909c6cb949b61a2c6dc45da
+    bitcoin_service.secret: %secret%
+    bitcoin_service.api_root: http://blockchain.info/api/receive
+    bitcoin_service.deposit_address: 1BBTRdQFt14iR4VPNntVGD6nn5oJ8tzbtt
+    bitcoin_service.callback_url: http://quadrigacx.qubitlogic.net/api/bitcoin/

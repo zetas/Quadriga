@@ -1,0 +1,19 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+{% extends '::base.html.twig' %}
+
+{% block title 'BTC Deposit' %}
+
+    {% block content %}
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-5 col-md-offset-2">
+                    <div class="well-sm">
+                        <h2>Bitcoin Deposit</h2>
+                        <p>Please send your bitcoins to this address. They will be credited to your account as soon as they are received and confirmed.</p>
+                        <p>Bitcoin Address: <strong>{{ address }}</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

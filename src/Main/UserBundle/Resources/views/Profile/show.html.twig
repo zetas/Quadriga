@@ -1,0 +1,26 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    <div class="col-md-4 well well-lg">
+        <p>Username: {{ user.username }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Last Login: {{ user.lastLogin|date('Y-m-d H:i:s T') }}</p>
+        <p>USD Balance: ${{ user.fiatBalance|default(0) }}</p>
+        <p>Bitcoin Balance: {{ user.btcBalance|default(0) }} BTC</p>
+        <p>Verified:
+        {% if user.verified == 0 %}
+            No
+        {% else %}
+            Yes
+        {% endif %}
+        </p>*
+    </div>
+    <div class="col-md-2 pull-right">
+        <p><a href="{{ path('user_verify') }}" class="btn btn-success">Verify</a></p>
+        <p><a href="{{ path('fos_user_profile_edit') }}" class="btn btn-warning">Edit Profile</a></p>
+        <p><a href="#" class="btn btn-info">Withdraw</a></p>
+    </div>
+    <div class="clearfix"></div>
+{% endblock fos_user_content %}

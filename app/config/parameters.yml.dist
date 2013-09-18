@@ -13,3 +13,7 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+    bitcoin_service.secret: %secret%
+    bitcoin_service.api_root: http://blockchain.info/api/receive
+    bitcoin_service.deposit_address: 1BBTRdQFt14iR4VPNntVGD6nn5oJ8tzbtt
+    bitcoin_service.callback_url: http://quadrigacx.qubitlogic.net/api/bitcoin/

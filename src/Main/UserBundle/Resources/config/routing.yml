@@ -1,0 +1,14 @@
+default:
+    resource: "@MainUserBundle/Controller/DefaultController.php"
+    type: annotation
+    prefix: /user
+
+bitcoin:
+    resource: "@MainUserBundle/Controller/BitcoinController.php"
+    type: annotation
+    prefix: /user/btc
+
+api:
+    resource: "@MainUserBundle/Controller/APIController.php"
+    type: annotation
+    prefix: /api
