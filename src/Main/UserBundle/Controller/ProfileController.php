@@ -20,12 +20,12 @@ class ProfileController extends BaseController {
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
-        //$em = $this->container->get('main_user.emservice')->getEm();
+        $em = $this->container->get('main_user.emservice')->getEm();
 
-        /*$verification = $em->getRepository('MainUserBundle:Verification')
+        $transactions = $em->getRepository('MainMarketBundle:Transaction')
             ->findBy(array('user' => $user))
-        ;*/
+        ;
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Profile:show.html.'.$this->container->getParameter('fos_user.template.engine'), array('user' => $user));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Profile:show.html.'.$this->container->getParameter('fos_user.template.engine'), array('user' => $user, 'transactions' => $transactions));
     }
 }

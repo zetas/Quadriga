@@ -8,7 +8,13 @@ bitcoin:
     type: annotation
     prefix: /user/btc
 
+fiat:
+    resource: "@MainUserBundle/Controller/FiatController.php"
+    type: annotation
+    prefix: /user/fiat
+
 api:
     resource: "@MainUserBundle/Controller/APIController.php"
     type: annotation
     prefix: /api
+

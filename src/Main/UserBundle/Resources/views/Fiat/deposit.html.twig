@@ -1,0 +1,19 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+{% extends '::base.html.twig' %}
+
+{% block title 'USD Deposit' %}
+
+    {% block content %}
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-5 col-md-offset-2">
+                    <div class="well well-sm">
+                        <h2>USD Deposit</h2>
+                        <p>Which deposit method would you like to use?</p>
+                        <p><a href="{{ path('fiat_etf_deposit') }}" class="btn btn-lg btn-primary">ETF/Wire Transfer</a> <a href="{{ path('fiat_wu_deposit') }}" class="btn btn-lg btn-primary">Western Union</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

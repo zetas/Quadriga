@@ -1,0 +1,26 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+{% extends '::base.html.twig' %}
+
+{% block title 'Transaction View' %}
+
+    {% block content %}
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-3 col-md-offset-3 well well-sm">
+                    <h2>Transaction #{{ transaction.id }}</h2>
+                    <ul>
+                        <li><strong>Amount:</strong> {{ transaction.amount }}</li>
+                        <li><strong>Type:</strong> {{ transaction.currencyType|upper }}</li>
+                        <li><strong>Date:</strong> {{ transaction.created|date('Y-m-d H:i:s T') }}</li>
+                        <li><strong>Status: </strong> {{ transaction.status|capitalize }}</li>
+                    </ul>
+                    <div class="col-md-12 col-md-offset-3">
+                        {% if transaction.status == 'pending' and transaction.currencyType != 'btc' %}
+                            <p><a href="" class="btn btn-lg btn-primary">Confirm</a></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

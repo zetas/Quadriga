@@ -30,7 +30,7 @@ class Builder extends ContainerAware {
             ->setAttribute('dropdown', true);
 
         $menu['Deposit']->addChild('BTC', array('route' => 'bitcoin_deposit'));
-        $menu['Deposit']->addChild('USD', array('route' => 'page_test'));
+        $menu['Deposit']->addChild('USD', array('route' => 'fiat_deposit'));
 
         $menu->addChild('Marketplace', array(
             'route' => 'page_show',
