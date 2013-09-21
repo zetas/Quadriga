@@ -29,12 +29,16 @@ class FiatController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $currency = $this->getDoctrine()
+                ->getRepository('MainMarketBundle:Currency')
+                ->findOneBy(array('name' => 'ETF'));
+
             $data = $form->getData();
             $amount = $data['amount'];
             $transaction = new Transaction();
             $transaction->setUser($this->getUser())
                 ->setAmount($amount)
-                ->setCurrencyType('etf')
+                ->setCurrency($currency)
                 ->setStatus('pending')
                 ->setTransactionType('deposit')
             ;
@@ -43,7 +47,7 @@ class FiatController extends Controller
             $em->persist($transaction);
             $em->flush();
 
-            return array('amount' => $amount);
+            return array('amount' => number_format($amount, 2, '.', ','));
         }
 
         return array('form' => $form->createView());
@@ -62,12 +66,16 @@ class FiatController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $currency = $this->getDoctrine()
+                ->getRepository('MainMarketBundle:Currency')
+                ->findOneBy(array('name' => 'Western Union'));
+
             $data = $form->getData();
             $amount = $data['amount'];
             $transaction = new Transaction();
             $transaction->setUser($this->getUser())
                 ->setAmount($amount)
-                ->setCurrencyType('wu')
+                ->setCurrency($currency)
                 ->setStatus('pending')
                 ->setTransactionType('deposit')
             ;
@@ -76,7 +84,7 @@ class FiatController extends Controller
             $em->persist($transaction);
             $em->flush();
 
-            return array('amount' => $amount);
+            return array('amount' => number_format($amount, 2, '.', ','));
         }
 
         return array('form' => $form->createView());

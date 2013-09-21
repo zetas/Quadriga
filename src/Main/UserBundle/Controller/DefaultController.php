@@ -15,4 +15,12 @@ class DefaultController extends Controller
     public function verifyAction() {
         return array();
     }
+
+    /**
+     * @Route("/withdraw", name="user_withdraw")
+     * @Template
+     */
+    public function withdrawAction() {
+        return array();
+    }
 }

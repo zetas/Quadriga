@@ -37,11 +37,9 @@ class Transaction
     private $transactionType;
 
     /**
-     * One of btc, etf, or wu
-     *
-     * @ORM\Column(type="string", length=50)
+     * @ORM\OneToOne(targetEntity="Currency")
      */
-    private $currencyType;
+    private $currency;
 
     /**
      * @ORM\Column(type="float")
@@ -58,10 +56,10 @@ class Transaction
      */
     private $created;
 
-//    /**
-//     * @ORM\OneToOne(targetEntity="TransactionDetail")
-//     */
-//    private $transactionDetail;
+    /**
+     * @ORM\OneToOne(targetEntity="TransactionDetail")
+     */
+    private $transactionDetail;
 
     /**
      * @ORM\PrePersist()
@@ -101,29 +99,6 @@ class Transaction
     public function getTransactionType()
     {
         return $this->transactionType;
-    }
-
-    /**
-     * Set currencyType
-     *
-     * @param string $currencyType
-     * @return Transaction
-     */
-    public function setCurrencyType($currencyType)
-    {
-        $this->currencyType = $currencyType;
-    
-        return $this;
-    }
-
-    /**
-     * Get currencyType
-     *
-     * @return string 
-     */
-    public function getCurrencyType()
-    {
-        return $this->currencyType;
     }
 
     /**
@@ -218,26 +193,50 @@ class Transaction
         return $this;
     }
 
-//    /**
-//     * Set transactionDetail
-//     *
-//     * @param \Main\MarketBundle\Entity\TransactionDetail $transactionDetail
-//     * @return Transaction
-//     */
-//    public function setTransactionDetail(\Main\MarketBundle\Entity\TransactionDetail $transactionDetail = null)
-//    {
-//        $this->transactionDetail = $transactionDetail;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get transactionDetail
-//     *
-//     * @return \Main\MarketBundle\Entity\TransactionDetail
-//     */
-//    public function getTransactionDetail()
-//    {
-//        return $this->transactionDetail;
-//    }
+
+    /**
+     * Set currency
+     *
+     * @param \Main\MarketBundle\Entity\Currency $currency
+     * @return Transaction
+     */
+    public function setCurrency(\Main\MarketBundle\Entity\Currency $currency = null)
+    {
+        $this->currency = $currency;
+    
+        return $this;
+    }
+
+    /**
+     * Get currency
+     *
+     * @return \Main\MarketBundle\Entity\Currency 
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * Set transactionDetail
+     *
+     * @param \Main\MarketBundle\Entity\TransactionDetail $transactionDetail
+     * @return Transaction
+     */
+    public function setTransactionDetail(\Main\MarketBundle\Entity\TransactionDetail $transactionDetail = null)
+    {
+        $this->transactionDetail = $transactionDetail;
+    
+        return $this;
+    }
+
+    /**
+     * Get transactionDetail
+     *
+     * @return \Main\MarketBundle\Entity\TransactionDetail 
+     */
+    public function getTransactionDetail()
+    {
+        return $this->transactionDetail;
+    }
 }

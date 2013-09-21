@@ -1,0 +1,38 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+{% extends '::base.html.twig' %}
+
+{% block title 'Marketplace Order' %}
+
+    {% block content %}
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-10 col-md-offset-2">
+                    <div class="well well-sm col-md-5">
+                        <h2>New {{ type|capitalize }} Order</h2>
+                        {% if type == "limit" %}
+                        <p>A limit order allows you to specify the conversion details for your transaction.</p>
+                        {% else %}
+                        <p>An instant order is fulfilled at the best possible market rates instantly.</p>
+                        {% endif %}
+                        <div class="col-md-12">
+                            {{ form_start(form) }}
+                            {{ form_errors(form) }}
+
+                            {{ form_row(form.amount) }}
+                            {% if type == 'limit' %}
+                            {{ form_row(form.price) }}
+                            {% endif %}
+                        <input type="submit" value="{{ direction|capitalize }}"/>
+                        {{ form_end(form) }}
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+                <div class="col-md-10 col-md-offset-1">
+                    {{ render(controller('MainMarketBundle:Default:view', {'max': 10})) }}
+                </div>
+            </div>
+        </div>
+    {% endblock %}

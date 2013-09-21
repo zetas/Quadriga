@@ -12,3 +12,9 @@ services:
             apiRoot: "%bitcoin_service.api_root%"
             address: "%bitcoin_service.deposit_address%"
             callback: "%bitcoin_service.callback_url%"
+
+    acme_user.registration.form.type:
+       class: Main\UserBundle\Form\Type\RegistrationFormType
+       arguments: [%fos_user.model.user.class%]
+       tags:
+          - { name: form.type, alias: main_user_registration }

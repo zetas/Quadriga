@@ -1,0 +1,21 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+{% extends '::base.html.twig' %}
+
+{% block title 'Transaction Confirm' %}
+
+    {% block content %}
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-5 col-md-offset-3 well well-sm">
+                    <h2>Confirm Transaction #{{ transaction.id }}</h2>
+                    {% if transaction.currency.name == 'ETF' %}
+                    <p>Please enter your banking details so we can find your transaction.</p>
+                    {% elseif transaction.currency.name == 'Western Union' %}
+                    <p>Please enter the information you received from the Western Union location.</p>
+                    {% endif %}
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    {% endblock %}

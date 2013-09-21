@@ -1,0 +1,5 @@
+services:
+    main_market.orderFulfill:
+        class: Main\MarketBundle\Services\OrderService
+        arguments:
+          entityManager: "@doctrine.orm.entity_manager"

@@ -9,10 +9,15 @@
 namespace Main\MarketBundle\Controller;
 
 use Main\MarketBundle\Entity\Transaction;
+use Main\MarketBundle\Entity\WUTransactionDetail;
+use Main\MarketBundle\Form\Type\WUTransactionDetailFormType;
+use Main\MarketBundle\Entity\ETFTransactionDetail;
+use Main\MarketBundle\Form\Type\ETFTransactionDetailFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
 
 class TransactionController extends Controller
 {
@@ -31,45 +36,29 @@ class TransactionController extends Controller
      * @Route("/transaction/confirm/{transaction}", name="transaction_confirm")
      * @Template
      */
-    public function confirmAction(Transaction $transaction) {
+    public function confirmAction(Transaction $transaction, Request $request) {
         if ($transaction->getUser() != $this->getUser())
             return $this->redirect($this->generateUrl('fos_user_profile_show'));
 
-        /*
-         * Senders Name
-Senders Location
-Amount Sent
-MTCN
-         */
-
-        $form = $this->createFormBuilder(null)
-            ->add('name', 'text', array('label' => 'Senders Name'))
-            ->add('location','text', array('label' => 'Senders Location'))
-            ->add('amount', 'money', array('label' => 'Confirm Amount Sent', 'currency' => 'USD'))
-            ->add('mtcn', 'text', array('label' => 'MTCN'))
-            ->add('confirm', 'submit')
-            ->getForm();
+        if ($transaction->getCurrency()->getName() == 'Western Union')
+            $form = $this->createForm(new WUTransactionDetailFormType(), new WUTransactionDetail());
+        else
+            $form = $this->createForm(new ETFTransactionDetailFormType(), new ETFTransactionDetail());
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $data = $form->getData();
-            $amount = $data['amount'];
-            $transaction = new Transaction();
-            $transaction->setUser($this->getUser())
-                ->setAmount($amount)
-                ->setCurrencyType('wu')
-                ->setStatus('pending')
-                ->setTransactionType('deposit')
-            ;
+            $td = $form->getData();
+            $td->setTransaction($transaction);
+            ($transaction->getAmount() <= $td->getAmount()) ? $transaction->setStatus('confirmed') : null;
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($transaction);
+            $em->persist($td);
             $em->flush();
 
-            return array('amount' => $amount);
+            return $this->redirect($this->generateUrl('fos_user_profile_show'));
         }
 
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'transaction' => $transaction);
     }
 }

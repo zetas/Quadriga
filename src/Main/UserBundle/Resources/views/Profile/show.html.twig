@@ -20,7 +20,7 @@
     <div class="col-md-2 pull-right">
         <p><a href="{{ path('user_verify') }}" class="btn btn-success">Verify</a></p>
         <p><a href="{{ path('fos_user_profile_edit') }}" class="btn btn-warning">Edit Profile</a></p>
-        <p><a href="#" class="btn btn-info">Withdraw</a></p>
+        <p><a href="{{ path('user_withdraw') }}" class="btn btn-info">Withdraw</a></p>
     </div>
     <div class="clearfix"></div>
         <div class="col-md-12">
@@ -41,7 +41,7 @@
                     {% else %}
                         {% set row_class = '' %}
                     {% endif %}
-                    {% if tr.currencyType == 'etf' or tr.currencyType == 'wu' %}
+                    {% if tr.currency.type == 'fiat' %}
                         {% set currency = '$' %}
                     {% else %}
                         {% set currency = '' %}

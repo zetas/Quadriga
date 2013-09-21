@@ -32,10 +32,19 @@ class Builder extends ContainerAware {
         $menu['Deposit']->addChild('BTC', array('route' => 'bitcoin_deposit'));
         $menu['Deposit']->addChild('USD', array('route' => 'fiat_deposit'));
 
-        $menu->addChild('Marketplace', array(
-            'route' => 'page_show',
-            'routeParameters' => array('id' => 42)
-        ));
+        $menu->addChild('Instant Order')
+            ->setAttribute('dropdown', true);
+
+        $menu['Instant Order']->addChild('Buy BTC', array('route' => 'offer', 'routeParameters' => array('type' => 'instant', 'direction' => 'buy')));
+        $menu['Instant Order']->addChild('Sell BTC', array('route' => 'offer', 'routeParameters' => array('type' => 'instant', 'direction' => 'sell')));
+
+        $menu->addChild('Limit Order')
+            ->setAttribute('dropdown', true);
+
+        $menu['Limit Order']->addChild('Buy BTC', array('route' => 'offer', 'routeParameters' => array('type' => 'limit', 'direction' => 'buy')));
+        $menu['Limit Order']->addChild('Sell BTC', array('route' => 'offer', 'routeParameters' => array('type' => 'limit', 'direction' => 'sell')));
+
+        $menu->addChild('Offer Book', array('route' => 'offer_index'));
 
         $menu->setCurrentUri($this->_getCurrent());
 
