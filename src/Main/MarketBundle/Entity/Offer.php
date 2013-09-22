@@ -57,10 +57,16 @@ class Offer
     private $created;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
+
+    /**
      * @ORM\PrePersist()
      */
     public function setDefaults() {
         ($this->getCreated() == null) ? $this->created = new \DateTime() : null;
+        ($this->getActive() == null) ? $this->setActive(true) : null;
     }
 
     public function getValue() {
@@ -219,5 +225,28 @@ class Offer
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Offer
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 }

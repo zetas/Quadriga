@@ -17,7 +17,7 @@ class LimitOfferFormType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('amount', 'money', array('currency' => null))
+            ->add('amount', 'money', array('currency' => null, 'label' => 'Amount of BTC'))
             ->add('price', 'money', array('currency' => 'USD'))
         ;
     }

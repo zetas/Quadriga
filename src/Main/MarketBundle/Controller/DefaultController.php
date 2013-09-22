@@ -16,48 +16,55 @@ class DefaultController extends Controller
      * @Route("/{type}/{direction}", name="offer")
      * @Template
      */
-    public function offerAction($type, $direction) {
+    public function offerAction(Request $request, $type, $direction) {
         if (($direction != 'buy' && $direction != 'sell') || ($type != "instant" && $type != "limit"))
             return $this->redirect($this->generateUrl('fos_user_profile_show'));
 
         if ($type == "instant") {
-            $oft = new InstantOfferFormType();
+            $form = $this->createFormBuilder(null)
+                ->add('amount', 'money', array('currency' => null,'label' => 'Amount of BTC'))
+                ->add('ts', 'hidden', array('data' => time()))
+                ->getForm();
         } else {
-            $oft = new LimitOfferFormType();
+            $form = $this->createFormBuilder(null)
+                ->add('amount', 'money', array('currency' => null,'label' => 'Amount of BTC'))
+                ->add('price', 'money', array('currency' => 'USD'))
+                ->add('ts', 'hidden', array('data' => time()))
+                ->getForm();
         }
 
-        $form = $this->createForm($oft, new Offer(), array('action' => $this->generateUrl('offer_confirm', array('type' => $type, 'direction' => $direction))));
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $token = urlencode(serialize($data));
+            return $this->redirect($this->generateUrl('offer_confirm', array('type' => $type, 'direction' => $direction, 'token' => $token)));
+            //return $this->redirect($this->generateUrl('fos_user_profile_show'));
+        }
 
         return array('form' => $form->createView(), 'type' => $type, 'direction' => $direction);
     }
 
     /**
-     * @Route("/{type}/{direction}/confirm", name="offer_confirm")
+     * @Route("/{type}/{direction}/confirm/{token}", name="offer_confirm")
      * @Template
      */
-    public function confirmAction(Request $request, $type, $direction) {
-        if ($type == "instant") {
-            $oft = new InstantOfferFormType();
-        } else {
-            $oft = new LimitOfferFormType();
-        }
+    public function confirmAction($type, $direction, $token) {
+        if (($direction != 'buy' && $direction != 'sell') || ($type != "instant" && $type != "limit"))
+            return $this->redirect($this->generateUrl('fos_user_profile_show'));
 
-        $form = $this->createForm($oft, new Offer());
-        $form->handleRequest($request);
+        $data = unserialize(urldecode($token));
+        $delta = (time()-300);
 
-        if ($form->isValid()) {
-            $offer = $form->getData();
-            $offer->setUser($this->getUser());
-            ($direction == "buy") ? $offer->setIsBuy(true) : $offer->setIsBuy(false);
-            ($type == "instant") ? $offer->setIsInstant(true) : $offer->setIsInstant(false);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($offer);
-            $em->flush();
+        if (!array_key_exists('ts', $data) || $data['ts'] < $delta)
             return $this->redirect($this->generateUrl('offer', array('type' => $type, 'direction' => $direction)));
-            //return $this->redirect($this->generateUrl('fos_user_profile_show'));
-        }
-        return array('form' => $form);
+
+        $orderSvc = $this->get('main_market.orderFulfill');
+
+        $orderList = $orderSvc->getFulfillList($data['amount'],$direction);
+
+
+        return array('type' => $type, 'direction' => $direction, 'data' => $data);
     }
 
     /**
@@ -68,11 +75,11 @@ class DefaultController extends Controller
     public function viewAction($max = 100) {
         $buyOffers = $this->getDoctrine()
             ->getRepository('MainMarketBundle:Offer')
-            ->findBy(array('isBuy' => true),array('price' => 'DESC'),$max);
+            ->findBy(array('isBuy' => true, 'active' => true),array('price' => 'DESC'),$max);
 
         $sellOffers = $this->getDoctrine()
             ->getRepository('MainMarketBundle:Offer')
-            ->findBy(array('isBuy' => false),array('price' => 'ASC'),$max);
+            ->findBy(array('isBuy' => false, 'active' => true),array('price' => 'ASC'),$max);
 
         if ($max < 100)
             return $this->render('MainMarketBundle:Default:viewContent.html.twig',array('buyOffers' => $buyOffers, 'sellOffers' => $sellOffers, 'max' => $max));
