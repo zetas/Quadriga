@@ -12,19 +12,24 @@
                         <h2>Confirm {{ type|capitalize }} {{ direction|capitalize }} Order</h2>
                         <p>Please review the details of your order and confirm.</p>
                         <div class="col-md-12">
-                            {% if type == 'limit' %}
-                                {% set price = data.price %}
+                            {% if direction == "buy" %}
+                                {% set costWord = 'Cost' %}
                             {% else %}
-                                {% set price = 0 %}
+                                {% set costWord = 'Paid' %}
                             {% endif %}
                             <ul>
-                                <li>Amount of BTC: {{ data.amount }}</li>
-                                <li>Price: {{ price }}</li>
-                                <li>Fee: 0.5%</li>
-                                <li>Cost: </li>
+                                <li>Amount of BTC: {{ amount }}</li>
+                                <li>Price: ${{ price }}</li>
+                                <li>Total before Fees: ${{ totalWorth }}</li>
+                                <li>Fee: ${{ fee }} (0.5%)</li>
+                                <li>{{ costWord }} to You: ${{ cost }}</li>
                             </ul>
                             <p><a href="" class="btn btn-primary">Confirm</a></p>
+                            {% if type == "instant" %}
+                                <p>*Price &amp; Cost subject to change until confirmed due to market change.</p>
+                            {% endif %}
                         </div>
+
                     </div>
                     <div class="clearfix"></div>
 

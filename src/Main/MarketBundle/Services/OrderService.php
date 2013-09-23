@@ -38,14 +38,34 @@ class OrderService {
          * offers is in order of price, whatever that means for $direction, either cheapest or most expensive at top
          * We need to get a current price average for all offers potentially consumed.
          */
-
+        $i = 1;
         foreach ($offers as $o) {
+            $amt = $o->getAmount();
+            $cost = $o->getValue();
 
+            if ($i < count($offers)) {
+                $total_amt += $amt;
+                $total_cost += $cost;
+            } else {
+                if (($total_amt + $amt) > $amount) {
+                    $price = $o->getPrice();
+                    $remainder = ($amount - $total_amt);
+
+                    $total_amt += $remainder;
+                    $total_cost += ($remainder * $price);
+
+                } else if (($total_amt + $amt) == $amount) {
+                    $total_cost += $cost;
+                    $total_amt += $amt;
+                }
+            }
+            $i++;
         }
+
+        return ($total_cost / $total_amt);
     }
 
     public function getFulfillList($amount, $direction) {
-        //50, buy
 
         $rsm = new ResultSetMappingBuilder($this->em);
         $rsm->addRootEntityFromClassMetadata('Main\MarketBundle\Entity\Offer', 'o');

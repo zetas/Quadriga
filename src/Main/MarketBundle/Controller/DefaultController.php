@@ -37,7 +37,7 @@ class DefaultController extends Controller
 
         if ($form->isValid()) {
             $data = $form->getData();
-            $token = urlencode(serialize($data));
+            $token = urlencode(base64_encode(serialize($data)));
             return $this->redirect($this->generateUrl('offer_confirm', array('type' => $type, 'direction' => $direction, 'token' => $token)));
             //return $this->redirect($this->generateUrl('fos_user_profile_show'));
         }
@@ -53,7 +53,7 @@ class DefaultController extends Controller
         if (($direction != 'buy' && $direction != 'sell') || ($type != "instant" && $type != "limit"))
             return $this->redirect($this->generateUrl('fos_user_profile_show'));
 
-        $data = unserialize(urldecode($token));
+        $data = unserialize(base64_decode(urldecode($token)));
         $delta = (time()-300);
 
         if (!array_key_exists('ts', $data) || $data['ts'] < $delta)
@@ -61,10 +61,19 @@ class DefaultController extends Controller
 
         $orderSvc = $this->get('main_market.orderFulfill');
 
-        $orderList = $orderSvc->getFulfillList($data['amount'],$direction);
+        if ($type == "instant")
+            $price = round($orderSvc->getInstantPrice($data['amount'], $direction),2);
+        else
+            $price = $data['price'];
 
+        $rawCost = ($data['amount'] * $price);
+        $fee = ($rawCost * 0.005);
 
-        return array('type' => $type, 'direction' => $direction, 'data' => $data);
+        ($direction == "buy") ? $cost = ($rawCost + $fee) : $cost = ($rawCost - $fee);
+
+        $cost = number_format($cost, 2, '.', ',');
+        $fee = number_format($fee, 2, '.', ',');
+        return array('type' => $type, 'direction' => $direction, 'amount' => $data['amount'], 'price' => $price, 'cost' => $cost, 'totalWorth' => $rawCost, 'fee' => $fee);
     }
 
     /**
