@@ -61,10 +61,12 @@ class DefaultController extends Controller
 
         $orderSvc = $this->get('main_market.orderFulfill');
 
-        if ($type == "instant")
+        if ($type == "instant") {
             $price = round($orderSvc->getInstantPrice($data['amount'], $direction),2);
-        else
-            $price = $data['price'];
+        } else {
+            $dbPrice = $orderSvc->getLimitPrice($data['amount'], $direction, false, $data['price']);
+            ($dbPrice > 0) ? $price = round($dbPrice,2) : $price = round($data['price'],2);
+        }
 
         $rawCost = ($data['amount'] * $price);
         $fee = ($rawCost * 0.005);
@@ -73,7 +75,54 @@ class DefaultController extends Controller
 
         $cost = number_format($cost, 2, '.', ',');
         $fee = number_format($fee, 2, '.', ',');
-        return array('type' => $type, 'direction' => $direction, 'amount' => $data['amount'], 'price' => $price, 'cost' => $cost, 'totalWorth' => $rawCost, 'fee' => $fee);
+
+        $data['ts'] = time();
+        $newToken = urlencode(base64_encode(serialize($data)));
+
+        $user = $this->getUser();
+
+        if ($direction == 'buy') {
+            if ($user->getFiatBalance() >= $cost)
+                $confirmAllowed = true;
+            else
+                $confirmAllowed = false;
+        } else {
+            if ($user->getBtcBalance() >= $data['amount'])
+                $confirmAllowed = true;
+            else
+                $confirmAllowed = false;
+        }
+        $rawCost = number_format($rawCost, 2, '.', ',');
+        return array('type' => $type,
+                     'direction' => $direction,
+                     'amount' => $data['amount'],
+                     'price' => $price,
+                     'cost' => $cost,
+                     'totalWorth' => $rawCost,
+                     'fee' => $fee,
+                     'token' => $newToken,
+                     'confirmAllowed' => $confirmAllowed
+        );
+    }
+
+    /**
+     * @Route("/{type}/{direction}/complete/{token}", name="offer_complete")
+     */
+    public function completeAction($type, $direction, $token) {
+        if (($direction != 'buy' && $direction != 'sell') || ($type != "instant" && $type != "limit"))
+            return $this->redirect($this->generateUrl('fos_user_profile_show'));
+
+        $data = unserialize(base64_decode(urldecode($token)));
+        $delta = (time()-300);
+
+        if (!array_key_exists('ts', $data) || $data['ts'] < $delta)
+            return $this->redirect($this->generateUrl('offer', array('type' => $type, 'direction' => $direction)));
+
+        $orderSvc = $this->get('main_market.orderFulfill');
+
+        $fulfillResult = $orderSvc->fulfillOrder($type,$direction,$data, $this->getUser());
+
+        return $this->redirect($this->generateUrl('fos_user_profile_show'));
     }
 
     /**

@@ -24,7 +24,12 @@
                                 <li>Fee: ${{ fee }} (0.5%)</li>
                                 <li>{{ costWord }} to You: ${{ cost }}</li>
                             </ul>
-                            <p><a href="" class="btn btn-primary">Confirm</a></p>
+                            {% if confirmAllowed == true %}
+                                <p><a href="{{ path('offer_complete', {'type': type, 'direction': direction, 'token': token}) }}" class="btn btn-primary">Confirm</a></p>
+                            {% else %}
+                                <p><a href="#" class="btn disabled btn-primary">Confirm</a></p>
+                                <p>You don't have enough in your account to cover this transaction. Please make a deposit and try again.</p>
+                            {% endif %}
                             {% if type == "instant" %}
                                 <p>*Price &amp; Cost subject to change until confirmed due to market change.</p>
                             {% endif %}

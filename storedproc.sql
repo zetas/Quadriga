@@ -1,6 +1,6 @@
 DROP PROCEDURE IF EXISTS GetFulfillList 
 go
-CREATE PROCEDURE GetFulfillList(IN orderAmt DOUBLE, IN direction VARCHAR(4))
+CREATE PROCEDURE GetFulfillList(IN orderAmt DOUBLE, IN direction VARCHAR(4), IN offerPrice DOUBLE)
 BEGIN
 DECLARE buy, offer_id INT DEFAULT 0;
 
@@ -11,8 +11,19 @@ ELSE
 END IF;
 
 DROP TEMPORARY TABLE IF EXISTS offer_list;
-CREATE TEMPORARY TABLE offer_list AS
-    SELECT * FROM offer WHERE active = 1 AND isBuy = buy;
+
+IF offerPrice > 0.0 THEN
+    IF direction = "buy" THEN
+        CREATE TEMPORARY TABLE offer_list AS
+            SELECT * FROM offer WHERE active = 1 AND isBuy = buy AND price <= offerPrice;
+    ELSE
+        CREATE TEMPORARY TABLE offer_list AS
+            SELECT * FROM offer WHERE active = 1 AND isBuy = buy AND price >= offerPrice;
+    END IF;
+ELSE
+    CREATE TEMPORARY TABLE offer_list AS
+        SELECT * FROM offer WHERE active = 1 AND isBuy = buy;
+END IF;
 
 DROP TABLE IF EXISTS current_order_fulfillment;
 CREATE TABLE current_order_fulfillment LIKE offer;

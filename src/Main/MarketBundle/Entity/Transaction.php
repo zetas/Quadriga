@@ -37,7 +37,7 @@ class Transaction
     private $transactionType;
 
     /**
-     * @ORM\OneToOne(targetEntity="Currency")
+     * @ORM\ManyToOne(targetEntity="Currency")
      */
     private $currency;
 

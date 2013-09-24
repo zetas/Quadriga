@@ -35,11 +35,6 @@ class Offer
     private $isBuy;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isInstant;
-
-    /**
      * @ORM\Column(type="float")
      */
     private $amount;
@@ -50,6 +45,8 @@ class Offer
     private $price;
 
     private $value;
+
+    private $partial;
 
     /**
      * @ORM\Column(type="datetime")
@@ -67,6 +64,17 @@ class Offer
     public function setDefaults() {
         ($this->getCreated() == null) ? $this->created = new \DateTime() : null;
         ($this->getActive() == null) ? $this->setActive(true) : null;
+    }
+
+    public function getPartial() {
+        if ($this->partial > 0)
+            return $this->partial;
+        else
+            return false;
+    }
+
+    public function setPartial($bool) {
+        $this->partial = $bool;
     }
 
     public function getValue() {
@@ -112,28 +120,6 @@ class Offer
         return $this->isBuy;
     }
 
-    /**
-     * Set isInstant
-     *
-     * @param boolean $isInstant
-     * @return Offer
-     */
-    public function setIsInstant($isInstant)
-    {
-        $this->isInstant = $isInstant;
-    
-        return $this;
-    }
-
-    /**
-     * Get isInstant
-     *
-     * @return boolean 
-     */
-    public function getIsInstant()
-    {
-        return $this->isInstant;
-    }
 
     /**
      * Set amount

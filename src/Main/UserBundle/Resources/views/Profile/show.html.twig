@@ -28,6 +28,7 @@
                 <legend>Transaction History</legend>
                 <tr>
                     <th>Transaction ID</th>
+                    <th>Transaction Type</th>
                     <th>Amount</th>
                     <th>Date</th>
                     <th>Status</th>
@@ -36,19 +37,22 @@
                 {% for tr in transactions if transactions[0] is defined %}
                     {% if tr.transactionType == 'deposit' %}
                         {% set row_class = 'success' %}
+                        {% set transaction_type = 'Deposit' %}
                     {% elseif tr.transactionType == 'withdrawal' %}
                         {% set row_class = 'danger' %}
+                        {% set transaction_type = "Withdrawal" %}
                     {% else %}
                         {% set row_class = '' %}
-                    {% endif %}
-                    {% if tr.currency.type == 'fiat' %}
-                        {% set currency = '$' %}
-                    {% else %}
-                        {% set currency = '' %}
+                        {% set transaction_type = "Market Payment" %}
                     {% endif %}
                     <tr class="{{ row_class }}">
                         <td>{{ tr.id }}</td>
-                        <td>{{ currency }}{{ tr.amount }}</td>
+                        <td>{{ transaction_type }}</td>
+                    {% if tr.currency.type == 'fiat' %}
+                        <td>${{ tr.amount }}</td>
+                    {% else %}
+                        <td>{{ tr.amount }} BTC</td>
+                    {% endif %}
                         <td>{{ tr.created|date('Y-m-d H:i:s T') }}</td>
                         <td>{{ tr.status|capitalize }}</td>
                         <td><a href="{{ path('transaction_view', {'transaction': tr.id}) }}" class="btn-sm btn-info">View</a></td>
