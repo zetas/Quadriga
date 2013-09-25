@@ -3,3 +3,26 @@ services:
         class: Main\MarketBundle\Services\OrderService
         arguments:
           entityManager: "@doctrine.orm.entity_manager"
+
+    sonata.admin.transaction:
+        class: Main\MarketBundle\Admin\Entity\TransactionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Market", label: "Transactions" }
+        arguments:
+            - ~
+            - Main\MarketBundle\Entity\Transaction
+            - ~
+        calls:
+            - [ setTranslationDomain, [MainMarketBundle]]
+
+    sonata.admin.transactionDetail:
+        class: Main\MarketBundle\Admin\Entity\TransactionDetailAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm }
+        arguments:
+            - ~
+            - Main\MarketBundle\Entity\TransactionDetail
+            - ~
+        calls:
+            - [ setTranslationDomain, [MainMarketBundle]]
+            - [ setSubClasses, [ [ ETF: "Main\MarketBundle\Entity\ETFTransactionDetail" ], [ WU: "Main\MarketBundle\Entity\WUTransactionDetail" ] ] ]

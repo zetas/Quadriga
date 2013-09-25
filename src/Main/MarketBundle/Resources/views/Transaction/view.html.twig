@@ -18,7 +18,9 @@
                     {% endif %}
                     <ul>
                         <li><strong>Amount:</strong> {{ icon }}{{ amount }}</li>
+                        {% if transaction.transactionType == 'deposit' %}
                         <li><strong>Method:</strong> {{ transaction.currency.name }}</li>
+                        {% endif %}
                         <li><strong>Currency:</strong> {{ transaction.currency.tla }}</li>
                         <li><strong>Type:</strong> {{ transaction.transactionType|capitalize }}</li>
                         <li><strong>Date:</strong> {{ transaction.created|date('Y-m-d H:i:s T') }}</li>

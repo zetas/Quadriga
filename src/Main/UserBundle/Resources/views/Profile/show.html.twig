@@ -2,6 +2,8 @@
 
 {% extends "FOSUserBundle::layout.html.twig" %}
 
+{% block title 'Profile' %}
+
 {% block fos_user_content %}
     <div class="col-md-4 well well-lg">
         <p>Username: {{ user.username }}</p>
@@ -19,8 +21,9 @@
     </div>
     <div class="col-md-2 pull-right">
         <p><a href="{{ path('user_verify') }}" class="btn btn-success">Verify</a></p>
-        <p><a href="{{ path('fos_user_profile_edit') }}" class="btn btn-warning">Edit Profile</a></p>
+        <p><a href="{{ path('fos_user_change_password') }}" class="btn btn-danger">Change Password</a></p>
         <p><a href="{{ path('user_withdraw') }}" class="btn btn-info">Withdraw</a></p>
+        <p><a href="{{ path('user_transfer') }}" class="btn btn-warning">Transfer to User</a></p>
     </div>
     <div class="clearfix"></div>
         <div class="col-md-12">
@@ -41,9 +44,15 @@
                     {% elseif tr.transactionType == 'withdrawal' %}
                         {% set row_class = 'danger' %}
                         {% set transaction_type = "Withdrawal" %}
-                    {% else %}
+                    {% elseif tr.transactionType == 'market' %}
                         {% set row_class = '' %}
                         {% set transaction_type = "Market Payment" %}
+                    {% elseif tr.transactionType == 'transfer' %}
+                        {% set row_class = 'warning' %}
+                        {% set transaction_type = "Transfer" %}
+                    {% else %}
+                        {% set row_class = '' %}
+                        {% set transaction_type = "Unknown" %}
                     {% endif %}
                     <tr class="{{ row_class }}">
                         <td>{{ tr.id }}</td>

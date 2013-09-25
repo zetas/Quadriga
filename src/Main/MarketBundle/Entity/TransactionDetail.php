@@ -29,41 +29,42 @@ class TransactionDetail
 
 
     /**
-     * @ORM\OneToOne(targetEntity="Transaction")
+     * @ORM\ManyToOne(targetEntity="Transaction", inversedBy="transactionDetail")
      */
     protected $transaction;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    protected $senderName;
+    protected $name;
 
     /**
      * @ORM\Column(type="float")
      */
     protected $amount;
 
+
     /**
-     * Set senderName
+     * Set name
      *
-     * @param string $senderName
+     * @param string $name
      * @return TransactionDetail
      */
-    public function setSenderName($senderName)
+    public function setName($name)
     {
-        $this->senderName = $senderName;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get senderName
+     * Get name
      *
      * @return string
      */
-    public function getSenderName()
+    public function getName()
     {
-        return $this->senderName;
+        return $this->name;
     }
 
     /**
@@ -116,4 +117,10 @@ class TransactionDetail
     {
         return $this->id;
     }
+
+    public function __toString() {
+        return (string) $this->id;
+    }
+    
+    
 }

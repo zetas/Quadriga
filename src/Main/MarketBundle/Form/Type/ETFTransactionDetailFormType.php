@@ -8,6 +8,10 @@
 
 namespace Main\MarketBundle\Form\Type;
 
+use Main\MarketBundle\Form\EventListener\AddAccountFieldSubscriber;
+use Main\MarketBundle\Form\EventListener\AddBankFieldSubscriber;
+use Main\MarketBundle\Form\EventListener\AddNameFieldSubscriber;
+use Main\MarketBundle\Form\EventListener\AddPinFieldSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -17,10 +21,11 @@ class ETFTransactionDetailFormType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('senderName')
-            ->add('senderBank')
-            ->add('senderAccount')
+            ->addEventSubscriber(new AddNameFieldSubscriber())
+            ->addEventSubscriber(new AddBankFieldSubscriber())
+            ->addEventSubscriber(new AddAccountFieldSubscriber())
             ->add('amount','money', array('currency' => 'USD'))
+            ->addEventSubscriber(new AddPinFieldSubscriber())
             ->add('confirm', 'submit')
         ;
     }

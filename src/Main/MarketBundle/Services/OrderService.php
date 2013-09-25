@@ -13,6 +13,7 @@ use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Main\MarketBundle\Entity\Offer;
 use Main\MarketBundle\Entity\Transaction;
 use Main\UserBundle\Entity\User;
+use Symfony\Component\Form\Tests\Extension\Core\DataTransformer\BooleanToStringTransformerTest;
 
 class OrderService {
     protected $em;
@@ -122,7 +123,7 @@ class OrderService {
         $this->em->flush($offer);
     }
 
-    public function newTransaction($type, $cost, $amount, User $user) {
+    public function newTransaction($type, $cost, $amount, User $user, $transactionType = 'market') {
         $transaction = new Transaction();
         $this->em->refresh($user);
         ($type == "fiat") ? $cName = 'USD' : $cName = "Bitcoin";
@@ -141,7 +142,7 @@ class OrderService {
             $amt = $amount;
         }
 
-        $transaction->setTransactionType('market')
+        $transaction->setTransactionType($transactionType)
             ->setUser($user)
             ->setAmount($amt)
             ->setCurrency($currency)
@@ -234,5 +235,21 @@ class OrderService {
         $offers = $query->getResult();
 
         return $offers;
+    }
+
+    public function checkTransaction($direction, $cost, $amount, User $user) {
+        $btcBal = $user->getBtcBalance();
+        $fiatBal = $user->getFiatBalance();
+        $verified = $user->getVerified();
+        $maxTransaction = 1000;
+
+        $denied = false;
+
+        ($direction == 'buy' && $cost > $fiatBal) ? $denied = 'balance' : null;
+        ($direction == 'sell' && $amount > $btcBal) ? $denied = 'balance' : null;
+
+        (!$verified && $cost > $maxTransaction) ? $denied = 'limit' : null;
+
+        return $denied;
     }
 }

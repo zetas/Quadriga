@@ -20,57 +20,57 @@ class ETFTransactionDetail extends TransactionDetail
     /**
      * @ORM\Column(type="string", length=255)
      */
-    protected $senderBank;
+    protected $bank;
 
     /**
      * @ORM\Column(type="integer")
      */
-    protected $senderAccount;
+    protected $account;
 
 
     /**
-     * Set senderBank
+     * Set bank
      *
-     * @param string $senderBank
+     * @param string $bank
      * @return ETFTransactionDetail
      */
-    public function setSenderBank($senderBank)
+    public function setBank($bank)
     {
-        $this->senderBank = $senderBank;
+        $this->bank = $bank;
 
         return $this;
     }
 
     /**
-     * Get senderBank
+     * Get bank
      *
      * @return string
      */
-    public function getSenderBank()
+    public function getBank()
     {
-        return $this->senderBank;
+        return $this->bank;
     }
 
     /**
-     * Set senderAccount
+     * Set account
      *
-     * @param integer $senderAccount
+     * @param integer $account
      * @return ETFTransactionDetail
      */
-    public function setSenderAccount($senderAccount)
+    public function setAccount($account)
     {
-        $this->senderAccount = $senderAccount;
+        $this->account = $account;
 
         return $this;
     }
 
     /**
-     * Get senderAccount
+     * Get account
      *
      * @return integer
      */
-    public function getSenderAccount()
+    public function getAccount()
     {
-        return $this->senderAccount;
+        return $this->account;
     }
 }

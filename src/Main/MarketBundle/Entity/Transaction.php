@@ -30,7 +30,7 @@ class Transaction
     private $user;
 
     /**
-     * One of deposit, withdrawal, or market
+     * One of deposit, withdrawal, market, or transfer
      *
      * @ORM\Column(type="string", length=255)
      */
@@ -57,9 +57,31 @@ class Transaction
     private $created;
 
     /**
-     * @ORM\OneToOne(targetEntity="TransactionDetail")
+     * @ORM\OneToMany(targetEntity="TransactionDetail", orphanRemoval=true, mappedBy="transaction")
      */
     private $transactionDetail;
+
+    private $statusOptions = array(
+        'pending' => 'Pending User Confirmation',
+        'confirmed' => 'User Confirmation Complete',
+        'completed' => 'Completed'
+    );
+
+    private $typeOptions = array(
+        'market' => 'Market',
+        'deposit' => 'Deposit',
+        'withdrawal' => 'Withdrawal',
+        'transfer' => 'Transfer'
+    );
+
+    public function getHFType() {
+        return $this->typeOptions[$this->transactionType];
+    }
+
+    public function getHFStatus() {
+        return $this->statusOptions[$this->status];
+    }
+
 
     /**
      * @ORM\PrePersist()
@@ -238,5 +260,39 @@ class Transaction
     public function getTransactionDetail()
     {
         return $this->transactionDetail;
+    }
+
+    public function __toString() {
+        return (string) $this->id;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->transactionDetail = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add transactionDetail
+     *
+     * @param \Main\MarketBundle\Entity\TransactionDetail $transactionDetail
+     * @return Transaction
+     */
+    public function addTransactionDetail(\Main\MarketBundle\Entity\TransactionDetail $transactionDetail)
+    {
+        $this->transactionDetail[] = $transactionDetail;
+
+        return $this;
+    }
+
+    /**
+     * Remove transactionDetail
+     *
+     * @param \Main\MarketBundle\Entity\TransactionDetail $transactionDetail
+     */
+    public function removeTransactionDetail(\Main\MarketBundle\Entity\TransactionDetail $transactionDetail)
+    {
+        $this->transactionDetail->removeElement($transactionDetail);
     }
 }

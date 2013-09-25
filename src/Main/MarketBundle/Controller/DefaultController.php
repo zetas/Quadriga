@@ -73,42 +73,39 @@ class DefaultController extends Controller
 
         ($direction == "buy") ? $cost = ($rawCost + $fee) : $cost = ($rawCost - $fee);
 
-        $cost = number_format($cost, 2, '.', ',');
+        $costFormatted = number_format($cost, 2, '.', ',');
         $fee = number_format($fee, 2, '.', ',');
 
         $data['ts'] = time();
         $newToken = urlencode(base64_encode(serialize($data)));
 
-        $user = $this->getUser();
+        $checkResult = $orderSvc->checkTransaction($direction,$cost,$data['amount'],$this->getUser());
 
-        if ($direction == 'buy') {
-            if ($user->getFiatBalance() >= $cost)
-                $confirmAllowed = true;
-            else
-                $confirmAllowed = false;
-        } else {
-            if ($user->getBtcBalance() >= $data['amount'])
-                $confirmAllowed = true;
-            else
-                $confirmAllowed = false;
-        }
+        ($checkResult == false) ? $confirmAllowed = true : $confirmAllowed = false;
+
         $rawCost = number_format($rawCost, 2, '.', ',');
+
+        $form = $this->createFormBuilder(null, array('action' => $this->generateUrl('offer_complete',array('type' => $type, 'direction' => $direction, 'token' => $newToken))))
+            ->add('pin','text')
+            ->getForm();
+
         return array('type' => $type,
                      'direction' => $direction,
                      'amount' => $data['amount'],
                      'price' => $price,
-                     'cost' => $cost,
+                     'cost' => $costFormatted,
                      'totalWorth' => $rawCost,
                      'fee' => $fee,
-                     'token' => $newToken,
-                     'confirmAllowed' => $confirmAllowed
+                     'form' => $form->createView(),
+                     'confirmAllowed' => $confirmAllowed,
+                     'failReason' => $checkResult
         );
     }
 
     /**
      * @Route("/{type}/{direction}/complete/{token}", name="offer_complete")
      */
-    public function completeAction($type, $direction, $token) {
+    public function completeAction(Request $request, $type, $direction, $token) {
         if (($direction != 'buy' && $direction != 'sell') || ($type != "instant" && $type != "limit"))
             return $this->redirect($this->generateUrl('fos_user_profile_show'));
 
@@ -118,9 +115,29 @@ class DefaultController extends Controller
         if (!array_key_exists('ts', $data) || $data['ts'] < $delta)
             return $this->redirect($this->generateUrl('offer', array('type' => $type, 'direction' => $direction)));
 
+        $form = $this->createFormBuilder(null)
+            ->add('pin','text')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $formData = $form->getData();
+            $user = $this->getUser();
+
+            if ($formData['pin'] != $user->getPin())
+                return $this->redirect($this->generateUrl('offer', array('type' => $type, 'direction' => $direction)));
+
+        } else {
+            return $this->redirect($this->generateUrl('offer', array('type' => $type, 'direction' => $direction)));
+        }
+
         $orderSvc = $this->get('main_market.orderFulfill');
 
         $fulfillResult = $orderSvc->fulfillOrder($type,$direction,$data, $this->getUser());
+
+        if (!$fulfillResult)
+            return $this->redirect($this->generateUrl('offer', array('type' => $type, 'direction' => $direction)));
 
         return $this->redirect($this->generateUrl('fos_user_profile_show'));
     }

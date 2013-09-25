@@ -40,16 +40,20 @@ class TransactionController extends Controller
         if ($transaction->getUser() != $this->getUser())
             return $this->redirect($this->generateUrl('fos_user_profile_show'));
 
-        if ($transaction->getCurrency()->getName() == 'Western Union')
-            $form = $this->createForm(new WUTransactionDetailFormType(), new WUTransactionDetail());
-        else
-            $form = $this->createForm(new ETFTransactionDetailFormType(), new ETFTransactionDetail());
+        if ($transaction->getCurrency()->getName() == 'Western Union') {
+            $wutd = new WUTransactionDetail();
+            $wutd->setTransaction($transaction);
+            $form = $this->createForm(new WUTransactionDetailFormType(), $wutd);
+        } else {
+            $etftd = new ETFTransactionDetail();
+            $etftd->setTransaction($transaction);
+            $form = $this->createForm(new ETFTransactionDetailFormType(), $etftd);
+        }
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $td = $form->getData();
-            $td->setTransaction($transaction);
             ($transaction->getAmount() <= $td->getAmount()) ? $transaction->setStatus('confirmed') : null;
 
             $em = $this->getDoctrine()->getManager();

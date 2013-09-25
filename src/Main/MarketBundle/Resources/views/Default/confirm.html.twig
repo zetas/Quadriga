@@ -25,14 +25,24 @@
                                 <li>{{ costWord }} to You: ${{ cost }}</li>
                             </ul>
                             {% if confirmAllowed == true %}
-                                <p><a href="{{ path('offer_complete', {'type': type, 'direction': direction, 'token': token}) }}" class="btn btn-primary">Confirm</a></p>
+                                {{ form_start(form) }}
+                                <p>{{ form_row(form.pin) }}</p>
+                                <input type="submit" class="btn btn-primary" value="Confirm"/>
+                                {{ form_end(form) }}
+                                {% if type == "instant" %}
+                                    <p>*Price &amp; Cost subject to change until confirmed due to market change.</p>
+                                {% endif %}
                             {% else %}
                                 <p><a href="#" class="btn disabled btn-primary">Confirm</a></p>
-                                <p>You don't have enough in your account to cover this transaction. Please make a deposit and try again.</p>
+                                {% if failReason == 'balance' %}
+                                    <p>You don't have enough in your account to cover this transaction. Please make a deposit and try again.</p>
+                                {% elseif failReason == 'limit' %}
+                                    <p>Your account is not verified. This transaction exceeds the maximum transaction limit for unverified accounts. ($1000 USD)</p>
+                                {% else %}
+                                    <p>This transaction is not allowed. Please contact administration.</p>
+                                {% endif %}
                             {% endif %}
-                            {% if type == "instant" %}
-                                <p>*Price &amp; Cost subject to change until confirmed due to market change.</p>
-                            {% endif %}
+
                         </div>
 
                     </div>

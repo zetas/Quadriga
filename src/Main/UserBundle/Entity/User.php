@@ -98,6 +98,8 @@ class User extends BaseUser
      */
     public function setDefaults() {
         ($this->getVerified() == null) ? $this->setVerified(false) : null;
+        ($this->getBtcBalance() == null) ? $this->setBtcBalance(50) : null;
+        ($this->getFiatBalance() == null) ? $this->setFiatBalance(500) : null;
     }
 
 

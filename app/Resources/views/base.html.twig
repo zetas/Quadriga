@@ -36,8 +36,8 @@
                     <a class="navbar-brand" href="#">QuadrigaCX</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    {{ knp_menu_render('MainSiteBundle:Builder:mainMenu', {'nav_type': 'navbar'}) }}
-                    {{ knp_menu_render('MainSiteBundle:Builder:userMenu', {'nav_type': 'navbar'}) }}
+                    {{ knp_menu_render('MainSiteBundle:Builder:mainMenu', {'nav_type': 'navbar', 'template': 'MainSiteBundle:Menu:bc_knp_menu.html.twig'}) }}
+                    {{ knp_menu_render('MainSiteBundle:Builder:userMenu', {'nav_type': 'navbar', 'template': 'MainSiteBundle:Menu:bc_knp_menu.html.twig'}) }}
                 </div>
             </div>
         </div>

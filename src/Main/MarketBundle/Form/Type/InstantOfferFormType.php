@@ -17,7 +17,7 @@ class InstantOfferFormType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('amount', 'money', array('currency' => null, 'label' => 'Amount of BTC'))
+            ->add('amount', 'money', array('currency' => null))
         ;
     }
 

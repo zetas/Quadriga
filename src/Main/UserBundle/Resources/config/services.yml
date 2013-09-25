@@ -13,8 +13,20 @@ services:
             address: "%bitcoin_service.deposit_address%"
             callback: "%bitcoin_service.callback_url%"
 
-    acme_user.registration.form.type:
+    main_user.registration.form.type:
        class: Main\UserBundle\Form\Type\RegistrationFormType
        arguments: [%fos_user.model.user.class%]
        tags:
           - { name: form.type, alias: main_user_registration }
+
+    fos.user.admin.user:
+        class: Main\UserBundle\Admin\Entity\UserAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Members", label: "Users" }
+        arguments:
+            - ~
+            - Main\UserBundle\Entity\User
+            - ~
+        calls:
+            - [ setTranslationDomain, [MainMarketBundle] ]
+            - [ setUserManager, [@fos_user.user_manager] ]

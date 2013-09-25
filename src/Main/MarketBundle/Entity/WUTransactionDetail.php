@@ -20,7 +20,7 @@ class WUTransactionDetail extends TransactionDetail
     /**
      * @ORM\Column(type="string", length=255)
      */
-    protected $senderLocation;
+    protected $location;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -28,26 +28,26 @@ class WUTransactionDetail extends TransactionDetail
     protected $mtcn;
 
     /**
-     * Set senderLocation
+     * Set location
      *
-     * @param string $senderLocation
+     * @param string $location
      * @return WUTransactionDetail
      */
-    public function setSenderLocation($senderLocation)
+    public function setLocation($location)
     {
-        $this->senderLocation = $senderLocation;
+        $this->location = $location;
 
         return $this;
     }
 
     /**
-     * Get senderLocation
+     * Get location
      *
      * @return string
      */
-    public function getSenderLocation()
+    public function getLocation()
     {
-        return $this->senderLocation;
+        return $this->location;
     }
 
     /**

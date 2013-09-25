@@ -51,6 +51,26 @@ class Currency
      */
     private $symbol;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $depositFlatFee;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $depositPercentFee;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $withdrawFlatFee;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $withdrawPercentFee;
+
 
     /**
      * Get id
@@ -157,5 +177,101 @@ class Currency
     public function getSymbol()
     {
         return $this->symbol;
+    }
+
+    /**
+     * Set depositFlatFee
+     *
+     * @param float $depositFlatFee
+     * @return Currency
+     */
+    public function setDepositFlatFee($depositFlatFee)
+    {
+        $this->depositFlatFee = $depositFlatFee;
+    
+        return $this;
+    }
+
+    /**
+     * Get depositFlatFee
+     *
+     * @return float 
+     */
+    public function getDepositFlatFee()
+    {
+        return $this->depositFlatFee;
+    }
+
+    /**
+     * Set depositPercentFee
+     *
+     * @param float $depositPercentFee
+     * @return Currency
+     */
+    public function setDepositPercentFee($depositPercentFee)
+    {
+        $this->depositPercentFee = $depositPercentFee;
+    
+        return $this;
+    }
+
+    /**
+     * Get depositPercentFee
+     *
+     * @return float 
+     */
+    public function getDepositPercentFee()
+    {
+        return $this->depositPercentFee;
+    }
+
+    /**
+     * Set withdrawFlatFee
+     *
+     * @param float $withdrawFlatFee
+     * @return Currency
+     */
+    public function setWithdrawFlatFee($withdrawFlatFee)
+    {
+        $this->withdrawFlatFee = $withdrawFlatFee;
+    
+        return $this;
+    }
+
+    /**
+     * Get withdrawFlatFee
+     *
+     * @return float 
+     */
+    public function getWithdrawFlatFee()
+    {
+        return $this->withdrawFlatFee;
+    }
+
+    /**
+     * Set withdrawPercentFee
+     *
+     * @param float $withdrawPercentFee
+     * @return Currency
+     */
+    public function setWithdrawPercentFee($withdrawPercentFee)
+    {
+        $this->withdrawPercentFee = $withdrawPercentFee;
+    
+        return $this;
+    }
+
+    /**
+     * Get withdrawPercentFee
+     *
+     * @return float 
+     */
+    public function getWithdrawPercentFee()
+    {
+        return $this->withdrawPercentFee;
+    }
+
+    public function __toString() {
+        return $this->name;
     }
 }
