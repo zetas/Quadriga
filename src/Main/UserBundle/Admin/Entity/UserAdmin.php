@@ -24,7 +24,7 @@ class UserAdmin extends Admin
             ->with('General')
                 ->add('username')
                 ->add('email')
-                ->add('plainPassword', 'text')
+                ->add('plainPassword', 'text',array('required' => false))
             ->end()
             ->with('Management')
                 ->add('locked', null, array('required' => false))
@@ -39,7 +39,7 @@ class UserAdmin extends Admin
                 ->add('pin')
                 ->add('btcBalance','money',array('currency' => null))
                 ->add('fiatBalance', 'money', array('currency' => 'USD'))
-                ->add('verified')
+                ->add('verified', 'sonata_type_boolean', array('required' => false, 'transform' => true))
             ->end()
         ;
     }

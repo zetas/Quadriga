@@ -29,7 +29,11 @@ class TransactionController extends Controller
         if ($transaction->getUser() != $this->getUser())
             return $this->redirect($this->generateUrl('fos_user_profile_show'));
 
-        return array('transaction' => $transaction);
+        $td = $this->getDoctrine()->getRepository('Main\MarketBundle\Entity\TransactionDetail')
+            ->findOneBy(array('transaction' => $transaction, 'visible' => true))
+        ;
+
+        return array('transaction' => $transaction, 'td' => $td);
     }
 
     /**

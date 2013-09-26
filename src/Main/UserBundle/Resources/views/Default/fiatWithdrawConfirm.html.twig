@@ -10,8 +10,9 @@
             <div class="col-md-12">
                 <div class="col-md-7 col-md-offset-2">
                     <div class="well well-sm">
-                        <h2>{{ method|capitalize }} Withdraw Confirmation</h2>
+                        <h2>{{ method }} Withdraw Confirmation</h2>
                         <p>Please enter your receiving details.</p>
+                        <p>The amount has been adjusted to include the required fees. The amount you will receive is the original amount you entered.</p>
                         {{ form_start(form) }}
                         <legend>Withdraw Details</legend>
                         {{ form_row(form.name) }}

@@ -115,13 +115,11 @@ sonata_admin:
                     url: http://config.qubitlogic.net/tag/professional/feed/?mrss=off
           groups:
               sonata_page:
-                  label: Authentication
+                  label: General
                   items:
                       - fos.user.admin.user
-              sonata_page2:
-                  label: Marketplace
-                  items:
                       - sonata.admin.transaction
+                      - sonata.admin.config
 
 sonata_doctrine_orm_admin:
     # default value is null, so doctrine uses the value defined in the configuration

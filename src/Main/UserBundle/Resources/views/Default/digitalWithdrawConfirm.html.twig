@@ -1,0 +1,21 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+
+{% extends '::base.html.twig' %}
+
+{% block title 'Bitcoin Withdraw Confirm' %}
+
+    {% block content %}
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-7 col-md-offset-2">
+                    <div class="well well-sm">
+                        <h2>Bitcoin Withdraw Confirmation</h2>
+                        <p>Please enter your receiving details.</p>
+                        <p>The amount has been adjusted to include the required fees. The amount you will receive is the original amount you entered.</p>
+                        {{ form(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

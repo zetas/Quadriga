@@ -37,8 +37,13 @@ class OrderService {
             $offers = $priceData['offers'];
         }
 
+        $fpData = $this->em->getRepository('MainSiteBundle:Config')
+            ->findOneBy(array('name' => 'Market Fee Percent'))
+        ;
+
+        $feePercent = $fpData->getValue();
+
         $rawCost = ($data['amount'] * $price);
-        $feePercent = 0.005;
         $fee = ($rawCost * $feePercent);
 
         ($direction == "buy") ? $cost = ($rawCost + $fee) : $cost = ($rawCost - $fee);

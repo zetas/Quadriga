@@ -1,0 +1,16 @@
+services:
+    sonata.admin.config:
+        class: Main\SiteBundle\Admin\Entity\ConfigAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "General", label: "Site Config" }
+        arguments:
+            - ~
+            - Main\SiteBundle\Entity\Config
+            - ~
+        calls:
+            - [ setTranslationDomain, [MainSiteBundle]]
+
+    main_site.configSvc:
+            class: Main\SiteBundle\Services\ConfigService
+            arguments:
+              entityManager: "@doctrine.orm.entity_manager"

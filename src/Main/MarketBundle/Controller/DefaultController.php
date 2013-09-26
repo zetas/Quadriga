@@ -60,6 +60,11 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl('offer', array('type' => $type, 'direction' => $direction)));
 
         $orderSvc = $this->get('main_market.orderFulfill');
+        $configSvc = $this->get('main_site.configSvc');
+
+        $fpData = $configSvc->getConfigFor('market');
+
+        $feePercent = $fpData->getValue();
 
         if ($type == "instant") {
             $price = round($orderSvc->getInstantPrice($data['amount'], $direction),2);
@@ -69,7 +74,7 @@ class DefaultController extends Controller
         }
 
         $rawCost = ($data['amount'] * $price);
-        $fee = ($rawCost * 0.005);
+        $fee = ($rawCost * $feePercent);
 
         ($direction == "buy") ? $cost = ($rawCost + $fee) : $cost = ($rawCost - $fee);
 
@@ -96,6 +101,7 @@ class DefaultController extends Controller
                      'cost' => $costFormatted,
                      'totalWorth' => $rawCost,
                      'fee' => $fee,
+                     'feePercent' => ($feePercent * 100),
                      'form' => $form->createView(),
                      'confirmAllowed' => $confirmAllowed,
                      'failReason' => $checkResult

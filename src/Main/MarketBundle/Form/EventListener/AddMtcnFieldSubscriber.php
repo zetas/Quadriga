@@ -32,7 +32,7 @@ class AddMtcnFieldSubscriber implements EventSubscriberInterface
         // If you didn't pass any data to the form, the data is "null".
         // This should be considered a new "Product"
         if ($transaction->getTransactionType() == "deposit") {
-            $form->add('mtcn', 'text', array('label' => MTCN));
+            $form->add('mtcn', 'text', array('label' => 'MTCN'));
         }
     }
 }

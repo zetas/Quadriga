@@ -2,9 +2,11 @@
 
 namespace Main\UserBundle\Controller;
 
+use Main\MarketBundle\Entity\BTCTransactionDetail;
 use Main\MarketBundle\Entity\ETFTransactionDetail;
 use Main\MarketBundle\Entity\Transaction;
 use Main\MarketBundle\Entity\WUTransactionDetail;
+use Main\MarketBundle\Form\Type\BTCTransactionDetailFormType;
 use Main\MarketBundle\Form\Type\ETFTransactionDetailFormType;
 use Main\MarketBundle\Form\Type\WUTransactionDetailFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -36,6 +38,8 @@ class DefaultController extends Controller
      * @Template
      */
     public function fiatWithdrawAction(Request $request, $method) {
+        if ($method != 'wu' && $method != 'etf')
+            return $this->redirect($this->generateUrl('fos_user_profile_show'));
 
         $form = $this->createFormBuilder(null)
             ->add('amount')
@@ -44,12 +48,26 @@ class DefaultController extends Controller
             ->getForm();
 
         $form->handleRequest($request);
-
+        $checkTrans = null;
         if ($form->isValid()) {
             $data = $form->getData();
+
+            ($method == 'etf') ? $cName = 'ETF' : $cName = 'Western Union';
+
+            $currency = $this->getDoctrine()->getRepository('Main\MarketBundle\Entity\Currency')
+                ->findOneBy(array('name' => $cName))
+            ;
+
+            $flatFee = $currency->getWithdrawFlatFee();
+            $percentFee = $currency->getWithdrawPercentFee();
+
+            $cost = (($data['amount'] * $percentFee) + $data['amount']) + $flatFee;
+
             $svc = $this->get('main_market.orderFulfill');
 
-            $checkTrans = $svc->checkTransaction('buy',$data['amount'],0,$this->getUser());
+            $checkTrans = $svc->checkTransaction('buy',$cost,0,$this->getUser());
+
+            $data['amount'] = $cost;
 
             $token = urlencode(base64_encode(serialize($data)));
 
@@ -59,7 +77,7 @@ class DefaultController extends Controller
 
         ($method == 'etf') ? $methodStr = 'ETF/Wire Transfer' : $methodStr = "Western Union";
 
-        return array('form' => $form->createView(), 'method' => $methodStr);
+        return array('form' => $form->createView(), 'method' => $methodStr, 'allowed' => $checkTrans);
     }
 
     /**
@@ -140,8 +158,99 @@ class DefaultController extends Controller
      * @Route("/withdraw/digital", name="user_withdraw_digital")
      * @Template
      */
-    public function digitalWithdrawAction() {
+    public function digitalWithdrawAction(Request $request) {
+        $form = $this->createFormBuilder(null)
+            ->add('amount')
+            ->add('ts','hidden',array('data'=>time()))
+            ->add('next','submit')
+            ->getForm();
 
+        $form->handleRequest($request);
+        $checkTrans = null;
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $currency = $this->getDoctrine()->getRepository('Main\MarketBundle\Entity\Currency')
+                ->findOneBy(array('name' => 'Bitcoin'))
+            ;
+
+            $flatFee = $currency->getWithdrawFlatFee();
+            $percentFee = $currency->getWithdrawPercentFee();
+
+            $cost = (($data['amount'] * $percentFee) + $data['amount']) + $flatFee;
+
+            $svc = $this->get('main_market.orderFulfill');
+
+            $checkTrans = $svc->checkTransaction('sell',0,$cost,$this->getUser());
+
+            $data['amount'] = $cost;
+
+            $token = urlencode(base64_encode(serialize($data)));
+
+            if (!$checkTrans)
+                return $this->redirect($this->generateUrl('user_withdraw_digital_confirm',array('token' => $token)));
+        }
+
+        return array('form' => $form->createView(), 'allowed' => $checkTrans);
+    }
+
+    /**
+     * @Route("/withdraw/digital/{token}/confirm", name="user_withdraw_digital_confirm")
+     * @Template
+     */
+    public function digitalWithdrawConfirmAction(Request $request, $token) {
+        $data = unserialize(base64_decode(urldecode($token)));
+        $delta = (time()-300);
+
+        if (!array_key_exists('ts', $data) || $data['ts'] < $delta)
+            return $this->redirect($this->generateUrl('user_withdraw_digital'));
+
+        $svc = $this->get('main_market.orderFulfill');
+
+        $tmpTransaction = new Transaction();
+        $tmpTransaction->setTransactionType('withdrawal');
+
+        $btc = new BTCTransactionDetail();
+
+        $btc->setAmount($data['amount'])
+            ->setTransaction($tmpTransaction)
+        ;
+
+        $form = $this->createForm(new BTCTransactionDetailFormType(), $btc);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $td = $form->getData();
+            $pin = $form->get('pin')->getData();
+            $user = $this->getUser();
+
+            $em = $this->getDoctrine()->getManager();
+
+            if ($user->getPin() == $pin) {
+
+                $transaction = $svc->newTransaction(
+                    'digital',
+                    0,
+                    -$td->getAmount(),
+                    $user,
+                    'withdrawal',
+                    null,
+                    true
+                );
+
+                $td->setTransaction($transaction);
+
+                $em->persist($td);
+
+                $em->flush();
+
+                $transaction->addTransactionDetail($td);
+
+                return $this->redirect($this->generateUrl('fos_user_profile_show'));
+            }
+        }
+
+        return array('form' => $form->createView());
     }
 
     /**
@@ -150,7 +259,11 @@ class DefaultController extends Controller
      */
     public function transferAction(Request $request) {
 
-        $feePercent = 0.005;
+        $configSvc = $this->get('main_site.configSvc');
+
+        $fpData = $configSvc->getConfigFor('transfer');
+
+        $feePercent = $fpData->getValue();
 
         $form = $this->createFormBuilder(null)
             ->add('username','text')

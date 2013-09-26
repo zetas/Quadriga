@@ -27,11 +27,30 @@
                         <li><strong>Status: </strong> {{ transaction.status|capitalize }}</li>
                     </ul>
                     <div class="col-md-12 col-md-offset-3">
-                        {% if transaction.status == 'pending' and transaction.currency.type != 'digital' %}
+                        {% if transaction.status == 'pending' and transaction.currency.type != 'digital' and transaction.transactionType == 'deposit' %}
                             <p><a href="{{ path('transaction_confirm', {'transaction': transaction.id}) }}" class="btn btn-lg btn-primary">Confirm</a></p>
                         {% endif %}
                     </div>
                 </div>
+                {% if td != null and transaction.transactionType == 'withdrawal' and transaction.currency.name == 'Western Union' %}
+                <div class="col-md-7">
+                    <table class="table table-bordered">
+                        <legend>Transaction Details</legend>
+                        <tr>
+                            <th>Sender Name</th>
+                            <th>Sender Location</th>
+                            <th>Amount</th>
+                            <th>MTCN</th>
+                        </tr>
+                        <tr>
+                            <td>{{ td.name }}</td>
+                            <td>{{ td.location }}</td>
+                            <td>{{ td.amount }}</td>
+                            <td>{{ td.mtcn }}</td>
+                        </tr>
+                    </table>
+                </div>
+                {% endif %}
             </div>
         </div>
     {% endblock %}

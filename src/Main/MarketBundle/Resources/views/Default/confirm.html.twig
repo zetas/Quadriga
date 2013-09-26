@@ -21,7 +21,7 @@
                                 <li>Amount of BTC: {{ amount }}</li>
                                 <li>Price: ${{ price }}</li>
                                 <li>Total before Fees: ${{ totalWorth }}</li>
-                                <li>Fee: ${{ fee }} (0.5%)</li>
+                                <li>Fee: ${{ fee }} ({{ feePercent }}%)</li>
                                 <li>{{ costWord }} to You: ${{ cost }}</li>
                             </ul>
                             {% if confirmAllowed == true %}

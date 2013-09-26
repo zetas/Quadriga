@@ -3,15 +3,15 @@
 
 {% extends '::base.html.twig' %}
 
-{% block title 'USD Withdraw Request' %}
+{% block title 'Bitcoin Withdraw Request' %}
 
     {% block content %}
         <div class="container">
             <div class="col-md-12">
                 <div class="col-md-5 col-md-offset-2">
                     <div class="well well-sm">
-                        <h2>{{ method|capitalize }} Withdraw Request</h2>
-                        <p>How much would you like to withdraw?</p>
+                        <h2>Bitcoin Withdraw Request</h2>
+                        <p>How many bitcoins would you like to withdraw?</p>
                         <p>{{ form(form) }}</p>
                         {% if allowed == 'balance' %}
                             <p>You do not have enough in your account to proceed. Please adjust the amount of your withdrawal.</p>

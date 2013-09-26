@@ -16,7 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table("transaction_detail")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"none" = "TransactionDetail", "wu" = "WUTransactionDetail", "etf" = "ETFTransactionDetail"})
+ * @ORM\DiscriminatorMap({"none" = "TransactionDetail", "wu" = "WUTransactionDetail", "etf" = "ETFTransactionDetail", "btc" = "BTCTransactionDetail"})
+ * @ORM\HasLifecycleCallbacks
  */
 class TransactionDetail
 {
@@ -29,12 +30,12 @@ class TransactionDetail
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Transaction", inversedBy="transactionDetail", cascade="persist")
+     * @ORM\ManyToOne(targetEntity="Transaction", inversedBy="transactionDetail")
      */
     protected $transaction;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $name;
 
@@ -47,6 +48,13 @@ class TransactionDetail
      * @ORM\Column(type="boolean")
      */
     protected $visible;
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function setDefaults() {
+        ($this->getVisible() == null) ? $this->setVisible(false) : null;
+    }
 
 
     public function setVisible($bool) {

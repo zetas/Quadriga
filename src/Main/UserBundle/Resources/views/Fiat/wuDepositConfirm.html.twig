@@ -1,0 +1,26 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+{% extends '::base.html.twig' %}
+
+{% block title 'Western Union Deposit Confirm' %}
+
+    {% block content %}
+        <div class="container">
+            <div class="col-md-12">
+                <div class="col-md-7 col-md-offset-2">
+                    <div class="well well-sm">
+                        <h2>Western Union Deposit Confirmation</h2>
+                        {% if finished == true %}
+                            <p>Please go to your local Western Union location and send ${{ amount }} to the following address:</p>
+                            <p>{{ target.name }}<br/>{{ target.address }}<br/>{{ target.city }}, {{ target.state }}, {{ target.zip }}</p>
+                            <br/>
+                            <p>Once your deposit is sent please return to your profile page to update the transaction with the confirmation details. Your deposit will be posted to your account within 24 hours after receipt.</p>
+                        {% else %}
+                            <p>The amount has been adjusted to include the required fees. The amount you will receive is the original amount you entered.</p>
+                            {{ form(form) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

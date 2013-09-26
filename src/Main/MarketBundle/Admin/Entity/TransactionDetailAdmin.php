@@ -7,6 +7,7 @@
  */
 namespace Main\MarketBundle\Admin\Entity;
 
+use Main\MarketBundle\Entity\BTCTransactionDetail;
 use Main\MarketBundle\Entity\ETFTransactionDetail;
 use Main\MarketBundle\Entity\WUTransactionDetail;
 use Sonata\AdminBundle\Admin\Admin;
@@ -25,18 +26,24 @@ class TransactionDetailAdmin extends Admin
         $transaction = $subject->getTransaction();
 
         $formMapper
-            ->with('General')
                 ->add('amount','text', array('required' => false))
-                ->add('name', 'text',array('required' => false))
 
         ;
 
         if ($subject instanceof WUTransactionDetail) {
-            $formMapper->add('location')
+            $formMapper
+                ->add('name', 'text',array('required' => false))
+                ->add('location')
                 ->add('mtcn')
             ;
+        } elseif ($subject instanceof BTCTransactionDetail) {
+
+            $formMapper->add('btcAddress', 'text', array('label' => 'Receiving Bitcoin Address'));
+
         } elseif ($subject instanceof ETFTransactionDetail) {
-            $formMapper->add('bank')
+            $formMapper
+                ->add('name', 'text',array('required' => false))
+                ->add('bank')
                 ->add('account')
             ;
 
@@ -56,8 +63,7 @@ class TransactionDetailAdmin extends Admin
             }
         }
 
-        $formMapper->add('visible','sonata_type_boolean')
-            ->end();
+        $formMapper->add('visible','sonata_type_boolean',array('transform' => true));
     }
 
 

@@ -46,7 +46,7 @@
 
 <div class="container marketing">
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        <div class="col-md-3 pull-right">
+        <div class="col-md-4 pull-right">
             <p>USD Balance: <a href="{{ path('fos_user_profile_show') }}">${{ app.user.fiatBalance|default(0) }}</a> | BTC Balance: <a href="{{ path('fos_user_profile_show') }}">{{ app.user.btcBalance|default(0) }}</a></p>
         </div>
         <div class="clearfix"></div>
