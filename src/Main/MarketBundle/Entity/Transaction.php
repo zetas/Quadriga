@@ -47,6 +47,11 @@ class Transaction
     private $amount;
 
     /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $preFeeAmount;
+
+    /**
      * @ORM\Column(type="string", length=50)
      */
     private $status;
@@ -294,5 +299,28 @@ class Transaction
     public function removeTransactionDetail(\Main\MarketBundle\Entity\TransactionDetail $transactionDetail)
     {
         $this->transactionDetail->removeElement($transactionDetail);
+    }
+
+    /**
+     * Set preFeeAmount
+     *
+     * @param float $preFeeAmount
+     * @return Transaction
+     */
+    public function setPreFeeAmount($preFeeAmount)
+    {
+        $this->preFeeAmount = $preFeeAmount;
+    
+        return $this;
+    }
+
+    /**
+     * Get preFeeAmount
+     *
+     * @return float 
+     */
+    public function getPreFeeAmount()
+    {
+        return $this->preFeeAmount;
     }
 }

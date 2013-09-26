@@ -50,6 +50,8 @@ class FiatController extends Controller
 
             ($user->getVerified() == false) ? $checkTrans = 'limit' : null;
 
+            $data['preFeeAmount'] = $data['amount'];
+
             $data['amount'] = number_format($cost, 2, '.', ',');
 
             $token = urlencode(base64_encode(serialize($data)));
@@ -74,6 +76,7 @@ class FiatController extends Controller
 
         $form = $this->createFormBuilder(null)
             ->add('amount', 'money', array('currency' => 'USD', 'data' => $data['amount']))
+            ->add('preFeeAmount', 'hidden', array('data' => $data['preFeeAmount']))
             ->add('pin','integer')
             ->add('Complete','submit')
             ->getForm();
@@ -98,6 +101,7 @@ class FiatController extends Controller
                 $transaction = new Transaction();
 
                 $transaction->setAmount($data['amount'])
+                    ->setPreFeeAmount($data['preFeeAmount'])
                     ->setCurrency($currency)
                     ->setStatus('pending')
                     ->setUser($user)
@@ -159,6 +163,7 @@ class FiatController extends Controller
 
             ($user->getVerified() == false) ? $checkTrans = 'limit' : null;
 
+            $data['preFeeAmount'] = $data['amount'];
             $data['amount'] = number_format($cost, 2, '.', ',');
 
             $token = urlencode(base64_encode(serialize($data)));
@@ -183,6 +188,7 @@ class FiatController extends Controller
 
         $form = $this->createFormBuilder(null)
             ->add('amount', 'money', array('currency' => 'USD', 'data' => $data['amount']))
+            ->add('preFeeAmount', 'hidden', array('data' => $data['preFeeAmount']))
             ->add('pin','integer')
             ->add('Complete','submit')
             ->getForm();
@@ -207,6 +213,7 @@ class FiatController extends Controller
                 $transaction = new Transaction();
 
                 $transaction->setAmount($data['amount'])
+                    ->setPreFeeAmount($data['preFeeAmount'])
                     ->setCurrency($currency)
                     ->setStatus('pending')
                     ->setUser($user)

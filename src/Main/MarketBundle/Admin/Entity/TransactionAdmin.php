@@ -100,4 +100,18 @@ class TransactionAdmin extends Admin
             array('MainMarketBundle:Admin:admin.theme.html.twig')
         );
     }
+
+
+    public function getBatchActions()
+    {
+        // retrieve the default batch actions (currently only delete)
+        $actions = parent::getBatchActions();
+
+        $actions['confirm'] = array(
+            'label' => 'Confirm Transactions',
+            'ask_confirmation' => true
+        );
+
+        return $actions;
+    }
 }

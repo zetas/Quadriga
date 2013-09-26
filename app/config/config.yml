@@ -119,6 +119,7 @@ sonata_admin:
                   items:
                       - fos.user.admin.user
                       - sonata.admin.transaction
+                      - sonata.admin.currency
                       - sonata.admin.config
 
 sonata_doctrine_orm_admin:

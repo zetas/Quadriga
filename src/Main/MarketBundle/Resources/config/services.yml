@@ -11,6 +11,17 @@ services:
         arguments:
             - ~
             - Main\MarketBundle\Entity\Transaction
+            - MainMarketBundle:TransactionAdmin
+        calls:
+            - [ setTranslationDomain, [MainMarketBundle]]
+
+    sonata.admin.currency:
+        class: Main\MarketBundle\Admin\Entity\CurrencyAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Market", label: "Currencies" }
+        arguments:
+            - ~
+            - Main\MarketBundle\Entity\Currency
             - ~
         calls:
             - [ setTranslationDomain, [MainMarketBundle]]
