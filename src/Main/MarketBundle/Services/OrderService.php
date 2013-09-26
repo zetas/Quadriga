@@ -123,10 +123,21 @@ class OrderService {
         $this->em->flush($offer);
     }
 
-    public function newTransaction($type, $cost, $amount, User $user, $transactionType = 'market') {
+    public function newTransaction($type, $cost, $amount, User $user, $transactionType = 'market', $method = null, $return = false) {
         $transaction = new Transaction();
         $this->em->refresh($user);
-        ($type == "fiat") ? $cName = 'USD' : $cName = "Bitcoin";
+
+        if ($transactionType == 'market') {
+            ($type == "fiat") ? $cName = 'USD' : $cName = "Bitcoin";
+            $status = 'completed';
+        } else {
+            if ($method != null) {
+                ($method == 'etf') ? $cName = 'ETF' : $cName = 'Western Union';
+            } else {
+                $cName = 'Bitcoin';
+            }
+            $status = 'pending';
+        }
 
         $currency = $this->em->getRepository('MainMarketBundle:Currency')
             ->findOneBy(array('name' => $cName));
@@ -146,12 +157,15 @@ class OrderService {
             ->setUser($user)
             ->setAmount($amt)
             ->setCurrency($currency)
-            ->setStatus('completed')
+            ->setStatus($status)
         ;
 
         $this->em->persist($transaction);
 
         $this->em->flush();
+
+        if ($return)
+            return $transaction;
     }
 
     public function getInstantPrice($amount,$direction, $returnOffers = false) {

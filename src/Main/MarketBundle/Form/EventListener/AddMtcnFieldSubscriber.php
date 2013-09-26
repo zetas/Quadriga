@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class AddPinFieldSubscriber implements EventSubscriberInterface
+class AddMtcnFieldSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
@@ -31,8 +31,8 @@ class AddPinFieldSubscriber implements EventSubscriberInterface
         // check if the product object is "new"
         // If you didn't pass any data to the form, the data is "null".
         // This should be considered a new "Product"
-        if ($transaction->getTransactionType() == "withdrawal") {
-            $form->add('pin', 'text', array('mapped' => false));
+        if ($transaction->getTransactionType() == "deposit") {
+            $form->add('mtcn', 'text', array('label' => MTCN));
         }
     }
 }

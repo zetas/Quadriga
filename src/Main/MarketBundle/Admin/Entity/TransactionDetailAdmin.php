@@ -22,8 +22,13 @@ class TransactionDetailAdmin extends Admin
     {
         $subject = $this->getSubject();
 
-        $formMapper->add('amount','text', array('required' => false))
-            ->add('name', 'text',array('required' => false))
+        $transaction = $subject->getTransaction();
+
+        $formMapper
+            ->with('General')
+                ->add('amount','text', array('required' => false))
+                ->add('name', 'text',array('required' => false))
+
         ;
 
         if ($subject instanceof WUTransactionDetail) {
@@ -34,7 +39,25 @@ class TransactionDetailAdmin extends Admin
             $formMapper->add('bank')
                 ->add('account')
             ;
+
+            if ($transaction->getTransactionType() == 'withdrawal') {
+                $formMapper->add('swift')
+                    ->add('bankAddress')
+                    ->add('bankCity')
+                    ->add('bankState')
+                    ->add('bankCountry')
+                    ->add('bankZip')
+                    ->add('address')
+                    ->add('city')
+                    ->add('state')
+                    ->add('country')
+                    ->add('zip')
+                ;
+            }
         }
+
+        $formMapper->add('visible','sonata_type_boolean')
+            ->end();
     }
 
 

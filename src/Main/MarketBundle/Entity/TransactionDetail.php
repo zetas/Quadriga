@@ -29,7 +29,7 @@ class TransactionDetail
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Transaction", inversedBy="transactionDetail")
+     * @ORM\ManyToOne(targetEntity="Transaction", inversedBy="transactionDetail", cascade="persist")
      */
     protected $transaction;
 
@@ -43,7 +43,21 @@ class TransactionDetail
      */
     protected $amount;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $visible;
 
+
+    public function setVisible($bool) {
+        $this->visible = $bool;
+
+        return $this;
+    }
+
+    public function getVisible() {
+        return $this->visible;
+    }
     /**
      * Set name
      *

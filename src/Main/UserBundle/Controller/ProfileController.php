@@ -23,7 +23,7 @@ class ProfileController extends BaseController {
         $em = $this->container->get('main_user.emservice')->getEm();
 
         $transactions = $em->getRepository('MainMarketBundle:Transaction')
-            ->findBy(array('user' => $user))
+            ->findBy(array('user' => $user),array('created' => 'DESC'))
         ;
 
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Profile:show.html.'.$this->container->getParameter('fos_user.template.engine'), array('user' => $user, 'transactions' => $transactions));

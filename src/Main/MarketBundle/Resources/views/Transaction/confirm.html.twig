@@ -14,7 +14,18 @@
                     {% elseif transaction.currency.name == 'Western Union' %}
                     <p>Please enter the information you received from the Western Union location.</p>
                     {% endif %}
-                    {{ form(form) }}
+                    {{ form_start(form) }}
+                    {{ form_row(form.name) }}
+                    {% if transaction.currency.name == 'ETF' %}
+                        {{ form_row(form.bank) }}
+                        {{ form_row(form.account) }}
+                    {% elseif transaction.currency.name == 'Western Union' %}
+                        {{ form_row(form.location) }}
+                        {{ form_row(form.mtcn) }}
+                    {% endif %}
+                    {{ form_row(form.amount) }}
+                    {{ form_row(form.confirm) }}
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

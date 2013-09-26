@@ -10,6 +10,8 @@ namespace Main\MarketBundle\Form\Type;
 
 use Main\MarketBundle\Form\EventListener\AddLocationFieldSubscriber;
 use Main\MarketBundle\Form\EventListener\AddNameFieldSubscriber;
+use Main\MarketBundle\Form\EventListener\AddPinFieldSubscriber;
+use Main\MarketBundle\Form\EventListener\AddMtcnFieldSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -25,7 +27,8 @@ class WUTransactionDetailFormType extends AbstractType {
 
         $builder
             ->add('amount','money', array('currency' => 'USD'))
-            ->add('mtcn', 'text', array('label' => 'MTCN'))
+            ->addEventSubscriber(new AddMtcnFieldSubscriber())
+            ->addEventSubscriber(new AddPinFieldSubscriber())
             ->add('confirm', 'submit')
         ;
     }

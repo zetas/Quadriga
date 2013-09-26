@@ -12,6 +12,7 @@ use Main\MarketBundle\Form\EventListener\AddAccountFieldSubscriber;
 use Main\MarketBundle\Form\EventListener\AddBankFieldSubscriber;
 use Main\MarketBundle\Form\EventListener\AddNameFieldSubscriber;
 use Main\MarketBundle\Form\EventListener\AddPinFieldSubscriber;
+use Main\MarketBundle\Form\EventListener\AddWithdrawFieldSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -26,6 +27,7 @@ class ETFTransactionDetailFormType extends AbstractType {
             ->addEventSubscriber(new AddAccountFieldSubscriber())
             ->add('amount','money', array('currency' => 'USD'))
             ->addEventSubscriber(new AddPinFieldSubscriber())
+            ->addEventSubscriber(new AddWithdrawFieldSubscriber())
             ->add('confirm', 'submit')
         ;
     }

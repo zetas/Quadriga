@@ -3,6 +3,7 @@
 namespace Main\UserBundle\Controller;
 
 use Main\MarketBundle\Entity\ETFTransactionDetail;
+use Main\MarketBundle\Entity\Transaction;
 use Main\MarketBundle\Entity\WUTransactionDetail;
 use Main\MarketBundle\Form\Type\ETFTransactionDetailFormType;
 use Main\MarketBundle\Form\Type\WUTransactionDetailFormType;
@@ -56,7 +57,9 @@ class DefaultController extends Controller
                 return $this->redirect($this->generateUrl('user_withdraw_fiat_confirm',array('method' => $method, 'token' => $token)));
         }
 
-        return array('form' => $form->createView());
+        ($method == 'etf') ? $methodStr = 'ETF/Wire Transfer' : $methodStr = "Western Union";
+
+        return array('form' => $form->createView(), 'method' => $methodStr);
     }
 
     /**
@@ -64,7 +67,73 @@ class DefaultController extends Controller
      * @Template
      */
     public function fiatWithdrawConfirmAction(Request $request, $method,$token) {
+        if ($method != 'etf' && $method != 'wu')
+            return $this->redirect($this->generateUrl('fos_user_profile_show'));
 
+        $data = unserialize(base64_decode(urldecode($token)));
+        $delta = (time()-300);
+
+        if (!array_key_exists('ts', $data) || $data['ts'] < $delta)
+            return $this->redirect($this->generateUrl('user_withdraw_fiat', array('method' => $method)));
+
+        $svc = $this->get('main_market.orderFulfill');
+
+        $tmpTransaction = new Transaction();
+        $tmpTransaction->setTransactionType('withdrawal');
+
+
+        if ($method == "wu") {
+            $wutd = new WUTransactionDetail();
+            $wutd->setTransaction($tmpTransaction)
+                ->setAmount($data['amount'])
+            ;
+            $form = $this->createForm(new WUTransactionDetailFormType(), $wutd);
+        } else {
+            $etftd = new ETFTransactionDetail();
+            $etftd->setTransaction($tmpTransaction)
+                ->setAmount($data['amount'])
+            ;
+            $form = $this->createForm(new ETFTransactionDetailFormType(), $etftd);
+        }
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $td = $form->getData();
+            $pin = $form->get('pin')->getData();
+            $user = $this->getUser();
+
+            $em = $this->getDoctrine()->getManager();
+
+            if ($user->getPin() == $pin) {
+
+                $transaction = $svc->newTransaction(
+                    'fiat',
+                    -$td->getAmount(),
+                    0,
+                    $user,
+                    'withdrawal',
+                    $method,
+                    true
+                );
+
+                $td->setTransaction($transaction);
+
+                $em->persist($td);
+
+                $em->flush();
+
+                $transaction->addTransactionDetail($td);
+
+
+
+                return $this->redirect($this->generateUrl('fos_user_profile_show'));
+            }
+        }
+
+        ($method == 'etf') ? $methodStr = 'ETF/Wire Transfer' : $methodStr = "Western Union";
+
+        return array('form' => $form->createView(), 'method' => $methodStr);
     }
 
     /**

@@ -24,29 +24,33 @@ class TransactionAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('user', 'sonata_type_model_list')
-            ->add('transactionType', 'choice', array(
-                'choices' => array(
-                    'market' => 'Market',
-                    'deposit' => 'Deposit',
-                    'withdrawal' => 'Withdrawal',
-                    'transfer' => 'Transfer'
-                )
-            ))
-            ->add('currency', 'entity', array('class' => 'Main\MarketBundle\Entity\Currency')) //if no type is specified, SonataAdminBundle tries to guess it
-            ->add('amount', 'money', array('currency' => null))
-            ->add('status', 'choice', array(
-                'choices' => array(
-                    'pending' => 'Pending User Confirmation',
-                    'confirmed' => 'User Confirmation Complete',
-                    'completed' => 'Completed'
-                )
-            ))
-            ->add('transactionDetail', 'sonata_type_collection', array(), array(
-                'edit' => 'inline',
-                'inline' => 'table',
-                'sortable'  => 'position',
-            ))
+            ->with('General')
+                ->add('user', 'sonata_type_model_list')
+                ->add('transactionType', 'choice', array(
+                    'choices' => array(
+                        'market' => 'Market',
+                        'deposit' => 'Deposit',
+                        'withdrawal' => 'Withdrawal',
+                        'transfer' => 'Transfer'
+                    )
+                ))
+                ->add('currency', 'entity', array('class' => 'Main\MarketBundle\Entity\Currency')) //if no type is specified, SonataAdminBundle tries to guess it
+                ->add('amount', 'money', array('currency' => null))
+                ->add('status', 'choice', array(
+                    'choices' => array(
+                        'pending' => 'Pending User Confirmation',
+                        'confirmed' => 'User Confirmation Complete',
+                        'completed' => 'Completed'
+                    )
+                ))
+            ->end()
+            ->with('Details')
+                ->add('transactionDetail', 'sonata_type_collection', array(), array(
+                    'template' => 'template.html.twig',
+                    'edit' => 'inline',
+                    'inline' => 'table'
+                ))
+            ->end()
         ;
     }
 
@@ -87,5 +91,13 @@ class TransactionAdmin extends Admin
             ))
             ->add('created')
         ;
+    }
+
+    public function getFormTheme()
+    {
+        return array_merge(
+            parent::getFormTheme(),
+            array('MainMarketBundle:Admin:admin.theme.html.twig')
+        );
     }
 }

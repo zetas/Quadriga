@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class AddPinFieldSubscriber implements EventSubscriberInterface
+class AddWithdrawFieldSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
@@ -32,7 +32,19 @@ class AddPinFieldSubscriber implements EventSubscriberInterface
         // If you didn't pass any data to the form, the data is "null".
         // This should be considered a new "Product"
         if ($transaction->getTransactionType() == "withdrawal") {
-            $form->add('pin', 'text', array('mapped' => false));
+            $form->add('address', 'text', array('label' => 'Receiver Address'))
+                ->add('city', 'text', array('label' => 'Receiver City'))
+                ->add('state', 'text', array('label' => 'Receiver State/Province'))
+                ->add('country', 'country', array('label' => 'Receiver Country', 'preferred_choices' => array('US','CA')))
+                ->add('zip', 'integer', array('label' => 'Receiver Zipcode'))
+                ->add('swift', 'text', array('label' => 'Bank SWIFT'))
+                ->add('bankAddress', 'text', array('label' => 'Bank Address'))
+                ->add('bankCity', 'text', array('label' => 'Bank City'))
+                ->add('bankState', 'text', array('label' => 'Bank State'))
+                ->add('bankCountry', 'country', array('label' => 'Bank Country', 'preferred_choices' => array('US', 'CA')))
+                ->add('bankZip', 'integer', array('label' => 'Bank Zipcode'))
+            ;
+
         }
     }
 }
