@@ -106,7 +106,24 @@ sonata_admin:
                 settings:
                     content: >
                         <h2>Welcome to your Admin Panel</h2>
-                        <p>Here you can manage the various features of your site.</p>
+                        <p>Here are some tips to get you started:</p>
+                        <h3>Fee Management</h3>
+                        <p>To manage site-wide fee's and deposit target information go to the 'Site Config' list.<br/>
+                          For specific deposit/withdraw fees, use the 'Currencies' list.</p>
+
+                        <p>Flat fees are in dollars, percentage fees are in decimal notation. (0.5% = 0.005)</p>
+
+                        <h3>Transaction Management</h3>
+                        <p><strong>Deposits</strong></p>
+                        <p>To see the sender details for a deposit, use the 'Transactions' list and find the deposit for the user. You can filter to show only deposit transactions and only 'confirmed' transactions or only transactions for a specific user to make it easier. Once you've found the transaction, edit it. Go to the 'Details' tab at the top of the edit screen. Here you will see the users sender details.</p>
+                        <p>To complete a confirmed transaction, use the 'Transactions' list, check the box next to the specific transaction or transactions for the user and use the 'Confirm Transactions' option in the dropdown at the bottom of the list. The transaction will be confirmed and the pre-fee amount added to their balance.</p>
+                        <p>Note: If you confirm a withdraw transaction like this it will only mark the transaction as complete, the users balance was already debited when they initialized the withdraw request.</p>
+                        <p><strong>Withdrawals</strong></p>
+                        <p>For Western Union withdrawals, feedback to the user is required in the form of sender information and mtcn. You set this information by editing the users withdraw transaction. Find the transaction using the 'Transactions' list, you can filter to show only the withdraw transactions to make it easier.</p>
+                        <p>Once you've found the transaction, edit it. Go to the 'Details' tab at the top of the edit screen. Here you will see the users reciever details. Once you've sent the payment using these details replace them with the information the user needs to pickup his payment. Be sure to change the 'visible' field to 'yes' so the user can see it. Then hit 'Update'.</p>
+                        <h3>User Verifications</h3>
+                          <p>When a user sends in verification information, edit their user account from the 'Users' list, you may search for their username in the box to the right. Once you find them, click their username, go to the 'QCX Specific' heading and change the 'verified' dropdown to 'yes'.</p>
+                        <hr/>
             -
                 position: right
                 type: sonata.block.service.rss

@@ -33,8 +33,8 @@ class TransactionDetailAdmin extends Admin
         if ($subject instanceof WUTransactionDetail) {
             $formMapper
                 ->add('name', 'text',array('required' => false))
-                ->add('location')
-                ->add('mtcn')
+                ->add('location',null, array('required' => false))
+                ->add('mtcn', null, array('required' => false))
             ;
         } elseif ($subject instanceof BTCTransactionDetail) {
 

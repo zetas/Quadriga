@@ -141,7 +141,13 @@ class OrderService {
             } else {
                 $cName = 'Bitcoin';
             }
-            $status = 'pending';
+            if ($transactionType == 'withdrawal')
+                $status = 'confirmed';
+            else
+                $status = 'pending';
+
+            if ($transactionType == 'deposit' && $type == 'digital')
+                $status = 'completed';
         }
 
         $currency = $this->em->getRepository('MainMarketBundle:Currency')

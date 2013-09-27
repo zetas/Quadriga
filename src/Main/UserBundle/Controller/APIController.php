@@ -28,6 +28,7 @@ class APIController extends Controller
 
         $value = $request->get('value') / 100000000;
         $confirmations = $request->get('confirmations');
+        $done = false;
         if ($confirmations >= 3) {
             if (is_array($userData)) {
                 $uid = $userData[0];
@@ -38,12 +39,19 @@ class APIController extends Controller
             $user = $em->getRepository("MainUserBundle:User")
                 ->find($uid)
             ;
-            $user->incrementDigitalBalance($value);
 
+            $orderSvc = $this->get('main_market.orderFulfill');
 
-            $em->flush($user);
+            $orderSvc->newTransaction(
+                'digital',
+                0,
+                $value,
+                $user,
+                'deposit'
+            );
+            $done = true;
         }
 
-        return array('confirmations' => $confirmations);
+        return array('done' => $done);
     }
 }

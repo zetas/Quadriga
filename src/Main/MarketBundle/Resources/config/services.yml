@@ -33,7 +33,7 @@ services:
         arguments:
             - ~
             - Main\MarketBundle\Entity\TransactionDetail
-            - ~
+            - MainMarketBundle:TransactionDetailAdmin
         calls:
             - [ setTranslationDomain, [MainMarketBundle]]
             - [ setSubClasses, [ [ ETF: "Main\MarketBundle\Entity\ETFTransactionDetail" ], [ WU: "Main\MarketBundle\Entity\WUTransactionDetail" ] ] ]

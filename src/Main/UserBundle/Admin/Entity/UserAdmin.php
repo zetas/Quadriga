@@ -48,6 +48,7 @@ class UserAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('username')
             ->add('verified')
             ->add('lastLogin')
         ;
