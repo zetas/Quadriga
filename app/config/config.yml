@@ -73,7 +73,7 @@ fos_user:
     user_class: Main\UserBundle\Entity\User
     registration:
         confirmation:
-            enabled:    true
+            enabled:    false
         form:
             type: main_user_registration
     from_email:

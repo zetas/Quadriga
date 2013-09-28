@@ -19,12 +19,22 @@ class BitcoinService {
     private $callback;
 
 
-    public function __construct(EntityManager $entityManager, $secret, $apiRoot, $address, $callback ) {
+    public function __construct(EntityManager $entityManager, $secret, $apiRoot, $callback ) {
         $this->em = $entityManager;
         $this->secret = $secret;
         $this->apiRoot = $apiRoot;
-        $this->address = $address;
         $this->callback = $callback;
+        $this->address = $this->getDestinationAddress();
+    }
+
+    public function getDestinationAddress() {
+        $data = $this->em->getRepository('MainSiteBundle:Config')
+            ->findOneBy(array('name' => 'Bitcoin Address'))
+        ;
+
+        $address = $data->getValue();
+
+        return $address;
     }
 
     public function getEm() {

@@ -38,7 +38,8 @@ class LoadConfig extends AbstractFixture implements OrderedFixtureInterface, Con
                 'WU Target Zip' => 'ZIP',
                 'ETF Target Bank' => 'BANK NAME',
                 'ETF Target Routing' => 'BANK ROUTING #',
-                'ETF Target Account' => 'BANK ACCT #'
+                'ETF Target Account' => 'BANK ACCT #',
+                'Bitcoin Address' => '1BBTRdQFt14iR4VPNntVGD6nn5oJ8tzbtt'
             )
         );
 

@@ -10,7 +10,6 @@ services:
             entityManager: "@doctrine.orm.entity_manager"
             secret: "%bitcoin_service.secret%"
             apiRoot: "%bitcoin_service.api_root%"
-            address: "%bitcoin_service.deposit_address%"
             callback: "%bitcoin_service.callback_url%"
 
     main_user.registration.form.type:
