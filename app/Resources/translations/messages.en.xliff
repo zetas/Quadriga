@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="" >
+        <body>
+            <trans-unit id="error_invalid_pin">
+                <source>error_invalid_pin</source>
+                <target>Invalid Pin Number.</target>
+            </trans-unit>
+            <trans-unit id="transaction_expired">
+                <source>transaction_expired</source>
+                <target>Transaction Expired. Please start again.</target>
+            </trans-unit>
+            <trans-unit id="error_limit">
+                <source>error_limit</source>
+                <target>Your account is not verified. This transaction exceeds the maximum transaction limit for unverified accounts. ($1,000 USD)</target>
+            </trans-unit>
+            <trans-unit id="error_balance">
+                <source>error_balance</source>
+                <target>Insufficient funds to complete this transaction. Please make a deposit and try again.</target>
+            </trans-unit>
+            <trans-unit id="error_balance_btc">
+                <source>error_balance_btc</source>
+                <target>Insufficient Funds in BTC Balance.</target>
+            </trans-unit>
+            <trans-unit id="error_balance_fiat">
+                <source>error_balance_fiat</source>
+                <target>Insufficient Funds in USD Balance.</target>
+            </trans-unit>
+            <trans-unit id="error_unknown">
+                <source>error_unknown</source>
+                <target>Transaction not allowed. Please contact customer support.</target>
+            </trans-unit>
+            <trans-unit id="error_order_unknown">
+                <source>error_order_unknown</source>
+                <target>Unable to fulfill order. Please try again or contact customer support.</target>
+            </trans-unit>
+            <trans-unit id="error_self_transfer">
+                <source>error_self_transfer</source>
+                <target>You cannot transfer to yourself.</target>
+            </trans-unit>
+            <trans-unit id="error_invalid_username">
+                <source>error_invalid_username</source>
+                <target>Invalid Username.</target>
+            </trans-unit>
+            <trans-unit id="error_etf_deposit_unverified">
+                <source>error_etf_deposit_unverified</source>
+                <target>ETF Deposits are not permitted for unverified members. Please verify your account and try again.</target>
+            </trans-unit>
+            <trans-unit id="error_wu_deposit_unverified">
+                <source>error_wu_deposit_unverified</source>
+                <target>Western Union Deposits are not permitted for unverified members. Please verify your account and try again.</target>
+            </trans-unit>
+            <trans-unit id="info_limit">
+                <source>info_limit</source>
+                <target>Your order was unable to be automatically fulfilled at your chosen price.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

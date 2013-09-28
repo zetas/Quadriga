@@ -1,0 +1,70 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+{# default Sliding pagination control implementation #}
+
+{% if pageCount > 1 %}
+    <ul class="pagination">
+        {% if first is defined %}
+            {% if current != first %}
+                <li>
+                    <a href="{{ path(route, query|merge({(pageParameterName): first})) }}">&laquo;</a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span>&laquo;</span>
+                </li>
+            {% endif %}
+        {% else %}
+            <li class="disabled">
+                <span>&laquo;</span>
+            </li>
+        {% endif %}
+
+        {% if previous is defined %}
+        <li>
+            <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}">&larr;</a>
+        </li>
+        {% else %}
+            <li class="disabled">
+                <span>&larr;</span>
+            </li>
+        {% endif %}
+
+        {% for page in pagesInRange %}
+            {% if page != current %}
+            <li>
+                <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+            </li>
+            {% else %}
+            <li class="active"><span>{{ page }}</span></li>
+            {% endif %}
+
+        {% endfor %}
+
+        {% if next is defined %}
+        <li>
+            <a href="{{ path(route, query|merge({(pageParameterName): next})) }}">&rarr;</a>
+        </li>
+        {% else %}
+            <li class="disabled">
+                <span>&rarr;</span>
+            </li>
+        {% endif %}
+
+        {% if last is defined %}
+            {% if current != last %}
+                <li>
+                    <a href="{{ path(route, query|merge({(pageParameterName): last})) }}">&raquo;</a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span>&raquo;</span>
+                </li>
+            {% endif %}
+        {% else %}
+            <li class="disabled">
+                <span>&raquo;</span>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}

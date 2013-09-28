@@ -28,7 +28,7 @@ class FiatController extends Controller
             ->getForm();
 
         $form->handleRequest($request);
-        $checkTrans = null;
+        $checkTrans = false;
         if ($form->isValid()) {
             $currency = $this->getDoctrine()
                 ->getRepository('MainMarketBundle:Currency')
@@ -41,12 +41,7 @@ class FiatController extends Controller
 
             $cost = (($data['amount'] * $percentFee) + $data['amount']) + $flatFee;
 
-            $svc = $this->get('main_market.orderFulfill');
-
             $user = $this->getUser();
-
-            $checkTrans = $svc->checkTransaction('buy',$cost,0,$user);
-            ($checkTrans == "limit") ? null : $checkTrans = null;
 
             ($user->getVerified() == false) ? $checkTrans = 'limit' : null;
 
@@ -56,11 +51,17 @@ class FiatController extends Controller
 
             $token = urlencode(base64_encode(serialize($data)));
 
-            if (!$checkTrans)
-                return $this->redirect($this->generateUrl('fiat_etf_deposit_confirm',array('token' => $token)));;
+            if (!$checkTrans) {
+                return $this->redirect($this->generateUrl('fiat_etf_deposit_confirm',array('token' => $token)));
+            } else {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_etf_deposit_unverified'
+                );
+            }
         }
 
-        return array('form' => $form->createView(), 'allowed' => $checkTrans);
+        return array('form' => $form->createView());
     }
 
     /**
@@ -124,6 +125,11 @@ class FiatController extends Controller
                     'routing' => $configData['etf_routing']->getValue(),
                     'account' => $configData['etf_account']->getValue(),
                 );
+            } else {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_invalid_pin'
+                );
             }
         }
 
@@ -142,7 +148,7 @@ class FiatController extends Controller
             ->getForm();
 
         $form->handleRequest($request);
-        $checkTrans = null;
+        $checkTrans = false;
         if ($form->isValid()) {
             $currency = $this->getDoctrine()
                 ->getRepository('MainMarketBundle:Currency')
@@ -155,11 +161,7 @@ class FiatController extends Controller
 
             $cost = (($data['amount'] * $percentFee) + $data['amount']) + $flatFee;
 
-            $svc = $this->get('main_market.orderFulfill');
             $user = $this->getUser();
-
-            $checkTrans = $svc->checkTransaction('buy',$cost,0,$user);
-            ($checkTrans == "limit") ? null : $checkTrans = null;
 
             ($user->getVerified() == false) ? $checkTrans = 'limit' : null;
 
@@ -168,8 +170,14 @@ class FiatController extends Controller
 
             $token = urlencode(base64_encode(serialize($data)));
 
-            if (!$checkTrans)
-                return $this->redirect($this->generateUrl('fiat_wu_deposit_confirm',array('token' => $token)));;
+            if (!$checkTrans) {
+                return $this->redirect($this->generateUrl('fiat_wu_deposit_confirm',array('token' => $token)));
+            } else {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_wu_deposit_unverified'
+                );
+            }
         }
 
         return array('form' => $form->createView(), 'allowed' => $checkTrans);
@@ -237,6 +245,11 @@ class FiatController extends Controller
                     'city' => $configData['wu_city']->getValue(),
                     'state' => $configData['wu_state']->getValue(),
                     'zip' => $configData['wu_zip']->getValue(),
+                );
+            } else {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_invalid_pin'
                 );
             }
         }

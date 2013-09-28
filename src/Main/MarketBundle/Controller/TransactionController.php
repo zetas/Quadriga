@@ -64,6 +64,11 @@ class TransactionController extends Controller
             $em->persist($td);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Transaction ID <strong>#'.$transaction->getId().'</strong> Confirmed Successfully.'
+            );
+
             return $this->redirect($this->generateUrl('fos_user_profile_show'));
         }
 

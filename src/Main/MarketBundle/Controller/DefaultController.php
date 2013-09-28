@@ -56,8 +56,13 @@ class DefaultController extends Controller
         $data = unserialize(base64_decode(urldecode($token)));
         $delta = (time()-300);
 
-        if (!array_key_exists('ts', $data) || $data['ts'] < $delta)
+        if (!array_key_exists('ts', $data) || $data['ts'] < $delta) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'transaction_expired'
+            );
             return $this->redirect($this->generateUrl('offer', array('type' => $type, 'direction' => $direction)));
+        }
 
         $orderSvc = $this->get('main_market.orderFulfill');
         $configSvc = $this->get('main_site.configSvc');
@@ -94,6 +99,20 @@ class DefaultController extends Controller
             ->add('pin','text')
             ->getForm();
 
+        if ($checkResult != false) {
+            if ($checkResult == 'limit')
+                $failString = 'error_limit';
+            elseif ($checkResult == 'balance')
+                $failString = 'error_balance';
+            else
+                $failString = 'error_unknown';
+
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                $failString
+            );
+        }
+
         return array('type' => $type,
                      'direction' => $direction,
                      'amount' => $data['amount'],
@@ -104,7 +123,6 @@ class DefaultController extends Controller
                      'feePercent' => ($feePercent * 100),
                      'form' => $form->createView(),
                      'confirmAllowed' => $confirmAllowed,
-                     'failReason' => $checkResult
         );
     }
 
@@ -131,8 +149,13 @@ class DefaultController extends Controller
             $formData = $form->getData();
             $user = $this->getUser();
 
-            if ($formData['pin'] != $user->getPin())
+            if ($formData['pin'] != $user->getPin()) {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_invalid_pin'
+                );
                 return $this->redirect($this->generateUrl('offer', array('type' => $type, 'direction' => $direction)));
+            }
 
         } else {
             return $this->redirect($this->generateUrl('offer', array('type' => $type, 'direction' => $direction)));
@@ -142,8 +165,39 @@ class DefaultController extends Controller
 
         $fulfillResult = $orderSvc->fulfillOrder($type,$direction,$data, $this->getUser());
 
-        if (!$fulfillResult)
+        if (!$fulfillResult) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'error_order_unknown'
+            );
             return $this->redirect($this->generateUrl('offer', array('type' => $type, 'direction' => $direction)));
+        }
+
+
+        $successStr = "Order for <strong>$data[amount] BTC</strong>";
+        if (is_array($fulfillResult)) {
+            $fulfillLimitAmt = $fulfillResult['amt'];
+            $fulfillLimitPrice = number_format($fulfillResult['price'],2, '.', ',');
+            $fulfillAmt = $data['amount'] - $fulfillLimitAmt;
+            $successStr .= " was Partially Fulfilled for <strong>$fulfillAmt BTC</strong> and a Limit Order for the remainder of <strong>$fulfillLimitAmt BTC</strong> was created at price <strong>".'$'.$fulfillLimitPrice."</strong>.";
+        } elseif ($fulfillResult === 'limit') {
+            $successStr = "Limit Order for <strong>$data[amount] BTC</strong> Created.";
+        } else {
+            $successStr .= " Fulfilled Successfully.";
+        }
+
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            $successStr
+        );
+
+        if ($fulfillResult === "limit") {
+            $this->get('session')->getFlashBag()->add(
+                'info',
+                'info_limit'
+            );
+        }
+
 
         return $this->redirect($this->generateUrl('fos_user_profile_show'));
     }

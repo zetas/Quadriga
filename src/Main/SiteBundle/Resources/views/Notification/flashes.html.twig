@@ -1,0 +1,18 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+{% for label, flashes in app.session.flashbag.all %}
+    {% for flash in flashes %}
+        <div class="col-md-10">
+            {% if label == 'error' %}
+                {% set class = 'danger' %}
+            {% else %}
+                {% set class = label %}
+            {% endif %}
+            <div class="alert alert-dismissable alert-{{ class }}">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {% set labelStr = label|capitalize %}
+                <strong>{{ labelStr }}!</strong> {{ flash|trans|raw }}
+            </div>
+        </div>
+    {% endfor %}
+{% endfor %}

@@ -71,13 +71,26 @@ class DefaultController extends Controller
 
             $token = urlencode(base64_encode(serialize($data)));
 
-            if (!$checkTrans)
+            if (!$checkTrans) {
                 return $this->redirect($this->generateUrl('user_withdraw_fiat_confirm',array('method' => $method, 'token' => $token)));
+            } else {
+            if ($checkTrans == 'limit') {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_limit'
+                );
+            } elseif ($checkTrans == 'balance') {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_balance_fiat'
+                );
+            }
+        }
         }
 
         ($method == 'etf') ? $methodStr = 'ETF/Wire Transfer' : $methodStr = "Western Union";
 
-        return array('form' => $form->createView(), 'method' => $methodStr, 'allowed' => $checkTrans);
+        return array('form' => $form->createView(), 'method' => $methodStr);
     }
 
     /**
@@ -115,7 +128,7 @@ class DefaultController extends Controller
         }
 
         $form->handleRequest($request);
-
+        ($method == 'etf') ? $methodStr = 'ETF/Wire Transfer' : $methodStr = "Western Union";
         if ($form->isValid()) {
             $td = $form->getData();
             $pin = $form->get('pin')->getData();
@@ -138,18 +151,23 @@ class DefaultController extends Controller
                 $td->setTransaction($transaction);
 
                 $em->persist($td);
-
                 $em->flush();
 
                 $transaction->addTransactionDetail($td);
 
-
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'Withdrawal Request for <strong>$'.number_format($td->getAmount(),2,'.',',').'</strong> via <strong>'.$methodStr.'</strong> sent.'
+                );
 
                 return $this->redirect($this->generateUrl('fos_user_profile_show'));
+            } else {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_invalid_pin'
+                );
             }
         }
-
-        ($method == 'etf') ? $methodStr = 'ETF/Wire Transfer' : $methodStr = "Western Union";
 
         return array('form' => $form->createView(), 'method' => $methodStr);
     }
@@ -186,11 +204,24 @@ class DefaultController extends Controller
 
             $token = urlencode(base64_encode(serialize($data)));
 
-            if (!$checkTrans)
+            if (!$checkTrans) {
                 return $this->redirect($this->generateUrl('user_withdraw_digital_confirm',array('token' => $token)));
+            } else {
+                if ($checkTrans == 'limit') {
+                    $this->get('session')->getFlashBag()->add(
+                        'error',
+                        'error_limit'
+                    );
+                } elseif ($checkTrans == 'balance') {
+                    $this->get('session')->getFlashBag()->add(
+                        'error',
+                        'error_balance_btc'
+                    );
+                }
+            }
         }
 
-        return array('form' => $form->createView(), 'allowed' => $checkTrans);
+        return array('form' => $form->createView());
     }
 
     /**
@@ -241,12 +272,21 @@ class DefaultController extends Controller
                 $td->setTransaction($transaction);
 
                 $em->persist($td);
-
                 $em->flush();
 
                 $transaction->addTransactionDetail($td);
 
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'Withdrawal Request for <strong>'.$td->getAmount().' BTC</strong> sent.'
+                );
+
                 return $this->redirect($this->generateUrl('fos_user_profile_show'));
+            } else {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_invalid_pin'
+                );
             }
         }
 
@@ -285,33 +325,69 @@ class DefaultController extends Controller
 
             $user = $this->getUser();
 
-            if ($user->getPin() != $data['pin'])
+            if ($user->getPin() != $data['pin']) {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_invalid_pin'
+                );
                 return $this->redirect($this->generateUrl('user_transfer'));
+            }
 
-            if ($targetUser == $user)
+            if ($targetUser == $user) {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_self_transfer'
+                );
                 return $this->redirect($this->generateUrl('user_transfer'));
+            }
 
             $svc = $this->get('main_market.orderFulfill');
 
-            if ($targetUser == null)
+            if ($targetUser == null) {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'error_invalid_username'
+                );
                 return $this->redirect($this->generateUrl('user_transfer'));
+            }
 
             if ($data['balance'] == "digital") {
-                if ($user->getBtcBalance() < $data['amount'])
+                if ($user->getBtcBalance() < $data['amount']) {
+                    $this->get('session')->getFlashBag()->add(
+                        'error',
+                        'error_balance_btc'
+                    );
                     return $this->redirect($this->generateUrl('user_transfer'));
+                }
 
                 $svc->newTransaction('digital',0,-$data['amount'], $user, 'transfer');
                 $svc->newTransaction('digital',0,$data['amount'], $targetUser, 'transfer');
+                $sym = '';
+                $totalFeeCost = $data['amount'];
+                $postSym = ' BTC';
             } else {
                 $feeAmt = $data['amount'] * $feePercent;
                 $totalFeeCost = $data['amount'] - $feeAmt;
 
-                if ($user->getFiatBalance() < $data['amount'])
+                if ($user->getFiatBalance() < $data['amount']) {
+                    $this->get('session')->getFlashBag()->add(
+                        'error',
+                        'error_balance_fiat'
+                    );
                     return $this->redirect($this->generateUrl('user_transfer'));
+                }
 
                 $svc->newTransaction('fiat',-$data['amount'],0, $user, 'transfer');
                 $svc->newTransaction('fiat',$totalFeeCost,0, $targetUser, 'transfer');
+                $sym = '$';
+                $postSym = '';
             }
+
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Fund transfer to user <strong>'.$targetUser->getUsername().'</strong> completed for <strong>'.$sym.$totalFeeCost.$postSym.'</strong>'
+            );
+
             return $this->redirect($this->generateUrl('fos_user_profile_show'));
         }
 

@@ -56,6 +56,8 @@ class OrderService {
         if ($direction == "sell" && ($user->getBtcBalance() < $data['amount']))
             return false;
 
+        $return = false;
+
         if (count($offers) > 0 && $offers != null) {
             $total_amt = 0;
             foreach ($offers as $o) {
@@ -89,10 +91,20 @@ class OrderService {
                 $total_amt += $amount;
 
             }
-            if ($total_amt < $data['amount']) {
+            $disparity = $data['amount'] - $total_amt;
+            if ($disparity > 0.01) {
                 $partialAmount = ($data['amount'] - $total_amt);
                 $this->newLimitOffer($direction,$partialAmount,$price,$user);
-                $total_amt += $partialAmount;
+                $return = array('amt' => $partialAmount, 'price' => $price);
+                $partialRawCost = ($partialAmount * $price);
+                $partialFee = $partialRawCost * $feePercent;
+
+                if ($direction == "sell") {
+                    $partialCost = $partialRawCost - $partialFee;
+                    $cost -= $partialCost;
+                    $total_amt += $partialAmount;
+                }
+
             }
             if ($direction == "buy") {
                 $this->newTransaction('fiat',-$cost,0,$user);
@@ -107,9 +119,12 @@ class OrderService {
             $this->newLimitOffer($direction,$data['amount'],$price, $user);
             ($direction == "buy") ? $type = "fiat" : $type = "digital";
             $this->newTransaction($type,-$cost,-$data['amount'],$user);
+            $return = 'limit';
         }
+        if (!$return)
+            return true;
 
-        return true;
+        return $return;
     }
 
     public function newLimitOffer($direction, $amount, $price, User $user) {
@@ -129,26 +144,33 @@ class OrderService {
     }
 
     public function newTransaction($type, $cost, $amount, User $user, $transactionType = 'market', $method = null, $return = false) {
+        if ($cost == 0 && $amount == 0)
+            return true;
+
         $transaction = new Transaction();
         $this->em->refresh($user);
 
-        if ($transactionType == 'market') {
-            ($type == "fiat") ? $cName = 'USD' : $cName = "Bitcoin";
-            $status = 'completed';
-        } else {
-            if ($method != null) {
-                ($method == 'etf') ? $cName = 'ETF' : $cName = 'Western Union';
-            } else {
-                $cName = 'Bitcoin';
-            }
-            if ($transactionType == 'withdrawal')
-                $status = 'confirmed';
-            else
-                $status = 'pending';
-
-            if ($transactionType == 'deposit' && $type == 'digital')
+        switch ($transactionType) {
+            case "market":
+                ($type == "fiat") ? $cName = 'USD' : $cName = 'Bitcoin';
                 $status = 'completed';
+                break;
+            case "deposit":
+                ($type == 'digital') ? $status = 'completed' : $status = 'pending';
+                ($method == 'etf') ? $cName = 'ETF' : $cName = 'Western Union';
+                ($method == null) ? $cName = 'Bitcoin' : null;
+                break;
+            case "withdrawal":
+                $status = 'confirmed';
+                ($method == 'etf') ? $cName = 'ETF' : $cName = 'Western Union';
+                ($method == null) ? $cName = 'Bitcoin' : null;
+                break;
+            case "transfer":
+                ($type == 'fiat') ? $cName = 'USD' : $cName = 'Bitcoin';
+                $status = 'completed';
+                break;
         }
+
 
         $currency = $this->em->getRepository('MainMarketBundle:Currency')
             ->findOneBy(array('name' => $cName));
@@ -163,6 +185,9 @@ class OrderService {
             $user->incrementDigitalBalance($amount);
             $amt = $amount;
         }
+
+        if ($amt == 0)
+            return true;
 
         $transaction->setTransactionType($transactionType)
             ->setUser($user)

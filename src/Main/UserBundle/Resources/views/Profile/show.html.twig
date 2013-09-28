@@ -5,11 +5,12 @@
 {% block title 'Profile' %}
 
 {% block fos_user_content %}
+    {% include 'MainSiteBundle:Notification:flashes.html.twig' %}
     <div class="col-md-4 well well-lg">
         <p>Username: {{ user.username }}</p>
         <p>Email: {{ user.email }}</p>
         <p>Last Login: {{ user.lastLogin|date('Y-m-d H:i:s T') }}</p>
-        <p>USD Balance: ${{ user.fiatBalance|default(0) }}</p>
+        <p>USD Balance: ${{ user.fiatBalance|default(0)|number_format(2, '.', ',') }}</p>
         <p>Bitcoin Balance: {{ user.btcBalance|default(0) }} BTC</p>
         <p>Verified:
         {% if user.verified == 0 %}
@@ -26,53 +27,70 @@
         <p><a href="{{ path('user_transfer') }}" class="btn btn-warning">Transfer to User</a></p>
     </div>
     <div class="clearfix"></div>
-        <div class="col-md-12">
-            <table class="table table-hover">
-                <legend>Transaction History</legend>
-                <tr>
-                    <th>Transaction ID</th>
-                    <th>Transaction Type</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                {% for tr in transactions if transactions[0] is defined %}
-                    {% if tr.transactionType == 'deposit' %}
-                        {% set row_class = 'success' %}
-                        {% set transaction_type = 'Deposit' %}
-                    {% elseif tr.transactionType == 'withdrawal' %}
-                        {% set row_class = 'danger' %}
-                        {% set transaction_type = "Withdrawal" %}
-                    {% elseif tr.transactionType == 'market' %}
-                        {% set row_class = '' %}
-                        {% set transaction_type = "Market Payment" %}
-                    {% elseif tr.transactionType == 'transfer' %}
-                        {% set row_class = 'warning' %}
-                        {% set transaction_type = "Transfer" %}
+    <div class="col-md-12">
+        <table class="table table-hover">
+            <legend>Transaction History</legend>
+            <tr>
+                {# sorting of properties based on query components #}
+                <th>{{ knp_pagination_sortable(pagination, 'Transaction ID', 't.id') }}</th>
+                <th{% if pagination.isSorted('t.transactionType') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Transaction Type', 't.transactionType') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Amount', 't.amount') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Method', 't.currency.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Status', 't.status') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Date', 't.created') }}</th>
+            </tr>
+            {% for tr in pagination if pagination[0] is defined %}
+                {% if tr.transactionType == 'deposit' %}
+                    {% set row_class = 'success' %}
+                    {% set transaction_type = 'Deposit' %}
+                    {% set method = tr.currency.name %}
+                {% elseif tr.transactionType == 'withdrawal' %}
+                    {% set row_class = 'danger' %}
+                    {% set transaction_type = "Withdrawal" %}
+                    {% set method = tr.currency.name %}
+                {% elseif tr.transactionType == 'market' %}
+                    {% set row_class = '' %}
+                    {% set transaction_type = "Market Payment" %}
+                    {% if tr.currency.name == 'USD' %}
+                        {% set method = 'Market USD' %}
                     {% else %}
-                        {% set row_class = '' %}
-                        {% set transaction_type = "Unknown" %}
+                        {% set method = 'Market BTC' %}
                     {% endif %}
-                    <tr class="{{ row_class }}">
-                        <td>{{ tr.id }}</td>
-                        <td>{{ transaction_type }}</td>
+                {% elseif tr.transactionType == 'transfer' %}
+                    {% set row_class = 'warning' %}
+                    {% set transaction_type = "Transfer" %}
+                    {% if tr.currency.name == 'USD' %}
+                        {% set method = 'Transfer USD' %}
+                    {% else %}
+                        {% set method = 'Transfer BTC' %}
+                    {% endif %}
+                {% else %}
+                    {% set row_class = '' %}
+                    {% set transaction_type = "Unknown" %}
+                {% endif %}
+                <tr class="{{ row_class }}">
+                    <td><a href="{{ path('transaction_view', {'transaction': tr.id}) }}">{{ tr.id }}</a></td>
+                    <td>{{ transaction_type }}</td>
                     {% if tr.currency.type == 'fiat' %}
-                        <td>${{ tr.amount }}</td>
+                        <td>${{ tr.amount|number_format(2, '.', ',') }}</td>
                     {% else %}
                         <td>{{ tr.amount }} BTC</td>
                     {% endif %}
-                        <td>{{ tr.created|date('Y-m-d H:i:s T') }}</td>
-                        <td>{{ tr.status|capitalize }}</td>
-                        <td><a href="{{ path('transaction_view', {'transaction': tr.id}) }}" class="btn-sm btn-info">View</a></td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="5">No Transaction History</td>
-                    </tr>
-                {% endfor %}
-            </table>
+                    <td>{{ method }}</td>
+                    <td>{{ tr.status|capitalize }}</td>
+                    <td>{{ tr.created|date('Y-m-d H:i:s T') }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No Transaction History</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {# display navigation #}
+        <div class="col-md-offset-4">
+            {{ knp_pagination_render(pagination) }}
         </div>
+    </div>
     <div class="clearfix"></div>
 
 {% endblock fos_user_content %}

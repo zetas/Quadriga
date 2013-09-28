@@ -93,7 +93,10 @@ class ConfigService {
         }
 
         if (count($config) == 1)
-            return $config[0];
+            if (is_array($config))
+                return array_shift($config);
+            else
+                return $config;
 
         return $config;
     }

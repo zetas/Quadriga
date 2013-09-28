@@ -8,16 +8,12 @@
     {% block content %}
         <div class="container">
             <div class="col-md-12">
+                {% include 'MainSiteBundle:Notification:flashes.html.twig' %}
                 <div class="col-md-5 col-md-offset-2">
                     <div class="well well-sm">
                         <h2>Bitcoin Withdraw Request</h2>
                         <p>How many bitcoins would you like to withdraw?</p>
                         <p>{{ form(form) }}</p>
-                        {% if allowed == 'balance' %}
-                            <p>You do not have enough in your account to proceed. Please adjust the amount of your withdrawal.</p>
-                        {% elseif allowed == 'limit' %}
-                            <p>This transaction exceeds the limit for non-verified members. Please verify your account or lower the withdrawal amount to less than $1,000</p>
-                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -7,6 +7,7 @@
     {% block content %}
         <div class="container">
             <div class="col-md-12">
+                {% include 'MainSiteBundle:Notification:flashes.html.twig' %}
                 <div class="col-md-10 col-md-offset-2">
                     <div class="well well-sm col-md-5">
                         <h2>Confirm {{ type|capitalize }} {{ direction|capitalize }} Order</h2>
@@ -34,13 +35,6 @@
                                 {% endif %}
                             {% else %}
                                 <p><a href="#" class="btn disabled btn-primary">Confirm</a></p>
-                                {% if failReason == 'balance' %}
-                                    <p>You don't have enough in your account to cover this transaction. Please make a deposit and try again.</p>
-                                {% elseif failReason == 'limit' %}
-                                    <p>Your account is not verified. This transaction exceeds the maximum transaction limit for unverified accounts. ($1000 USD)</p>
-                                {% else %}
-                                    <p>This transaction is not allowed. Please contact administration.</p>
-                                {% endif %}
                             {% endif %}
 
                         </div>

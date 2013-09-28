@@ -8,6 +8,7 @@
     {% block content %}
         <div class="container">
             <div class="col-md-12">
+                {% include 'MainSiteBundle:Notification:flashes.html.twig' %}
                 <div class="col-md-7 col-md-offset-2">
                     <div class="well well-sm">
                         <h2>{{ method }} Withdraw Confirmation</h2>

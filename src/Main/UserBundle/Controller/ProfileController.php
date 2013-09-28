@@ -22,10 +22,18 @@ class ProfileController extends BaseController {
         }
         $em = $this->container->get('main_user.emservice')->getEm();
 
-        $transactions = $em->getRepository('MainMarketBundle:Transaction')
-            ->findBy(array('user' => $user),array('created' => 'DESC'))
-        ;
+        $uid = $user->getId();
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Profile:show.html.'.$this->container->getParameter('fos_user.template.engine'), array('user' => $user, 'transactions' => $transactions));
+        $dql   = "SELECT t FROM MainMarketBundle:Transaction t WHERE t.user = $uid ORDER BY t.id DESC";
+        $query = $em->createQuery($dql);
+
+        $paginator  = $this->container->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query,
+            $this->container->get('request')->query->get('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
+
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Profile:show.html.'.$this->container->getParameter('fos_user.template.engine'), array('user' => $user, 'pagination' => $pagination ));
     }
 }

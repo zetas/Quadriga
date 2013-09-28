@@ -7,14 +7,11 @@
     {% block content %}
         <div class="container">
             <div class="col-md-12">
+                {% include 'MainSiteBundle:Notification:flashes.html.twig' %}
                 <div class="col-md-5 col-md-offset-2">
                     <div class="well well-sm">
                         <h2>Western Union Deposit</h2>
-                        {% if allowed == null %}
                             <p>{{ form(form) }}</p>
-                        {% else %}
-                            <p>Western Union Deposit is currently not permitted for unverified members. Please verify your account and try again.</p>
-                        {% endif %}
                     </div>
                 </div>
             </div>
