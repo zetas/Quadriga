@@ -1,10 +1,12 @@
 {# Template Created By: DDV <ddv@qubitlogic.net> #}
 
-{% extends '::base.html.twig' %}
+{% extends 'MainUserBundle::userArea.html.twig' %}
 
 {% block title 'Transaction Confirm' %}
 
-    {% block content %}
+{% block user_header 'Transaction Confirm' %}
+
+    {% block user_content %}
         <div class="container">
             <div class="col-md-12">
                 <div class="col-md-5 col-md-offset-3 well well-sm">
@@ -29,4 +31,4 @@
                 </div>
             </div>
         </div>
-    {% endblock %}
+    {% endblock user_content %}

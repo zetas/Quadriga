@@ -60,10 +60,10 @@ class Builder extends ContainerAware {
         $user = $token->getUser();
 
         if ($token == null || !is_object($user)) {
-            $menu->addChild('Login', array('route' => 'fos_user_security_login'));
-            $menu->addChild('Register', array('route' => 'fos_user_registration_register'));
+            $menu->addChild('Sign In |', array('route' => 'fos_user_security_login'));
+            $menu->addChild('Sign Up', array('route' => 'fos_user_registration_register'));
         } else {
-            $menu->addChild('My Account', array('route' => 'fos_user_profile_show'));
+            $menu->addChild('My Account | ', array('route' => 'fos_user_profile_show'));
             $menu->addChild('Logout', array('route' => 'fos_user_security_logout'));
         }
 

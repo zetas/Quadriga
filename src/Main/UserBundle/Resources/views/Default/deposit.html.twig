@@ -1,0 +1,14 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+{% extends 'MainUserBundle::userArea.html.twig' %}
+
+{% block title 'Deposit' %}
+
+    {% block user_header 'Deposit' %}
+
+        {% block user_content %}
+            <div class="container">
+                <p>What type of deposit would you like?</p>
+                <p><a href="{{ path('fiat_deposit') }}">USD Deposit</a></p>
+                <p><a href="{{ path('bitcoin_deposit') }}">BTC Deposit</a></p>
+            </div>
+        {% endblock user_content %}

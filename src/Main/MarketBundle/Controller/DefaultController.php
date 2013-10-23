@@ -12,6 +12,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
+
+    /**
+     * @Route("/", name="order_index")
+     * @Template
+     */
+    public function indexAction() {
+        return array();
+    }
+
     /**
      * @Route("/{type}/{direction}", name="offer")
      * @Template
@@ -202,23 +211,5 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl('fos_user_profile_show'));
     }
 
-    /**
-     * @Route("/", name="offer_index")
-     * @Route("/{max}", name="offer_index_max")
-     * @Template()
-     */
-    public function viewAction($max = 100) {
-        $buyOffers = $this->getDoctrine()
-            ->getRepository('MainMarketBundle:Offer')
-            ->findBy(array('isBuy' => true, 'active' => true),array('price' => 'DESC'),$max);
 
-        $sellOffers = $this->getDoctrine()
-            ->getRepository('MainMarketBundle:Offer')
-            ->findBy(array('isBuy' => false, 'active' => true),array('price' => 'ASC'),$max);
-
-        if ($max < 100)
-            return $this->render('MainMarketBundle:Default:viewContent.html.twig',array('buyOffers' => $buyOffers, 'sellOffers' => $sellOffers, 'max' => $max));
-
-        return array('buyOffers' => $buyOffers, 'sellOffers' => $sellOffers, 'max' => $max);
-    }
 }

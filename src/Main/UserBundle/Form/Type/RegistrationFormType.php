@@ -23,7 +23,17 @@ class RegistrationFormType extends BaseType
         ;
         parent::buildForm($builder, $options);
 
-        $builder->add('phone')
+        $builder
+            ->add('company')
+            ->add('city')
+            ->add('state')
+            ->add('zip')
+            ->add('country','country',array(
+                'preferred_choices' => array('US', 'CA'),
+                'empty_value' => 'COUNTRY:'
+            ))
+            ->add('address')
+            ->add('phone')
             ->add('pin')
         ;
     }

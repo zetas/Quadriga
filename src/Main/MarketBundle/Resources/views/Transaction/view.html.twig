@@ -1,10 +1,11 @@
 {# Template Created By: DDV <ddv@qubitlogic.net> #}
 
-{% extends '::base.html.twig' %}
+{% extends 'MainUserBundle::userArea.html.twig' %}
 
 {% block title 'Transaction View' %}
+    {% block user_header 'Transaction View' %}
 
-    {% block content %}
+    {% block user_content %}
         <div class="container">
             <div class="col-md-12">
                 <div class="col-md-3 col-md-offset-3 well well-sm">
@@ -53,4 +54,4 @@
                 {% endif %}
             </div>
         </div>
-    {% endblock %}
+    {% endblock user_content %}

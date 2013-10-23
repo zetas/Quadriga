@@ -1,0 +1,14 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+{% extends 'MainUserBundle::userArea.html.twig' %}
+
+{% block title 'New Order' %}
+
+{% block user_header 'New Order' %}
+
+    {% block user_content %}
+<div class="container">
+    <p>What type of order would you like to create?</p>
+    <p>Instant Orders: <a href="{{ path('offer',{'type': 'instant', 'direction': 'buy'}) }}">BUY</a> | <a href="{{ path('offer',{'type': 'instant', 'direction': 'sell'}) }}">SELL</a></p>
+    <p>Limit Orders: <a href="{{ path('offer',{'type': 'limit', 'direction': 'buy'}) }}">BUY</a> | <a href="{{ path('offer',{'type': 'limit', 'direction': 'sell'}) }}">SELL</a></p>
+    </div>
+    {% endblock user_content %}

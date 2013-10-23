@@ -53,6 +53,36 @@ class User extends BaseUser
     protected $lastName;
 
     /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    protected $company;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    protected $city;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    protected $state;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $zip;
+
+    /**
+     * @ORM\Column(type="string", length=5, nullable=true)
+     */
+    protected $country;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    protected $address;
+
+    /**
      * @ORM\Column(type="string", length=50, nullable=true)
      * @Assert\Length(
      *     min=10,
@@ -286,5 +316,143 @@ class User extends BaseUser
     public function getPin()
     {
         return $this->pin;
+    }
+
+    /**
+     * Set company
+     *
+     * @param string $company
+     * @return User
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+    
+        return $this;
+    }
+
+    /**
+     * Get company
+     *
+     * @return string 
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return User
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string 
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set state
+     *
+     * @param string $state
+     * @return User
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+    
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return string 
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Set zip
+     *
+     * @param integer $zip
+     * @return User
+     */
+    public function setZip($zip)
+    {
+        $this->zip = $zip;
+    
+        return $this;
+    }
+
+    /**
+     * Get zip
+     *
+     * @return integer 
+     */
+    public function getZip()
+    {
+        return $this->zip;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return User
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string 
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     * @return User
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string 
+     */
+    public function getAddress()
+    {
+        return $this->address;
     }
 }

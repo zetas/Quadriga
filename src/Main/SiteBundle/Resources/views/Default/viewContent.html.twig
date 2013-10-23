@@ -1,0 +1,54 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+
+<div style="width: 50%; margin-left: 150px; padding-top: 100px;">
+        {% if max == 100 %}
+            <h2>Offer Book</h2>
+        {% else %}
+            <h2>Top {{ max }} Offers</h2>
+        {% endif %}
+
+<div style="display:inline; float: left; position: relative;">
+        <table width="400" cellpadding="1">
+                <legend><strong>Buy</strong></legend>
+                <tr>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>Value</th>
+                </tr>
+                {% for bo in buyOffers if buyOffers[0] is defined %}
+                    <tr>
+                        <td>${{ bo.price }}</td>
+                        <td>{{ bo.amount }}</td>
+                        <td>${{ bo.value }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">No Buy Offers</td>
+                    </tr>
+                {% endfor %}
+            </table>
+</div>
+<div style="display:inline; float: right; position: relative;">
+
+        <table width="400" cellpadding="1">
+                <legend><strong>Sell</strong></legend>
+                <tr>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>Value</th>
+                </tr>
+                {% for so in sellOffers if sellOffers[0] is defined %}
+                    <tr>
+                        <td>${{ so.price }}</td>
+                        <td>{{ so.amount }}</td>
+                        <td>${{ so.value }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">No Sell Offers</td>
+                    </tr>
+                {% endfor %}
+            </table>
+</div>
+</div>

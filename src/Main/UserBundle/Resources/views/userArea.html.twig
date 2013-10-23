@@ -1,0 +1,43 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block title 'Profile' %}
+
+{% block fos_user_content %}
+<!--maincontent-->
+<div id="maincontent">
+
+    <div id="container">
+
+        <div id="membersnav">
+
+            <div id="nav2">
+
+                <ul>
+
+                    <li><a href="{{ path('fos_user_profile_show') }}">My Account</a></li>
+                    <li><a href="{{ path('deposit') }}">Deposit</a></li>
+                    <li><a href="{{ path('user_withdraw') }}">Withdraw</a></li>
+                    <li><a href="{{ path('order_index') }}">Place Order</a></li>
+                    <li><a href="{{ path('offer_index') }}">View Order Book</a></li>
+                    <li><a href="{{ path('user_transfer') }}">Transfer</a></li>
+                    <li><a href="{{ path('user_history') }}">History</a></li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <h1>{% block user_header %}{% endblock user_header %}</h1>
+
+        {% block user_content %}
+        {% endblock user_content %}
+
+    </div>
+
+</div>
+<!--maincontent-->
+{% endblock fos_user_content %}
+

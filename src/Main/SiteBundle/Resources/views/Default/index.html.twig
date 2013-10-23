@@ -3,5 +3,103 @@
 {% block title 'Index' %}
 
 {% block content %}
-    <h1>Index!</h1>
+    <!--homebanner-->
+    <div id="homebanner">
+
+        <div id="mainbanner">
+
+            <div id="textlinks">
+                <strong><a href="#">Buy/Sell Bitcoin</a> | <a href="{{ path('offer_index') }}">View Open Orders</a></strong>
+            </div>
+
+            <div id="signbutton"><a href="#"><img src="{{ asset('bundles/mainsite/images/getstarted.png') }}"></a></div>
+
+        </div>
+
+    </div>
+    <!--homebanner-->
+
+    <!--maincontent-->
+    <div id="maincontent">
+
+        <div id="container">
+
+            <div id="box">
+
+                <div id="boxheader">
+                    <img src="{{ asset('bundles/mainsite/images/boxes_01.jpg') }}">
+                </div>
+
+                <div id="boxcontent">
+
+                    <ul>
+
+                        <li>International Bank Wire Funding</li>
+                        <li>Low Funding/Withdrawal Fees</li>
+                        <li>BillPay</li>
+                        <li>Numerous Payment Options</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+
+
+
+            <div id="box">
+
+                <div id="boxheader">
+                    <img src="{{ asset('bundles/mainsite/images/live-exchange.jpg') }}">
+                </div>
+
+                <div id="boxcontent">
+
+                    <ul>
+
+                        <li>Hundreds of Open Orders</li>
+                        <li>0.5% Trading Fee</li>
+                        <li>Unprecedented Liquidity</li>
+                        <li>Market and Limit Orders</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+            <div id="box">
+
+                <div id="boxheader" style="margin-right:0px;">
+                    <img src="{{ asset('bundles/mainsite/images/features.jpg') }}">
+                </div>
+
+                <div id="boxcontent">
+
+                    <ul>
+
+                        <li>Superior Customer Service</li>
+                        <li>Secure SSL Encryption</li>
+                        <li>Inter-Account Transfers</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!--maincontent-->
+
 {% endblock content %}

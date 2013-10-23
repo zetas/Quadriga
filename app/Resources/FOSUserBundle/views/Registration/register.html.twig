@@ -1,0 +1,74 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+
+<div id="maincontent">
+
+    <div id="container">
+
+        <h1 style="margin-left:90px;">Register to our Secured Network</h1>
+        <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST">
+
+        <table width="800" border="0" cellspacing="5" cellpadding="5" align="center">
+            <tr>
+                <td>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.
+                </td>
+            </tr>
+            <tr>
+                <td>{{ form_errors(form) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.firstName,{'attr': {'placeholder': 'FIRST NAME:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.lastName,{'attr': {'placeholder': 'LAST NAME:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.email,{'attr': {'placeholder': 'EMAIL:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.username,{'attr': {'placeholder': 'USERNAME:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.plainPassword.first,{'attr': {'placeholder': 'PASSWORD:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.plainPassword.second,{'attr': {'placeholder': 'VERIFY PASSWORD:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.company,{'attr': {'placeholder': 'COMPANY:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.city,{'attr': {'placeholder': 'CITY:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.state,{'attr': {'placeholder': 'STATE:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.zip,{'attr': {'placeholder': 'ZIP CODE:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.country,{'attr': {'placeholder': 'COUNTRY:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.address,{'attr': {'placeholder': 'ADDRESS:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.phone,{'attr': {'placeholder': 'PHONE:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_widget(form.pin,{'attr': {'placeholder': 'PIN #:', 'style': 'width:800px; height:35px;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; border:1px #CCCCCC solid; padding:5px;'}}) }}</td>
+            </tr>
+            <tr>
+                <td><div align="center"><input type="submit" value="SIGN UP" /></div></td>
+            </tr>
+
+        </table>
+            {{ form_end(form) }}
+    </div>
+</div>
+<!--maincontent-->
+
+{% endblock fos_user_content %}

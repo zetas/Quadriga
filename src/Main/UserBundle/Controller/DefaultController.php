@@ -393,4 +393,35 @@ class DefaultController extends Controller
 
         return array('form'=>$form->createView());
     }
+
+    /**
+     * @Route("/history", name="user_history")
+     * @Template
+     */
+    public function historyAction() {
+        $user = $this->getUser();
+        $uid = $user->getId();
+
+        $em = $this->container->get('main_user.emservice')->getEm();
+
+        $dql   = "SELECT t FROM MainMarketBundle:Transaction t WHERE t.user = $uid ORDER BY t.id DESC";
+        $query = $em->createQuery($dql);
+
+        $paginator  = $this->container->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query,
+            $this->container->get('request')->query->get('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
+
+        return array('pagination' => $pagination);
+    }
+
+    /**
+     * @Route("/deposit", name="deposit")
+     * @Template
+     */
+    public function depositAction() {
+        return array();
+    }
 }

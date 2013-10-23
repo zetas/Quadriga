@@ -1,11 +1,13 @@
 {# Template Created By: DDV <ddv@qubitlogic.net> #}
 
 
-{% extends '::base.html.twig' %}
+{% extends 'MainUserBundle::userArea.html.twig' %}
 
 {% block title 'Bitcoin Withdraw Request' %}
 
-    {% block content %}
+    {% block user_header 'Bitcoin Withdraw Request' %}
+
+    {% block user_content %}
         <div class="container">
             <div class="col-md-12">
                 {% include 'MainSiteBundle:Notification:flashes.html.twig' %}
@@ -18,4 +20,4 @@
                 </div>
             </div>
         </div>
-    {% endblock %}
+    {% endblock user_content %}

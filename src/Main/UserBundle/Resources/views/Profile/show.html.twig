@@ -1,10 +1,12 @@
 {# Template Created By: DDV <ddv@qubitlogic.net> #}
 
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends "MainUserBundle::userArea.html.twig" %}
 
 {% block title 'Profile' %}
 
-{% block fos_user_content %}
+{% block user_header 'Profile' %}
+
+{% block user_content %}
     {% include 'MainSiteBundle:Notification:flashes.html.twig' %}
     <div class="col-md-4 well well-lg">
         <p>Username: {{ user.username }}</p>
@@ -20,77 +22,5 @@
         {% endif %}
         </p>
     </div>
-    <div class="col-md-2 pull-right">
-        <p><a href="{{ path('user_verify') }}" class="btn btn-success">Verify</a></p>
-        <p><a href="{{ path('fos_user_change_password') }}" class="btn btn-danger">Change Password</a></p>
-        <p><a href="{{ path('user_withdraw') }}" class="btn btn-info">Withdraw</a></p>
-        <p><a href="{{ path('user_transfer') }}" class="btn btn-warning">Transfer to User</a></p>
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-md-12">
-        <table class="table table-hover">
-            <legend>Transaction History</legend>
-            <tr>
-                {# sorting of properties based on query components #}
-                <th>{{ knp_pagination_sortable(pagination, 'Transaction ID', 't.id') }}</th>
-                <th{% if pagination.isSorted('t.transactionType') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Transaction Type', 't.transactionType') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'Amount', 't.amount') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'Method', 't.currency.name') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'Status', 't.status') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'Date', 't.created') }}</th>
-            </tr>
-            {% for tr in pagination if pagination[0] is defined %}
-                {% if tr.transactionType == 'deposit' %}
-                    {% set row_class = 'success' %}
-                    {% set transaction_type = 'Deposit' %}
-                    {% set method = tr.currency.name %}
-                {% elseif tr.transactionType == 'withdrawal' %}
-                    {% set row_class = 'danger' %}
-                    {% set transaction_type = "Withdrawal" %}
-                    {% set method = tr.currency.name %}
-                {% elseif tr.transactionType == 'market' %}
-                    {% set row_class = '' %}
-                    {% set transaction_type = "Market Payment" %}
-                    {% if tr.currency.name == 'USD' %}
-                        {% set method = 'Market USD' %}
-                    {% else %}
-                        {% set method = 'Market BTC' %}
-                    {% endif %}
-                {% elseif tr.transactionType == 'transfer' %}
-                    {% set row_class = 'warning' %}
-                    {% set transaction_type = "Transfer" %}
-                    {% if tr.currency.name == 'USD' %}
-                        {% set method = 'Transfer USD' %}
-                    {% else %}
-                        {% set method = 'Transfer BTC' %}
-                    {% endif %}
-                {% else %}
-                    {% set row_class = '' %}
-                    {% set transaction_type = "Unknown" %}
-                {% endif %}
-                <tr class="{{ row_class }}">
-                    <td><a href="{{ path('transaction_view', {'transaction': tr.id}) }}">{{ tr.id }}</a></td>
-                    <td>{{ transaction_type }}</td>
-                    {% if tr.currency.type == 'fiat' %}
-                        <td>${{ tr.amount|number_format(2, '.', ',') }}</td>
-                    {% else %}
-                        <td>{{ tr.amount }} BTC</td>
-                    {% endif %}
-                    <td>{{ method }}</td>
-                    <td>{{ tr.status|capitalize }}</td>
-                    <td>{{ tr.created|date('Y-m-d H:i:s T') }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5">No Transaction History</td>
-                </tr>
-            {% endfor %}
-        </table>
-        {# display navigation #}
-        <div class="col-md-offset-4">
-            {{ knp_pagination_render(pagination) }}
-        </div>
-    </div>
-    <div class="clearfix"></div>
 
-{% endblock fos_user_content %}
+{% endblock user_content %}
