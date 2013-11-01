@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel='stylesheet' href='assets/css/app.css'>
+    <link rel='stylesheet' href='assets/css/animate.min.css'>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Yanone+Kaffeesatz:200,300,400,700|Raleway:200,300,400,500,700'
+          rel='stylesheet' type='text/css'>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+    <link href="assets/favicon.ico" rel="shortcut icon">
+    <link href="assets/apple-touch-icon.png" rel="apple-touch-icon">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    @javascript html5shiv respond.min
+    <![endif]-->
+
+    <title>Quadriga</title>
+
+</head>
+
+<body>
+<!-- Login Modal -->
+<div aria-hidden='true' aria-labelledby='loginModalLabel' class='modal fade' id='loginModal' role='dialog'
+     tabindex='-1'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>×</button>
+                <h4 class='modal-title'>Login example</h4>
+            </div>
+            <div class='modal-body'>
+                <form action='#' role='form'>
+                    <div class='row'>
+                        <div class='col-md-6'>
+                            <label class='control-label' for=''>Username</label>
+                            <input class='form-control' placeholder='your username' type='text'>
+                        </div>
+                        <div class='col-md-6'>
+                            <label class='control-label' for=''>Password</label>
+                            <input class='form-control' placeholder='your password' type='text'>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class='modal-footer'>
+                <button class='btn btn-default' data-dismiss='modal' type='button'>Close</button>
+                <button class='btn btn-primary' type='button'>Log In</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Modal -->
+<div aria-hidden='true' aria-labelledby='contactModalLabel' class='modal fade' id='contactModal' role='dialog'
+     tabindex='-1'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>×</button>
+                <h4 class='modal-title'>Contact Us Form</h4>
+            </div>
+            <div class='modal-body'>
+                <form action='#' role='form'>
+                    <div class='form-group'>
+                        <div class='row'>
+                            <div class='col-md-6'>
+                                <label class='control-label' for=''>Your Name</label>
+                                <input class='form-control' placeholder='your username' type='text'>
+                            </div>
+                            <div class='col-md-6'>
+                                <label class='control-label' for=''>Your Email</label>
+                                <input class='form-control' placeholder='your password' type='text'>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <div class='row'>
+                            <div class='col-md-12'>
+                                <label class='control-label' for=''>Your Message</label>
+                                <textarea class='form-control' name='' rows='4'></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class='modal-footer'>
+                <button class='btn btn-default' data-dismiss='modal' type='button'>Cancel</button>
+                <button class='btn btn-primary' type='button'>Send Message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='noise-wrapper'>
+    <div class='header-main'>
+        <div class='container'>
+            <div class="statusbar">
+                <div class="callout-text">Current Bitcoin Price</div>
+                <div class="value-text">Price here</div>
+                <div class="status-loginandout"><a href="account.html">My Account</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a data-toggle='modal' href="#loginModal">Log In</a></div>
+            </div>
+            <nav class='navbar navbar-default' role='navigation'>
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class='navbar-header'>
+                    <button class='navbar-toggle' data-target='.navbar-ex1-collapse' data-toggle='collapse'
+                            type='button'>
+                        <span class='sr-only'>Toggle navigation</span>
+                        <span class='icon-bar'></span>
+                        <span class='icon-bar'></span>
+                        <span class='icon-bar'></span>
+                    </button>
+                    <a class='current navbar-brand quadriga-logo' href='index.html'>
+                        <!--Quadriga CX-->
+                        <img alt='Quadriga' height='45px' src='assets/images/quadriga_logo00_sm.png'>
+                    </a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class='collapse navbar-collapse navbar-ex1-collapse'>
+
+                    <ul class='nav navbar-nav navbar-right'>
+                        <li class='current active'>
+                            <a class='current' href='index.html'>Home</a>
+                        </li>
+                        <li>
+                            <a href='about.html'>About Us</a>
+                        </li>
+                        <li>
+                            <a href='orders.html'>Open Orders</a>
+                        </li>
+                        <li>
+                            <a href='faq.html'>FAQ</a>
+                        </li>
+                        <li>
+                            <a data-toggle='modal' href='#contactModal'>Support</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class='separator-shadow-bottom'>
+        <img alt='' src='assets/images/shadow-separator-wide-bottom.png'>
+    </div>
+    <section class='leaderboard leaderboard-style-one'>
+        <div class='container'>
+            <h1 class='animated fadeInDown'>Buying and selling Bitcoins...</h1>
+
+            <h2 class='animated fadeInDown'>Has never been easier.</h2>
+
+            <div class='relative-w'>
+                <div class='loupe loupe-left animated rollIn'>
+                    <img alt='' src='assets/images/home_coins.jpg'>
+                </div>
+                <div class='loupe loupe-right animated fadeInRightBig'>
+                    <img alt='' src='assets/images/home_keyboard.jpg'>
+                </div>
+                <div class='frame-browser animated bounceInUp'>
+                    <div class='frame-buttons'>
+                        <div class='frame-button-close'></div>
+                        <div class='frame-button-max'></div>
+                        <div class='frame-button-min'></div>
+                    </div>
+                    <div class='frame-browser-image'>
+                        <img alt='' src='assets/images/home_hero.png'>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class='separator-shadow-top above-screenshot-shadow'>
+        <img alt='' src='assets/images/shadow-separator-wide-top.png'>
+    </div>
+</div>
+<div class='area-content'>
+    <div class='container'>
+        <div class='separator-shadow-top sub-screenshot-shadow'>
+            <img alt='' src='assets/images/shadow-separator-wide-top.png'>
+        </div>
+        <div class='iconed-features lift-on-hover style-1'>
+            <div class='row'>
+                <div class='col-md-4'>
+                    <div class='iconed-feature' href='#'>
+                        <div class='feature-icon-w'>
+                            <i class='icon-usd'></i>
+                        </div>
+                        <h4>Account Funding</h4>
+
+                        <ul class="list-checkmarked blurb-list">
+                            <li>International Bank Wire Funding</li>
+                            <li>Low Funding/Withdrawal Fees</li>
+                            <li>BillPay</li>
+                            <li>Numerous Payment Options</li>
+                        </ul>
+
+                        <div class='btn-show-on-parent-hover'>
+                            <a class='read-more-link' href='#'>Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-md-4'>
+                    <div class='iconed-feature' href='#'>
+                        <div class='feature-icon-w'>
+                            <i class='icon-globe'></i>
+                        </div>
+                        <h4>Live Exchange</h4>
+
+                        <ul class="list-checkmarked blurb-list">
+                            <li>Hundreds of Open Orders</li>
+                            <li>0.5% Trading Fee</li>
+                            <li>Unprecedented Liquidity</li>
+                            <li>Market and Limit Orders</li>
+                        </ul>
+
+                        <div class='btn-show-on-parent-hover'>
+                            <a class='read-more-link' href='#'>Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-md-4'>
+                    <div class='iconed-feature' href='#'>
+                        <div class='feature-icon-w'>
+                            <i class='icon-lightbulb'></i>
+                        </div>
+                        <h4>Features</h4>
+
+                        <ul class="list-checkmarked blurb-list">
+                            <li>Superior Customer Service</li>
+                            <li>Secure SSL Encryption</li>
+                            <li>Inter-Account Transfers</li>
+                        </ul>
+
+                        <div class='btn-show-on-parent-hover'>
+                            <a class='read-more-link' href='#'>Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class='area-content'>
+    <div class="highlight-content highlighted-image text-center cta-box light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>News and Updates</h1>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 news-text">
+                    <div class="news-post-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+                    <div class="news-post-body-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.</div>
+                    <div class="news-post-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+                    <div class="news-post-body-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer id="main-footer">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="footer-menu">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+                <div class="copyright">
+                    2013 &copy; Quadriga. All rights reserved.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <ul class="footer-social">
+                    <li><a href="#"><i class="icon-facebook"></i></a></li>
+                    <li><a href="#"><i class="icon-twitter"></i></a></li>
+                    <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                    <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                    <li><a href="#"><i class="icon-google-plus"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src='assets/js/jquery.js'></script>
+<script src='assets/js/bootstrap/button.js'></script>
+<script src='assets/js/bootstrap/carousel.js'></script>
+<script src='assets/js/bootstrap/transition.js'></script>
+<script src='assets/js/bootstrap/collapse.js'></script>
+<script src='assets/js/bootstrap/modal.js'></script>
+<script src='assets/js/bootstrap/dropdown.js'></script>
+<script src='assets/js/jquery.visible.min.js'></script>
+<script src='assets/js/bootstrap/tab.js'></script>
+<script src='assets/js/jquery.isotope.min.js'></script>
+<script src='assets/js/jquery.knob.js'></script>
+<script src='assets/js/jquery.scrollUp.min.js'></script>
+<script src='assets/js/application.js'></script>
+</body>
+
+</html>
