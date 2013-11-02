@@ -7,15 +7,24 @@
 
     {% block content %}
         <div class="container">
-            <div class="col-md-12">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.
+            <div class="separator-shadow-top bottom-margin">
+                <img alt="" src="{{ asset('bundles/mainsite/images/shadow-separator-wide-top.png') }}">
+            </div>
+            <div class="slogan text-center">
+                <h2 class="header-highlighted">Buying and Selling Bitcoins</h2>
 
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.
+                <p>Buying and selling Bitcoins has never been easier.</p>
 
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.
+                <div class="slogan-buttons">
+                    <a class="btn btn-primary btn-cta btn-lg animated-when-visible animated swing"
+                       data-animation-type="swing" data-toggle="modal" href="#contactModal">
+                        Contact Us Now
+                    </a>
+                </div>
+            </div>
+            <div class="separator-shadow-bottom bottom-margin">
+                <img alt="" src="{{ asset('bundles/mainsite/images/shadow-separator-wide-bottom.png') }}">
             </div>
         </div>
+        <br/><br/><br/><br/><br/>
     {% endblock %}

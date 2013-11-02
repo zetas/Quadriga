@@ -1,123 +1,183 @@
-{# Template Created By: DDV <ddv@qubitlogic.net> #}
-<!DOCTYPE HTML>
 
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <LINK REL="SHORTCUT ICON" HREF="logo.ico">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     {% block stylesheets %}
-        {% stylesheets 'bundles/mainsite/css/style.css' filter='cssrewrite' %}
+        {% stylesheets 'bundles/mainsite/css/app.css'
+                       'bundles/mainsite/css/animate.min.css'
+        filter='cssrewrite' %}
         <link rel="stylesheet" media="screen" href="{{ asset_url }}" />
         {% endstylesheets %}
     {% endblock %}
 
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Yanone+Kaffeesatz:200,300,400,700|Raleway:200,300,400,500,700'
+          rel='stylesheet' type='text/css'>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+    <link href="{{ asset('bundles/mainsite/favicon.ico') }}" rel="shortcut icon">
+    <link href="{{ asset('bundles/mainsite/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    @javascript html5shiv respond.min
+    <![endif]-->
+
     <title>Quadriga Coin Exchange | {% block title %}{% endblock %}</title>
+
 </head>
 
 <body>
-
-<!--header-->
-<div id="wrapperheader">
-
-    <div id="container">
-
-        <div id="leftheader">
-            <span style="color:#FFCC00">Current Bitcoin Price:</span> <strong>$4.99</strong> 24-Hour BTC Trading Volume: 2000 BTC<img src="{{ asset('bundles/mainsite/images/clock.jpg') }}" align="right" style="margin-right:70px;">
+<!-- Login Modal -->
+<div aria-hidden='true' aria-labelledby='loginModalLabel' class='modal fade' id='loginModal' role='dialog'
+     tabindex='-1'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>×</button>
+                <h4 class='modal-title'>Login</h4>
+            </div>
+            <div class='modal-body'>
+                <form action='#' role='form'>
+                    <div class='row'>
+                        <div class='col-md-6'>
+                            <label class='control-label' for=''>Username</label>
+                            <input class='form-control' placeholder='your username' type='text'>
+                        </div>
+                        <div class='col-md-6'>
+                            <label class='control-label' for=''>Password</label>
+                            <input class='form-control' placeholder='your password' type='text'>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class='modal-footer'>
+                <button class='btn btn-default' data-dismiss='modal' type='button'>Close</button>
+                <button class='btn btn-primary' type='button'>Log In</button>
+            </div>
         </div>
+    </div>
+</div>
 
-
-        <div id="rightheader">
-
-
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <a href="{{ path('fos_user_profile_show') }}">MY ACCOUNT</a> | <a href="{{ path('fos_user_security_logout') }}">LOGOUT</a>
-            {% else %}
-                <a href="{{ path('fos_user_profile_show') }}">SIGN IN</a> | <a href="{{ path('fos_user_registration_register') }}">SIGN UP</a>
-            {% endif %}
-
+<!-- Contact Modal -->
+<div aria-hidden='true' aria-labelledby='contactModalLabel' class='modal fade' id='contactModal' role='dialog'
+     tabindex='-1'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>×</button>
+                <h4 class='modal-title'>Contact Us</h4>
+            </div>
+            <div class='modal-body'>
+                <form action='#' role='form'>
+                    <div class='form-group'>
+                        <div class='row'>
+                            <div class='col-md-6'>
+                                <label class='control-label' for=''>Your Name</label>
+                                <input class='form-control' placeholder='your username' type='text'>
+                            </div>
+                            <div class='col-md-6'>
+                                <label class='control-label' for=''>Your Email</label>
+                                <input class='form-control' placeholder='your password' type='text'>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <div class='row'>
+                            <div class='col-md-12'>
+                                <label class='control-label' for=''>Your Message</label>
+                                <textarea class='form-control' name='' rows='4'></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class='modal-footer'>
+                <button class='btn btn-default' data-dismiss='modal' type='button'>Cancel</button>
+                <button class='btn btn-primary' type='button'>Send Message</button>
+            </div>
         </div>
+    </div>
+</div>
 
-
-
-        <div id="logo"><img src="{{ asset('bundles/mainsite/images/logo.jpg') }}"></div>
-
-
-        <div id="navigaiotn">
-
-            <ul id="nav">
-
-                <li><a href="{{ path('homepage') }}">Home</a></li>
-                <li><a href="{{ path('about_us') }}">About Us</a></li>
-                <li><a href="{{ path('offer_index') }}">Open Orders</a></li>
-                <li><a href="{{ path('faq') }}">FAQ</a></li>
-                <li><a href="{{ path('support') }}">Support</a></li>
-
-            </ul>
-
+    <div class='header-main'>
+        <div class='container'>
+            <div class="statusbar">
+                <div class="callout-text">Current Bitcoin Price</div>
+                <div class="value-text">Price here</div>
+                <div class="status-loginandout"><a href="account.html">My Account</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a data-toggle='modal' href="#loginModal">Log In</a></div>
+            </div>
+            <nav class='navbar navbar-default' role='navigation'>
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class='navbar-header'>
+                    <button class='navbar-toggle' data-target='.navbar-ex1-collapse' data-toggle='collapse'
+                            type='button'>
+                        <span class='sr-only'>Toggle navigation</span>
+                        <span class='icon-bar'></span>
+                        <span class='icon-bar'></span>
+                        <span class='icon-bar'></span>
+                    </button>
+                    <a class='current navbar-brand quadriga-logo' href='index.html'>
+                        <!--Quadriga CX-->
+                        <img alt='Quadriga' height='45px' src='{{ asset('bundles/mainsite/images/quadriga_logo00_sm.png') }}'>
+                    </a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class='collapse navbar-collapse navbar-ex1-collapse'>
+                    {{ knp_menu_render('MainSiteBundle:Builder:mainMenu', {'nav_type': 'navbar', 'template': 'MainSiteBundle:Menu:bc_knp_menu.html.twig'}) }}
+                </div>
+            </nav>
         </div>
-
     </div>
 
-</div>
-<!--header-->
+    {% block content %}
+    {% endblock content %}
+<footer id="main-footer">
 
-{% block content %}
-{% endblock content %}
-
-<div id="footerone">
-
-    <div id="container">
-
-        <h3>NEWS AND UPDATES</h3>
-
-        <p>
-            <strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit</strong>
-            <br>
-
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.
-        </p>
-
-        <hr size="1" color="#333333">
-
-
-        <p>
-            <strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit</strong>
-            <br>
-
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.
-        </p>
-
-
-
-        <hr size="1" color="#333333">
-
-
-        <p>
-            <strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit</strong>
-            <br>
-
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.
-        </p>
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="footer-menu">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+                <div class="copyright">
+                    2013 &copy; QuadrigaCX. All rights reserved.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <ul class="footer-social">
+                    <li><a href="#"><i class="icon-facebook"></i></a></li>
+                    <li><a href="#"><i class="icon-twitter"></i></a></li>
+                    <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                    <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                    <li><a href="#"><i class="icon-google-plus"></i></a></li>
+                </ul>
+            </div>
+        </div>
     </div>
-
-</div>
-
-
-<div id="footer">
-
-    <a href="#">About Us</a> | <a href="#">News</a> | <a href="#">Fees</a> | <a href="#">Terms of Use</a> | <a href="#">AML Policy</a> | <a href="#">FAQ</a> | <a href="#">Contact Us</a>
-    <br>
-
-    <strong>Copyright 2013 QuadrigaCX.com</strong>
-
-</div>
-
-
-
+</footer>
+{% block javascripts %}
+{% javascripts  'bundles/mainsite/js/jquery.js'
+                'bundles/mainsite/js/bootstrap/button.js'
+                'bundles/mainsite/js/bootstrap/carousel.js'
+                'bundles/mainsite/js/bootstrap/transition.js'
+                'bundles/mainsite/js/bootstrap/collapse.js'
+                'bundles/mainsite/js/bootstrap/modal.js'
+                'bundles/mainsite/js/bootstrap/dropdown.js'
+                'bundles/mainsite/js/jquery.visible.min.js'
+                'bundles/mainsite/js/bootstrap/tab.js'
+                'bundles/mainsite/js/jquery.isotope.min.js'
+                'bundles/mainsite/js/jquery.knob.js'
+                'bundles/mainsite/js/jquery.scrollUp.min.js'
+                'bundles/mainsite/js/application.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock javascripts %}
 </body>
+
 </html>

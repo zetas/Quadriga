@@ -1,105 +1,122 @@
-{% extends '::base.html.twig' %}
+{% extends '::index_base.html.twig' %}
 
 {% block title 'Index' %}
 
 {% block content %}
-    <!--homebanner-->
-    <div id="homebanner">
+    <div class='separator-shadow-bottom'>
+        <img alt='' src='{{ asset('bundles/mainsite/images/shadow-separator-wide-bottom.png') }}'>
+    </div>
+    <section class='leaderboard leaderboard-style-one'>
+    <div class='container'>
+    <h1 class='animated fadeInDown'>Buying and selling Bitcoins...</h1>
 
-        <div id="mainbanner">
+    <h2 class='animated fadeInDown'>Has never been easier.</h2>
 
-            <div id="textlinks">
-                <strong><a href="#">Buy/Sell Bitcoin</a> | <a href="{{ path('offer_index') }}">View Open Orders</a></strong>
+    <div class='relative-w'>
+    <div class='loupe loupe-left animated rollIn'>
+    <img alt='' src='{{ asset('bundles/mainsite/images/home_coins.jpg') }}'>
+                </div>
+                <div class='loupe loupe-right animated fadeInRightBig'>
+    <img alt='' src='{{ asset('bundles/mainsite/images/home_keyboard.jpg') }}'>
+                </div>
+                <div class='frame-browser animated bounceInUp'>
+    <div class='frame-buttons'>
+        <div class='frame-button-close'></div>
+        <div class='frame-button-max'></div>
+        <div class='frame-button-min'></div>
+    </div>
+    <div class='frame-browser-image'>
+        <img alt='' src='{{ asset('bundles/mainsite/images/home_hero.png') }}'>
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
+    <div class='separator-shadow-top above-screenshot-shadow'>
+        <img alt='' src='{{ asset('bundles/mainsite/images/shadow-separator-wide-top.png') }}'>
+    </div>
+</div>
+<div class='area-content'>
+        <div class='container'>
+            <div class='separator-shadow-top sub-screenshot-shadow'>
+                <img alt='' src='{{ asset('bundles/mainsite/images/shadow-separator-wide-top.png') }}'>
+        </div>
+        <div class='iconed-features lift-on-hover style-1'>
+                <div class='row'>
+                    <div class='col-md-4'>
+                        <div class='iconed-feature' href='#'>
+                            <div class='feature-icon-w'>
+                                <i class='icon-usd'></i>
+                            </div>
+                            <h4>Account Funding</h4>
 
-            <div id="signbutton"><a href="#"><img src="{{ asset('bundles/mainsite/images/getstarted.png') }}"></a></div>
+                            <ul class="list-checkmarked blurb-list">
+                                <li>International Bank Wire Funding</li>
+                                <li>Low Funding/Withdrawal Fees</li>
+                                <li>BillPay</li>
+                                <li>Numerous Payment Options</li>
+                            </ul>
 
+
+                        </div>
+                    </div>
+                    <div class='col-md-4'>
+                        <div class='iconed-feature' href='#'>
+                            <div class='feature-icon-w'>
+                                <i class='icon-globe'></i>
+                            </div>
+                            <h4>Live Exchange</h4>
+
+                            <ul class="list-checkmarked blurb-list">
+                                <li>Hundreds of Open Orders</li>
+                                <li>0.5% Trading Fee</li>
+                                <li>Unprecedented Liquidity</li>
+                                <li>Market and Limit Orders</li>
+                            </ul>
+
+
+                        </div>
+                    </div>
+                    <div class='col-md-4'>
+                        <div class='iconed-feature' href='#'>
+                            <div class='feature-icon-w'>
+                                <i class='icon-lightbulb'></i>
+                            </div>
+                            <h4>Features</h4>
+
+                            <ul class="list-checkmarked blurb-list">
+                                <li>Superior Customer Service</li>
+                                <li>Secure SSL Encryption</li>
+                                <li>Inter-Account Transfers</li>
+                            </ul>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
-    <!--homebanner-->
-
-    <!--maincontent-->
-    <div id="maincontent">
-
-        <div id="container">
-
-            <div id="box">
-
-                <div id="boxheader">
-                    <img src="{{ asset('bundles/mainsite/images/boxes_01.jpg') }}">
-                </div>
-
-                <div id="boxcontent">
-
-                    <ul>
-
-                        <li>International Bank Wire Funding</li>
-                        <li>Low Funding/Withdrawal Fees</li>
-                        <li>BillPay</li>
-                        <li>Numerous Payment Options</li>
-
-                    </ul>
+    <div class='area-content'>
+        <div class="highlight-content highlighted-image text-center cta-box light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>News and Updates</h1>
+                    </div>
 
                 </div>
-
+                <div class="row">
+                    <div class="col-md-12 news-text">
+                        <div class="news-post-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+                        <div class="news-post-body-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.</div>
+                        <div class="news-post-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+                        <div class="news-post-body-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.</div>
+                    </div>
+                </div>
             </div>
-
-
-
-
-
-            <div id="box">
-
-                <div id="boxheader">
-                    <img src="{{ asset('bundles/mainsite/images/live-exchange.jpg') }}">
-                </div>
-
-                <div id="boxcontent">
-
-                    <ul>
-
-                        <li>Hundreds of Open Orders</li>
-                        <li>0.5% Trading Fee</li>
-                        <li>Unprecedented Liquidity</li>
-                        <li>Market and Limit Orders</li>
-
-                    </ul>
-
-                </div>
-
-            </div>
-
-
-
-
-
-
-
-
-            <div id="box">
-
-                <div id="boxheader" style="margin-right:0px;">
-                    <img src="{{ asset('bundles/mainsite/images/features.jpg') }}">
-                </div>
-
-                <div id="boxcontent">
-
-                    <ul>
-
-                        <li>Superior Customer Service</li>
-                        <li>Secure SSL Encryption</li>
-                        <li>Inter-Account Transfers</li>
-
-                    </ul>
-
-                </div>
-
-            </div>
-
         </div>
-
     </div>
-    <!--maincontent-->
 
 {% endblock content %}

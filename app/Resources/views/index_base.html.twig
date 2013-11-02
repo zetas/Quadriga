@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -5,21 +6,26 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel='stylesheet' href='assets/css/app.css'>
-    <link rel='stylesheet' href='assets/css/animate.min.css'>
+    {% block stylesheets %}
+        {% stylesheets 'bundles/mainsite/css/app.css'
+        'bundles/mainsite/css/animate.min.css'
+        filter='cssrewrite' %}
+        <link rel="stylesheet" media="screen" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Yanone+Kaffeesatz:200,300,400,700|Raleway:200,300,400,500,700'
           rel='stylesheet' type='text/css'>
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
-    <link href="assets/favicon.ico" rel="shortcut icon">
-    <link href="assets/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="{{ asset('bundles/mainsite/favicon.ico') }}" rel="shortcut icon">
+    <link href="{{ asset('bundles/mainsite/apple-touch-icon.png') }}" rel="apple-touch-icon">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     @javascript html5shiv respond.min
     <![endif]-->
 
-    <title>Quadriga: Coming Soon</title>
+    <title>Quadriga Coin Exchange | {% block title %}{% endblock %}</title>
 
 </head>
 
@@ -31,7 +37,7 @@
         <div class='modal-content'>
             <div class='modal-header'>
                 <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>×</button>
-                <h4 class='modal-title'>Login example</h4>
+                <h4 class='modal-title'>Login</h4>
             </div>
             <div class='modal-body'>
                 <form action='#' role='form'>
@@ -62,7 +68,7 @@
         <div class='modal-content'>
             <div class='modal-header'>
                 <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>×</button>
-                <h4 class='modal-title'>Contact Us Form</h4>
+                <h4 class='modal-title'>Contact Us</h4>
             </div>
             <div class='modal-body'>
                 <form action='#' role='form'>
@@ -96,53 +102,47 @@
     </div>
 </div>
 
-<div class='header-main'>
-    <div class='container'>
-        <div class="statusbar">
-
+<div class='noise-wrapper'>
+    <div class='header-main'>
+        <div class='container'>
+            <div class="statusbar">
+                <div class="callout-text">Current Bitcoin Price</div>
+                <div class="value-text">Price here</div>
+                <div class="status-loginandout"><a href="account.html">My Account</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a data-toggle='modal' href="#loginModal">Log In</a></div>
+            </div>
+            <nav class='navbar navbar-default' role='navigation'>
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class='navbar-header'>
+                    <button class='navbar-toggle' data-target='.navbar-ex1-collapse' data-toggle='collapse'
+                            type='button'>
+                        <span class='sr-only'>Toggle navigation</span>
+                        <span class='icon-bar'></span>
+                        <span class='icon-bar'></span>
+                        <span class='icon-bar'></span>
+                    </button>
+                    <a class='current navbar-brand quadriga-logo' href='index.html'>
+                        <!--Quadriga CX-->
+                        <img alt='Quadriga' height='45px' src='{{ asset('bundles/mainsite/images/quadriga_logo00_sm.png') }}'>
+                    </a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class='collapse navbar-collapse navbar-ex1-collapse'>
+                    {{ knp_menu_render('MainSiteBundle:Builder:mainMenu', {'nav_type': 'navbar', 'template': 'MainSiteBundle:Menu:bc_knp_menu.html.twig'}) }}
+                </div>
+            </nav>
         </div>
-        <nav class='navbar navbar-default' role='navigation'>
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class='navbar-header'>
-                <button class='navbar-toggle' data-target='.navbar-ex1-collapse' data-toggle='collapse'
-                        type='button'>
-                    <span class='sr-only'>Toggle navigation</span>
-                    <span class='icon-bar'></span>
-                    <span class='icon-bar'></span>
-                    <span class='icon-bar'></span>
-                </button>
-                <a class='current navbar-brand quadriga-logo' href='index.html'>
-                    <!--Quadriga CX-->
-                    <img alt='Quadriga' height='45px' src='assets/images/quadriga_logo00_sm.png'>
-                </a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class='collapse navbar-collapse navbar-ex1-collapse'>
-
-                <ul class='nav navbar-nav navbar-right'>
-                   <li></li>
-                </ul>
-            </div>
-        </nav>
     </div>
-</div>
-
-<div class="container">
-    <div class="separator-shadow-top bottom-margin">
-        <img alt="" src="assets/images/shadow-separator-wide-top.png">
-    </div>
-    <img alt='Quadriga' height='255px' src='assets/images/logo_coming_soon.png'>
-    <div class="separator-shadow-bottom bottom-margin">
-        <img alt="" src="assets/images/shadow-separator-wide-bottom.png">
-    </div>
-</div>
-
+{% block content %}
+{% endblock content %}
 <footer id="main-footer">
+
     <div class="container">
         <div class="row">
             <div class="col-md-6">
                 <ul class="footer-menu">
-                    <li></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Contact Us</a></li>
                 </ul>
                 <div class="copyright">
                     2013 &copy; QuadrigaCX. All rights reserved.
@@ -150,25 +150,34 @@
             </div>
             <div class="col-md-6">
                 <ul class="footer-social">
-                    <li></li>
+                    <li><a href="#"><i class="icon-facebook"></i></a></li>
+                    <li><a href="#"><i class="icon-twitter"></i></a></li>
+                    <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                    <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                    <li><a href="#"><i class="icon-google-plus"></i></a></li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
-<script src='assets/js/jquery.js'></script>
-<script src='assets/js/bootstrap/button.js'></script>
-<script src='assets/js/bootstrap/carousel.js'></script>
-<script src='assets/js/bootstrap/transition.js'></script>
-<script src='assets/js/bootstrap/collapse.js'></script>
-<script src='assets/js/bootstrap/modal.js'></script>
-<script src='assets/js/bootstrap/dropdown.js'></script>
-<script src='assets/js/jquery.visible.min.js'></script>
-<script src='assets/js/bootstrap/tab.js'></script>
-<script src='assets/js/jquery.isotope.min.js'></script>
-<script src='assets/js/jquery.knob.js'></script>
-<script src='assets/js/jquery.scrollUp.min.js'></script>
-<script src='assets/js/application.js'></script>
+{% block javascripts %}
+    {% javascripts  'bundles/mainsite/js/jquery.js'
+    'bundles/mainsite/js/bootstrap/button.js'
+    'bundles/mainsite/js/bootstrap/carousel.js'
+    'bundles/mainsite/js/bootstrap/transition.js'
+    'bundles/mainsite/js/bootstrap/collapse.js'
+    'bundles/mainsite/js/bootstrap/modal.js'
+    'bundles/mainsite/js/bootstrap/dropdown.js'
+    'bundles/mainsite/js/jquery.visible.min.js'
+    'bundles/mainsite/js/bootstrap/tab.js'
+    'bundles/mainsite/js/jquery.isotope.min.js'
+    'bundles/mainsite/js/jquery.knob.js'
+    'bundles/mainsite/js/jquery.scrollUp.min.js'
+    'bundles/mainsite/js/application.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascripts %}
 </body>
 
 </html>

@@ -1,0 +1,123 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <LINK REL="SHORTCUT ICON" HREF="logo.ico">
+    {% block stylesheets %}
+        {% stylesheets 'bundles/mainsite/css/style.css' filter='cssrewrite' %}
+        <link rel="stylesheet" media="screen" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+
+    <title>Quadriga Coin Exchange | {% block title %}{% endblock %}</title>
+</head>
+
+<body>
+
+<!--header-->
+<div id="wrapperheader">
+
+    <div id="container">
+
+        <div id="leftheader">
+            <span style="color:#FFCC00">Current Bitcoin Price:</span> <strong>$4.99</strong> 24-Hour BTC Trading Volume: 2000 BTC<img src="{{ asset('bundles/mainsite/images/clock.jpg') }}" align="right" style="margin-right:70px;">
+        </div>
+
+
+        <div id="rightheader">
+
+
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <a href="{{ path('fos_user_profile_show') }}">MY ACCOUNT</a> | <a href="{{ path('fos_user_security_logout') }}">LOGOUT</a>
+            {% else %}
+                <a href="{{ path('fos_user_profile_show') }}">SIGN IN</a> | <a href="{{ path('fos_user_registration_register') }}">SIGN UP</a>
+            {% endif %}
+
+        </div>
+
+
+
+        <div id="logo"><img src="{{ asset('bundles/mainsite/images/logo.jpg') }}"></div>
+
+
+        <div id="navigaiotn">
+
+            <ul id="nav">
+
+                <li><a href="{{ path('homepage') }}">Home</a></li>
+                <li><a href="{{ path('about_us') }}">About Us</a></li>
+                <li><a href="{{ path('offer_index') }}">Open Orders</a></li>
+                <li><a href="{{ path('faq') }}">FAQ</a></li>
+                <li><a href="{{ path('support') }}">Support</a></li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+<!--header-->
+
+{% block content %}
+{% endblock content %}
+
+<div id="footerone">
+
+    <div id="container">
+
+        <h3>NEWS AND UPDATES</h3>
+
+        <p>
+            <strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit</strong>
+            <br>
+
+
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.
+        </p>
+
+        <hr size="1" color="#333333">
+
+
+        <p>
+            <strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit</strong>
+            <br>
+
+
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.
+        </p>
+
+
+
+        <hr size="1" color="#333333">
+
+
+        <p>
+            <strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit</strong>
+            <br>
+
+
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a eros nec sapien posuere hendrerit. Praesent ligula felis, commodo et dui vitae, aliquet ullamcorper leo. Phasellus egestas neque non augue bibendum ullamcorper. Nulla fermentum, massa nec convallis fringilla, urna sapien convallis orci, at commodo mi urna at augue. Duis luctus elit leo, id blandit ante imperdiet lacinia. Proin mollis lorem accumsan enim consectetur, et ullamcorper quam euismod. Vestibulum placerat facilisis sem, gravida dignissim augue suscipit nec. Proin in facilisis massa.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div id="footer">
+
+    <a href="#">About Us</a> | <a href="#">News</a> | <a href="#">Fees</a> | <a href="#">Terms of Use</a> | <a href="#">AML Policy</a> | <a href="#">FAQ</a> | <a href="#">Contact Us</a>
+    <br>
+
+    <strong>Copyright 2013 QuadrigaCX.com</strong>
+
+</div>
+
+
+
+</body>
+</html>

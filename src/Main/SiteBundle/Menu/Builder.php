@@ -26,25 +26,10 @@ class Builder extends ContainerAware {
         $menu = $factory->createItem('root');
 
         $menu->addChild('Home', array('route' => 'homepage'));
-        $menu->addChild('Deposit')
-            ->setAttribute('dropdown', true);
-
-        $menu['Deposit']->addChild('BTC', array('route' => 'bitcoin_deposit'));
-        $menu['Deposit']->addChild('USD', array('route' => 'fiat_deposit'));
-
-        $menu->addChild('Instant Order')
-            ->setAttribute('dropdown', true);
-
-        $menu['Instant Order']->addChild('Buy BTC', array('route' => 'offer', 'routeParameters' => array('type' => 'instant', 'direction' => 'buy')));
-        $menu['Instant Order']->addChild('Sell BTC', array('route' => 'offer', 'routeParameters' => array('type' => 'instant', 'direction' => 'sell')));
-
-        $menu->addChild('Limit Order')
-            ->setAttribute('dropdown', true);
-
-        $menu['Limit Order']->addChild('Buy BTC', array('route' => 'offer', 'routeParameters' => array('type' => 'limit', 'direction' => 'buy')));
-        $menu['Limit Order']->addChild('Sell BTC', array('route' => 'offer', 'routeParameters' => array('type' => 'limit', 'direction' => 'sell')));
-
-        $menu->addChild('Offer Book', array('route' => 'offer_index'));
+        $menu->addChild('About Us', array('route' => 'about_us'));
+        $menu->addChild('Open Orders', array('route' => 'offer_index'));
+        $menu->addChild('FAQ', array('route' => 'faq'));
+        $menu->addChild('Support', array('route' => 'support'));
 
         $menu->setCurrentUri($this->_getCurrent());
 
