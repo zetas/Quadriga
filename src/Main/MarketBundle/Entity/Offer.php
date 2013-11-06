@@ -9,6 +9,7 @@
 namespace Main\MarketBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -36,11 +37,25 @@ class Offer
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float", message="The amount {{ value }} is not a valid {{ type }}.")
+     * @Assert\Range(
+     *      min = 0.0,
+     *      max = 1000.0,
+     *      minMessage = "You cannot create negative orders.",
+     *      maxMessage = "Maximum order amount is 1000"
+     * )
      */
     private $amount;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float", message="The price {{ value }} is not a valid {{ type }}.")
+     * @Assert\Range(
+     *      min = 0.0,
+     *      max = 1000.0,
+     *      minMessage = "You cannot use a negative price.",
+     *      maxMessage = "Maximum order price is 1000"
+     * )
      */
     private $price;
 

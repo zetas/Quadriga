@@ -29,8 +29,7 @@ class RegistrationFormType extends BaseType
             ->add('state')
             ->add('zip')
             ->add('country','country',array(
-                'preferred_choices' => array('US', 'CA'),
-                'empty_value' => 'COUNTRY:'
+                'preferred_choices' => array('US', 'CA')
             ))
             ->add('address')
             ->add('phone')

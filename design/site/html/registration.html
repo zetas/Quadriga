@@ -152,7 +152,7 @@
     <div class="container-form">
         <div class="row">
             <div class='span12'>
-                <form class="form-inline" role="form">
+                <form class="form-inline" action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" role="form">
                     <div class="form-group registration">
                         <div class="row">
                             <div class='span4'>First Name</div>

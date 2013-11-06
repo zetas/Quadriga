@@ -1,0 +1,38 @@
+{# Template Created By: DDV <ddv@qubitlogic.net> #}
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div aria-hidden='true' aria-labelledby='loginModalLabel' class='modal fade' id='loginModal' role='dialog'
+     tabindex='-1'>
+    <div class='modal-dialog'>
+        {% if error %}
+            <div>{{ error|trans }}</div>
+        {% endif %}
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>×</button>
+                <h4 class='modal-title'>Login</h4>
+            </div>
+            <div class='modal-body'>
+                <form action='{{ path("fos_user_security_check") }}' method="post" role='form'>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                    <div class='row'>
+                        <div class='col-md-6'>
+                            <label class='control-label' for=''>Username</label>
+                            <input id="username" name="_username" value="{{ last_username }}" class='form-control' placeholder='your username' type='text' required="required">
+                        </div>
+                        <div class='col-md-6'>
+                            <label class='control-label' for=''>Password</label>
+                            <input id="password" name="_password" required="required" class='form-control' placeholder='your password' type='password'>
+                        </div>
+                    </div>
+
+            </div>
+            <div class='modal-footer'>
+                <button class='btn btn-default' data-dismiss='modal' type='button'>Close</button>
+                <input class="btn btn-primary" type="submit" id="_submit" name="_submit" value="Login" />
+                <a href="{{ path('fos_user_resetting_request') }}" class="btn btn-warning">Forgot Password</a>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

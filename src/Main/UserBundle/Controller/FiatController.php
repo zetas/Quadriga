@@ -13,6 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 class FiatController extends Controller
 {
@@ -22,7 +24,7 @@ class FiatController extends Controller
      */
     public function etfDepositAction(Request $request) {
         $form = $this->createFormBuilder(null)
-            ->add('amount', 'money', array('currency' => 'USD'))
+            ->add('amount', 'money', array('currency' => 'USD', 'constraints' => array(new NotBlank(),new Range(array('min' => 0)))))
             ->add('ts','hidden',array('data'=>time()))
             ->add('Continue','submit')
             ->getForm();
@@ -76,7 +78,7 @@ class FiatController extends Controller
             return $this->redirect($this->generateUrl('fiat_etf_deposit'));
 
         $form = $this->createFormBuilder(null)
-            ->add('amount', 'money', array('currency' => 'USD', 'data' => $data['amount']))
+            ->add('amount', 'money', array('currency' => 'USD', 'data' => $data['amount'], 'constraints' => array(new NotBlank(),new Range(array('min' => 0)))))
             ->add('preFeeAmount', 'hidden', array('data' => $data['preFeeAmount']))
             ->add('pin','integer')
             ->add('Complete','submit')
@@ -142,7 +144,7 @@ class FiatController extends Controller
      */
     public function wuDepositAction(Request $request) {
         $form = $this->createFormBuilder(null)
-            ->add('amount', 'money', array('currency' => 'USD'))
+            ->add('amount', 'money', array('currency' => 'USD', 'constraints' => array(new NotBlank(),new Range(array('min' => 0)))))
             ->add('ts','hidden',array('data'=>time()))
             ->add('Continue','submit')
             ->getForm();
@@ -195,7 +197,7 @@ class FiatController extends Controller
             return $this->redirect($this->generateUrl('fiat_wu_deposit'));
 
         $form = $this->createFormBuilder(null)
-            ->add('amount', 'money', array('currency' => 'USD', 'data' => $data['amount']))
+            ->add('amount', 'money', array('currency' => 'USD', 'data' => $data['amount'], 'constraints' => array(new NotBlank(),new Range(array('min' => 0)))))
             ->add('preFeeAmount', 'hidden', array('data' => $data['preFeeAmount']))
             ->add('pin','integer')
             ->add('Complete','submit')

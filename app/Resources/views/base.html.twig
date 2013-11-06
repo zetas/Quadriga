@@ -31,35 +31,7 @@
 
 <body>
 <!-- Login Modal -->
-<div aria-hidden='true' aria-labelledby='loginModalLabel' class='modal fade' id='loginModal' role='dialog'
-     tabindex='-1'>
-    <div class='modal-dialog'>
-        <div class='modal-content'>
-            <div class='modal-header'>
-                <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>×</button>
-                <h4 class='modal-title'>Login</h4>
-            </div>
-            <div class='modal-body'>
-                <form action='#' role='form'>
-                    <div class='row'>
-                        <div class='col-md-6'>
-                            <label class='control-label' for=''>Username</label>
-                            <input class='form-control' placeholder='your username' type='text'>
-                        </div>
-                        <div class='col-md-6'>
-                            <label class='control-label' for=''>Password</label>
-                            <input class='form-control' placeholder='your password' type='text'>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class='modal-footer'>
-                <button class='btn btn-default' data-dismiss='modal' type='button'>Close</button>
-                <button class='btn btn-primary' type='button'>Log In</button>
-            </div>
-        </div>
-    </div>
-</div>
+{{ render(controller('FOSUserBundle:Security:login', {'render_partial': 1})) }}
 
 <!-- Contact Modal -->
 <div aria-hidden='true' aria-labelledby='contactModalLabel' class='modal fade' id='contactModal' role='dialog'
@@ -76,11 +48,11 @@
                         <div class='row'>
                             <div class='col-md-6'>
                                 <label class='control-label' for=''>Your Name</label>
-                                <input class='form-control' placeholder='your username' type='text'>
+                                <input class='form-control' placeholder='your name' type='text'>
                             </div>
                             <div class='col-md-6'>
                                 <label class='control-label' for=''>Your Email</label>
-                                <input class='form-control' placeholder='your password' type='text'>
+                                <input class='form-control' placeholder='your email' type='text'>
                             </div>
                         </div>
                     </div>
@@ -107,7 +79,11 @@
             <div class="statusbar">
                 <div class="callout-text">Current Bitcoin Price</div>
                 <div class="value-text">Price here</div>
-                <div class="status-loginandout"><a href="account.html">My Account</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a data-toggle='modal' href="#loginModal">Log In</a></div>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <div class="status-loginandout"><a href="{{ path('fos_user_profile_show') }}">My Account</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{{ path('fos_user_security_logout') }}">Log Out</a></div>
+                {% else %}
+                <div class="status-loginandout"><a href="{{ path('fos_user_registration_register') }}">Sign Up</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a data-toggle='modal' href="#loginModal">Log In</a></div>
+                {% endif %}
             </div>
             <nav class='navbar navbar-default' role='navigation'>
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -119,7 +95,7 @@
                         <span class='icon-bar'></span>
                         <span class='icon-bar'></span>
                     </button>
-                    <a class='current navbar-brand quadriga-logo' href='index.html'>
+                    <a class='current navbar-brand quadriga-logo' href='{{ path('homepage') }}'>
                         <!--Quadriga CX-->
                         <img alt='Quadriga' height='45px' src='{{ asset('bundles/mainsite/images/quadriga_logo00_sm.png') }}'>
                     </a>
@@ -142,7 +118,7 @@
                 <ul class="footer-menu">
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a data-toggle='modal' href='#contactModal'>Contact Us</a></li>
                 </ul>
                 <div class="copyright">
                     2013 &copy; QuadrigaCX. All rights reserved.

@@ -13,6 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 
 class DefaultController extends Controller
@@ -42,7 +44,7 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl('fos_user_profile_show'));
 
         $form = $this->createFormBuilder(null)
-            ->add('amount')
+            ->add('amount', 'money', array('currency' => null, 'constraints' => array(new NotBlank(),new Range(array('min' => 0)))))
             ->add('ts','hidden',array('data'=>time()))
             ->add('next','submit')
             ->getForm();
@@ -178,7 +180,7 @@ class DefaultController extends Controller
      */
     public function digitalWithdrawAction(Request $request) {
         $form = $this->createFormBuilder(null)
-            ->add('amount')
+            ->add('amount','money', array('currency' => null, 'constraints' => array(new NotBlank(),new Range(array('min' => 0)))))
             ->add('ts','hidden',array('data'=>time()))
             ->add('next','submit')
             ->getForm();
@@ -307,7 +309,7 @@ class DefaultController extends Controller
 
         $form = $this->createFormBuilder(null)
             ->add('username','text')
-            ->add('amount', 'money', array('currency' => null))
+            ->add('amount', 'money', array('currency' => null, 'constraints' => array(new NotBlank(),new Range(array('min' => 0)))))
             ->add('balance', 'choice', array('choices' => array('digital' => 'BTC', 'fiat' => 'USD'), 'expanded' => true, 'multiple' => false))
             ->add('pin', 'text')
             ->add('transfer', 'submit')

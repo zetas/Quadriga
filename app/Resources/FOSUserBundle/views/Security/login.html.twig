@@ -2,26 +2,44 @@
 
 {% extends "FOSUserBundle::layout.html.twig" %}
 
+{% block fos_user_content %}
+
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block fos_user_content %}
-    <div class="col-md-2 pull-right"><a href="{{ path('fos_user_resetting_request') }}" class="btn btn-sm btn-warning">Forgot Password?</a></div>
-    {% if error %}
-        <div>{{ error|trans }}</div>
-    {% endif %}
+   <div class="separator-shadow-top bottom-margin">
+        <img alt="" src="{{ asset('bundles/mainsite/images/shadow-separator-wide-top.png') }}">
+    </div>
+    <h2 class="header-lined">Login</h2>
+    <div class="container-form">
+        <form class="form-inline" action="{{ path("fos_user_security_check") }}"  method="POST" role="form">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        <div class="row">
+            <div class='span12'>
+                    <div class="form-group registration">
+                        <div class="row">
+                            <div class="span12">{{ error|trans }}</div>
+                        </div>
+                        <div class="row">
+                            <div class='span4'>Username</div>
+                            <div class='span8'><input id="username" name="_username" value="{{ last_username }}" class='form-control' placeholder='your username' type='text' required="required"></div>
+                        </div>
+                        <div class="row">
+                            <div class='span4'>Password</div>
+                            <div class='span8'><input id="password" name="_password" required="required" class='form-control' placeholder='your password' type='password'></div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class='span12'><br/><br/>
+                <input type="submit" class="btn btn-clean-dark" id="form_register" name="form_register" value="Login" />
 
-    <form action="{{ path("fos_user_security_check") }}" method="post">
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-
-        <label for="username">{{ 'security.login.username'|trans }}</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
-
-        <label for="password">{{ 'security.login.password'|trans }}</label>
-        <input type="password" id="password" name="_password" required="required" />
-
-        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-        <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
-
-        <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
-    </form>
+                <br/><br/>
+            </div>
+        </div>
+       </form>
+    </div>
+    <div class="separator-shadow-bottom bottom-margin">
+        <img alt="" src="{{ asset('bundles/mainsite/images/shadow-separator-wide-bottom.png') }}">
+    </div>
 {% endblock fos_user_content %}
