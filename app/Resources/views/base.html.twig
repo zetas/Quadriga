@@ -78,7 +78,7 @@
         <div class='container'>
             <div class="statusbar">
                 <div class="callout-text">Current Bitcoin Price</div>
-                <div class="value-text">Price here</div>
+                <div class="value-text">${{ last_price() }}</div>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <div class="status-loginandout"><a href="{{ path('fos_user_profile_show') }}">My Account</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{{ path('fos_user_security_logout') }}">Log Out</a></div>
                 {% else %}

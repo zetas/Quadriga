@@ -8,7 +8,8 @@ var Account = {
         PLACE_ORDER:'place order',
         ORDER_BOOK:'order book',
         TRANSFER:'transfer',
-        HISTORY:'history'
+        HISTORY:'history',
+        VERIFY:'verify'
     },
     init:function() {
         Account.clearConfirmations();
@@ -43,6 +44,9 @@ var Account = {
                 break;
             case Account.statics.HISTORY:
                 $('.account-history').show();
+                break;
+            case Account.statics.VERIFY:
+                $('.account-verify').show();
                 break;
             default:
                 $('.account-profile').show();

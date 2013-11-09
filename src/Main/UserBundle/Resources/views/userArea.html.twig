@@ -14,6 +14,7 @@
             <li><a href="#settings" data-toggle="tab">Order Book</a></li>
             <li><a href="#settings" data-toggle="tab">Transfer</a></li>
             <li><a href="#settings" data-toggle="tab">History</a></li>
+            <li><a href="#settings" data-toggle="tab">Verify</a></li>
         </ul>
     </div>
 
@@ -26,22 +27,26 @@
     <hr/>
     <div class="row account-content account-profile">
         <div class="span12 profile-username">
-            <strong>Username:</strong> mbritton
+            <strong>Username:</strong> {{ user.username }}
         </div>
         <div class="span12 profile-email">
-            <strong>Email:</strong> mike@mikebritton.com
+            <strong>Email:</strong> {{ user.email }}
         </div>
         <div class="span12 profile-lastlogin">
-            <strong>Last Login:</strong> 2013-10-23 11:41:24 EDT
+            <strong>Last Login:</strong> {{ user.lastLogin|date('Y-m-d H:i:s T') }}
         </div>
         <div class="span12 profile-usdbalance">
-            <strong>USD Balance:</strong> $500.00
+            <strong>USD Balance:</strong> ${{ user.fiatBalance|default(0)|number_format(2, '.', ',') }}
         </div>
         <div class="span12 profile-bitcoinbalance">
-            <strong>Bitcoin Balance:</strong> 50 BTC
+            <strong>Bitcoin Balance:</strong> {{ user.btcBalance|default(0) }} BTC
         </div>
         <div class="span12 profile-verified">
-            <strong>Verified:</strong> No
+            <strong>Verified:</strong> {% if user.verified == 0 %}
+                No
+            {% else %}
+                Yes
+            {% endif %}
         </div>
     </div>
     <!-- //////////////////////////////////// DEPOSITS //////////////////////////////////// -->
@@ -1059,6 +1064,14 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="pages page01">page1</div>
+        <div class="pages page02">page2</div>
+    </div>
+    <div class="row account-content account-verify">
+        <div class="pages page0">
+            <p>To verify your user account, please send us a copy of a government issued ID or utility bill showing your address to the email listed below.</p>
+            <p>Verification Email: <strong>verify@quadrigacx.com</strong></p>
         </div>
         <div class="pages page01">page1</div>
         <div class="pages page02">page2</div>

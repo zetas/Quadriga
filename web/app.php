@@ -9,7 +9,7 @@ $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
 // Change 'sf2' to a unique prefix in order to prevent cache key conflicts
 // with other applications also using APC.
 
-$loader = new ApcClassLoader('quadriga', $loader);
+$loader = new ApcClassLoader('quadriga_prod', $loader);
 $loader->register(true);
 
 
@@ -18,7 +18,7 @@ require_once __DIR__.'/../app/AppCache.php';
 
 $kernel = new AppKernel('prod', false);
 $kernel->loadClassCache();
-$kernel = new AppCache($kernel);
+//$kernel = new AppCache($kernel);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();

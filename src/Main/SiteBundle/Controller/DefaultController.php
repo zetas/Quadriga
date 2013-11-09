@@ -22,6 +22,7 @@ class DefaultController extends Controller
      * @Template
      */
     public function faqAction() {
+        $this->get('cache')->save('lastPrice', serialize('125.60'));
         return array();
     }
 

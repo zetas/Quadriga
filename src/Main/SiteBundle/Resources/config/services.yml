@@ -14,3 +14,10 @@ services:
             class: Main\SiteBundle\Services\ConfigService
             arguments:
               entityManager: "@doctrine.orm.entity_manager"
+
+    main_site.twig.last_price:
+            class: Main\SiteBundle\Twig\LastPriceExtension
+            arguments:
+              cache: "@cache"
+            tags:
+                - { name: twig.extension }
